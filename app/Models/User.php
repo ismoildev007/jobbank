@@ -20,26 +20,18 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'status',
+        'password',
         'password',
     ];
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
     }
 
     public function hasRole($role)
     {
-        return $this->roles->contains('name', $role);
-    }
-
-    public function hasPermission($permission)
-    {
-        foreach ($this->roles as $role) {
-            if ($role->hasPermission($permission)) {
-                return true;
-            }
-        }
-        return false;
+        return $this->roles()->where('role', $role);
     }
 
     /**

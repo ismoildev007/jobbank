@@ -16,32 +16,9 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('role')->default(0);
             $table->timestamps();
         });
-
-        Schema::create('permissions', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->timestamps();
-        });
-
-        Schema::create('role_user', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
-        Schema::create('role_permission', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
-            $table->foreignId('permission_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
-
-        // **Dastlabki ma'lumotlarni qo'shish**
-        $adminRole = Role::create(['name' => 'admin']);
-        $createPostPermission = Permission::create(['name' => 'create_post']);
-        $adminRole->permissions()->attach($createPostPermission->id);
     }
 
     /**
@@ -49,9 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role_user');
         Schema::dropIfExists('roles');
-        Schema::dropIfExists('role_permission');
-        Schema::dropIfExists('permissions');
     }
 };

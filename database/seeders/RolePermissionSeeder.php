@@ -2,20 +2,23 @@
 
 namespace Database\Seeders;
 
+use App\Models\RolePermission;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Role;
-use App\Models\Permission;
 
 class RolePermissionSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        $adminRole = Role::firstOrCreate(['name' => 'admin']);
-
-        $createPostPermission = Permission::firstOrCreate(['name' => 'create_post']);
-
-        $adminRole->permissions()->attach($createPostPermission->id);
-
-        echo "Admin roliga 'create_post' permission qo'shildi!\n";
+        RolePermission::firstOrCreate([
+            'role_id' => 1,
+            'permission_id' => 5
+        ], [
+            'route_name' => 'dashboard',
+            'status' => 1,
+        ]);
     }
 }
