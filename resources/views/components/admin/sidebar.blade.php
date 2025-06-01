@@ -111,6 +111,20 @@
             </li>
         </ul>
     </li>
+    <!-- Narxlar Rejasi -->
+    <li class="menu-item">
+        <a href="{{ route('pricing') }}" class="menu-link">
+            <i class="menu-icon icon-base ri ri-wallet-line"></i>
+            <div data-i18n="Obuna Rejasi">Narxlar Rejasi</div>
+        </a>
+    </li>
+    <!-- Barcha Obunalar -->
+    <li class="menu-item">
+        <a href="{{ route('admin.subscriptions') }}" class="menu-link">
+            <i class="menu-icon icon-base ri ri-list-check"></i>
+            <div data-i18n="Barcha Obunalar">Barcha Obunalar</div>
+        </a>
+    </li>
 
 
 </ul>

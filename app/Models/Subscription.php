@@ -21,6 +21,11 @@ class Subscription extends Model
         'status',
     ];
 
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
+
     public function provider()
     {
         return $this->belongsTo(User::class, 'provider_id');

@@ -29,7 +29,7 @@
         <ul class="navbar-nav flex-row align-items-center ms-md-auto">
 
 
-            <li class="nav-item dropdown-language dropdown me-sm-2 me-xl-0">
+            <li class=" d-none nav-item dropdown-language dropdown me-sm-2 me-xl-0">
                 <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
                    href="javascript:void(0);" data-bs-toggle="dropdown">
                     <i class="icon-base ri ri-translate-2 icon-22px"></i>
@@ -99,7 +99,7 @@
 
 
             <!-- Quick links -->
-            <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-sm-2 me-xl-0">
+            <li class="d-none nav-item dropdown-shortcuts navbar-dropdown dropdown me-sm-2 me-xl-0">
                 <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
                    href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                    aria-expanded="false">
@@ -187,7 +187,7 @@
             <!-- Quick links -->
 
             <!-- Notification -->
-            <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-4 me-xl-1">
+            <li class=" d-none nav-item dropdown-notifications navbar-dropdown dropdown me-4 me-xl-1">
                 <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
                    href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                    aria-expanded="false">

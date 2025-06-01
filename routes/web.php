@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SubController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\LanguageController;
@@ -31,8 +32,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('categories', CategoryController::class);
     Route::resource('services', ServiceController::class);
-
+    Route::post('/subscribe/{subId}', [SubController::class, 'subscribe'])->name('subscribe');
+    Route::post('/subscription/restart', [SubController::class, 'restartSubscription'])->name('subscription.restart');
+    Route::get('/subscriptions', [SubController::class, 'allSubscriptions'])->name('admin.subscriptions');
 });
+Route::get('/pricing', [SubController::class, 'index'])->name('pricing');
+
 
 Route::post('locale', [LanguageController::class, 'setLocale'])->name('locale.change');
 
