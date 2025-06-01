@@ -20,4 +20,9 @@ class Sub extends Model
         'duration_days',
         'max_services_count',
     ];
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
 }

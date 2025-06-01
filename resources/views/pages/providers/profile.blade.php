@@ -77,10 +77,10 @@
 
         <!-- Logo -->
         <div class="header-left active text-center">
-            <a href="https://jobbank.uz/provider/dashboard" class="logo logo-normal">
+            <a href="{{ route('provider.dashboard') }}" class="logo logo-normal">
                 <img src="https://jobbank.uz/storage/logos/AIccKpqqNFsDwTyFgJ5sYFnDhVwQmGaE61W3ap7c.png" alt="Logo" style="width: 4rem;">
             </a>
-            <a href="https://jobbank.uz/provider/dashboard" class="logo-small">
+            <a href="{{ route('provider.dashboard') }}" class="logo-small">
                 <img src="https://jobbank.uz/storage/mobile-icon/dVoQCe3r6UWkfQ0rIad86pjLzPbexkGFNuakdz6U.png" alt="Logo">
             </a>
             <a id="toggle_btn" href="javascript:void(0);">
@@ -136,7 +136,7 @@
 
                 <div class="d-flex align-items-center">
                     <div class="me-2 site-link">
-                        <a href="https://jobbank.uz" class="d-flex align-items-center justify-content-center mx-2"><i class="feather-globe mx-1"></i>Veb-saytga tashrif buyuring</a>
+                        <a href="/" class="d-flex align-items-center justify-content-center mx-2"><i class="feather-globe mx-1"></i>Veb-saytga tashrif buyuring</a>
                     </div>
                     <div class="provider-head-links">
                         <div>
@@ -241,75 +241,53 @@
                         <li class="active">
                             <a href="https://jobbank.uz/provider/dashboard" class="active"><i class="ti ti-layout-grid"></i><span>Boshqaruv paneli</span></a>
                         </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/leads" class="">
-                                <i class="ti ti-world"></i><span>Yetakchilar</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/transaction" class="">
-                                <i class="ti ti-credit-card"></i><span>Tranzaksiya</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/payouts"><i class="ti ti-wallet"></i><span>To`lov</span></a>
-                        </li>
+{{--                        <li class="">--}}
+{{--                            <a href="https://jobbank.uz/provider/leads" class="">--}}
+{{--                                <i class="ti ti-world"></i><span>Yetakchilar</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="">--}}
+{{--                            <a href="https://jobbank.uz/provider/transaction" class="">--}}
+{{--                                <i class="ti ti-credit-card"></i><span>Tranzaksiya</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="">--}}
+{{--                            <a href="https://jobbank.uz/provider/payouts"><i class="ti ti-wallet"></i><span>To`lov</span></a>--}}
+{{--                        </li>--}}
                         <li class="">
                             <a href="https://jobbank.uz/provider/service"><i class="ti ti-briefcase"></i><span>Mening xizmatim</span></a>
                         </li>
                         <li class="">
                             <a href="https://jobbank.uz/provider/bookinglist" class=""><i class="ti ti-calendar-month"></i><span>Buyurtmalar </span></a>
                         </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/calendar" class=""><i class="ti ti-calendar"></i><span>Kalendar</span></a>
-                        </li>
+{{--                        <li class="">--}}
+{{--                            <a href="https://jobbank.uz/provider/calendar" class=""><i class="ti ti-calendar"></i><span>Kalendar</span></a>--}}
+{{--                        </li>--}}
                         <li class="">
                             <a href="https://jobbank.uz/provider/subscription" class=""><i class="ti ti-bell-plus"></i><span>Obuna</span></a>
                         </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/reviews"><i class="ti ti-star"></i><span>Sharhlar</span></a>
-                        </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/chat" class=""><i class="ti ti-message"></i><span>Chat</span></a>
-                        </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/notifications" class="d-flex align-items-center ">
-                                <i class="ti ti-bell me-2"></i>
-                                <span>Bildirishnoma</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/ticket" class=""><i class="ti ti-ticket"></i><span>Chiptalar</span></a>
-                        </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/branch"><i class="ti ti-git-branch"></i><span>Filial</span></a>
-                        </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/staff-list"><i class="ti ti-users"></i><span>Xodimlar</span></a>
-                        </li>
-                        <li class="">
-                            <a href="https://jobbank.uz/provider/roles-permissions"><i class="ti ti-shield-plus"></i><span>Rollar va Ruxsatlar</span></a>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i class="ti ti-settings"></i><span>Sozlamalar</span><span class="menu-arrow"></span></a>
-                            <ul>
-                                <li class="">
-                                    <a href="https://jobbank.uz/provider/profile" class=""><i class="ti ti-chevrons-right me-2"></i>Profil Sozlamalari</a>
-                                </li>
-                                <li class="">
-                                    <a href="https://jobbank.uz/provider/security" class=""><i class="ti ti-chevrons-right me-2"></i>Xavfsizlik Sozlamalari</a>
-                                </li>
-                                <li class="">
-                                    <a href="https://jobbank.uz/provider/subscriptionhistory" class=""><i class="ti ti-chevrons-right me-2"></i>Reja va to`lovlar</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#del-account" id="del_account_btn"><i class="ti ti-chevrons-right me-2"></i>Hisobni o`chirish</a>
-                                </li>
-                            </ul>
-                        </li>
+{{--                        <li class="">--}}
+{{--                            <a href="https://jobbank.uz/provider/reviews"><i class="ti ti-star"></i><span>Sharhlar</span></a>--}}
+{{--                        </li>--}}
+{{--                        <li class="">--}}
+{{--                            <a href="https://jobbank.uz/provider/chat" class=""><i class="ti ti-message"></i><span>Chat</span></a>--}}
+{{--                        </li>--}}
+{{--                        <li class="">--}}
+{{--                            <a href="https://jobbank.uz/provider/notifications" class="d-flex align-items-center ">--}}
+{{--                                <i class="ti ti-bell me-2"></i>--}}
+{{--                                <span>Bildirishnoma</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
                         <li>
-                            <a href="https://jobbank.uz/logout"><i class="ti ti-logout-2"></i><span>Chiqish</span></a>
+                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" style="background: none; border: none; cursor: pointer;">
+                                    <i class="ti ti-logout-2"></i>
+                                    <span>Chiqish</span>
+                                </button>
+                            </form>
                         </li>
+
                     </ul>
                 </div>
             </div><div class="slimScrollBar" style="background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 655.4px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>

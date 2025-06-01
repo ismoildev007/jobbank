@@ -3,9 +3,11 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SubController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\provider\ProviderController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,15 +22,22 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 //Admin panel login register end
 Route::middleware(['auth'])->prefix('provider')->group(function () {
-    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
+    Route::get('/profile', [ProviderController::class, 'profile'])->name('provider.profile');
+    Route::resource('service', ServiceController::class);
+    Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
 });
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('categories', CategoryController::class);
     Route::resource('services', ServiceController::class);
-
+    Route::post('/subscribe/{subId}', [SubController::class, 'subscribe'])->name('subscribe');
+    Route::post('/subscription/restart', [SubController::class, 'restartSubscription'])->name('subscription.restart');
+    Route::get('/subscriptions', [SubController::class, 'allSubscriptions'])->name('admin.subscriptions');
 });
+Route::get('/pricing', [SubController::class, 'index'])->name('pricing');
+
 
 Route::post('locale', [LanguageController::class, 'setLocale'])->name('locale.change');
 

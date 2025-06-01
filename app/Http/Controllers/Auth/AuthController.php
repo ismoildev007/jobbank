@@ -24,13 +24,13 @@ class AuthController extends Controller{
 
             switch ($user->role) {
                 case User::ROLE_PROVIDER:
-                    return redirect()->route('admin.dashboard');
+                    return redirect()->route('provider.dashboard');
                 case User::ROLE_ADMIN:
                     return redirect()->route('admin.dashboard');
                 default:
                     Auth::logout();
 
-                    return redirect()->route('admin.dashboard')->withErrors(['role' => 'Invalid role assigned to the user.']);
+                    return redirect('/')->withErrors(['role' => 'Invalid role assigned to the user.']);
             }
         }
 

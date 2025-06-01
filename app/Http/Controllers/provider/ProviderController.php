@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\provider;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class ProviderController extends Controller
 {
     public function dashboard()
     {
@@ -14,19 +14,19 @@ class UserController extends Controller
         return view('pages.providers.profile',compact('services'));
     }
 
-    public function services()
+    public function profile()
     {
         $services = Auth::user()->services; // Buyurtmalarni olish
-        return view('user.orders');
+        return view('pages.providers.profile',compact('services'));
     }
 
-    public function cart()
+    public function orders()
     {
-        return view('user.cart');
+        return view('pages.providers.orders');
     }
 
-    public function checkout()
+    public function subscription()
     {
-        return view('user.checkout');
+        return view('pages.providers.subscription');
     }
 }
