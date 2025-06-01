@@ -12,28 +12,25 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    const ROLE_ADMIN = '2';
+    const ROLE_PROVIDER = '1';
+    const ROLE_USER = '0';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'full_name',
+        'phone',
+        'password',
+        'role',
         'status',
-        'password',
-        'password',
+        'is_verified',
+        'address',
+        'avatar',
     ];
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
-    }
-
-    public function hasRole($role)
-    {
-        return $this->roles()->where('role', $role);
-    }
-
     /**
      * The attributes that should be hidden for serialization.
      *

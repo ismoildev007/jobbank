@@ -1,26 +1,36 @@
 <?php
 
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
 
-Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 
-Route::middleware(['auth'])->group(function () {
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-});
-
-// Bosh sahifa
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'check.permission'])->prefix('admin')->group(function () {
-    Route::get('/', [LoginController::class, 'dashboard'])->name('dashboard');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
+Route::get('register', [AuthController::class, 'register'])->name('register');
+Route::post('register', [AuthController::class, 'userRegister'])->name('user.register');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::resource('users', LoginController::class);
-    Route::resource('roles', RoleController::class);
+//Admin panel login register end
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('orders', [UserController::class, 'orders'])->name('orders');
 });
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+});
+
+Route::post('locale', [LanguageController::class, 'setLocale'])->name('locale.change');
+
+
+
 
 
