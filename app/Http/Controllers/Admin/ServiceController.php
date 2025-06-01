@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Service;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -23,13 +24,31 @@ class ServiceController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $providers= User::where('role', '1')->get();
-        return view('admin.services.create', compact('categories',  'providers'));
+
+        $subscriptions = Subscription::where('status', 'active')
+            ->where('end_date', '>', now())
+            ->whereHas('provider', function ($query) {
+                $query->where('role', '1');
+            })
+            ->with('provider')
+            ->get();
+        $providers = $subscriptions->pluck('provider')->unique('id');
+
+        return view('admin.services.create', compact('categories', 'providers'));
     }
 
 
     public function store(Request $request)
     {
+        $subscription = Subscription::where('provider_id', $request->provider_id)
+            ->where('status', 'active')
+            ->where('end_date', '>', now())
+            ->first();
+
+        if (!$subscription) {
+            return redirect()->back()->with('error', 'Xizmat qo‘shish uchun faol obuna talab qilinadi!');
+        }
+
        $request->validate([
            'provider_id' => 'required',
            'category_id' => 'required',

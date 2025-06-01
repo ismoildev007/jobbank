@@ -35,4 +35,34 @@ class Subscription extends Model
     {
         return $this->belongsTo(Sub::class);
     }
+
+    // Obuna faol ekanligini tekshirish
+    public function isActive()
+    {
+        return $this->status === 'active' && $this->end_date > now();
+    }
+
+    // Obuna tugagan yoki bekor qilingan ekanligini tekshirish
+    public function isInactive()
+    {
+        return $this->status !== 'active' || $this->end_date <= now();
+    }
+
+    // Obuna holatini qaytarish (active, canceled, expired)
+    public function getStatusLabel()
+    {
+        if ($this->status === 'canceled') {
+            return 'Bekor qilingan';
+        }
+
+        if ($this->end_date <= now()) {
+            return 'Tugagan';
+        }
+
+        if ($this->status === 'active') {
+            return 'Faol';
+        }
+
+        return 'Noma`lum';
+    }
 }

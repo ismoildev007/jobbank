@@ -9,7 +9,13 @@
                         <h5 class="mb-0">Create service</h5>
                         <small class="text-body float-end">Merged input group</small>
                     </div>
+
                     <div class="card-body">
+                        @if($providers->isEmpty())
+                            <div class="alert alert-warning text-center">
+                             Xizmat qo‘shish uchun faol obuna talab qilinadi.
+                            </div>
+                        @else
                         <form action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row mb-4">
@@ -154,6 +160,7 @@
                             {{-- Submit --}}
                             <button type="submit" class="btn btn-primary">Saqlash</button>
                         </form>
+                        @endif
                     </div>
                 </div>
             </div>
