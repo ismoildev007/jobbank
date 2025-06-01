@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function profile()
     {
-        $orders = Auth::user()->orders; // Buyurtmalarni olish
+        $orders = Auth::user()->users; // Buyurtmalarni olish
 
         return view('auth.profile',compact('orders'));
     }

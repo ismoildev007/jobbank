@@ -19,9 +19,8 @@ Route::post('register', [AuthController::class, 'userRegister'])->name('user.reg
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 //Admin panel login register end
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->prefix('provider')->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
-    Route::get('orders', [UserController::class, 'orders'])->name('orders');
 });
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
