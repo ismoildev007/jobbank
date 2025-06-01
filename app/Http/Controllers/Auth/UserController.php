@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function profile()
+    public function dashboard()
     {
-        $orders = Auth::user()->users; // Buyurtmalarni olish
+        $services = Auth::user()->services; // Buyurtmalarni olish
 
-        return view('auth.profile',compact('orders'));
+        return view('pages.providers.profile',compact('services'));
     }
 
 //    public function orders()

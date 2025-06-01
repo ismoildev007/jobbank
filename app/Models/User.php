@@ -31,6 +31,11 @@ class User extends Authenticatable
         'address',
         'avatar',
     ];
+
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'provider_id','id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

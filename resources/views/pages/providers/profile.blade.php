@@ -77,10 +77,10 @@
 
         <!-- Logo -->
         <div class="header-left active text-center">
-            <a href="https://jobbank.uz/provider/dashboard" class="logo logo-normal">
+            <a href="{{ route('provider.profile') }}" class="logo logo-normal">
                 <img src="https://jobbank.uz/storage/logos/AIccKpqqNFsDwTyFgJ5sYFnDhVwQmGaE61W3ap7c.png" alt="Logo" style="width: 4rem;">
             </a>
-            <a href="https://jobbank.uz/provider/dashboard" class="logo-small">
+            <a href="{{ route('provider.profile') }}" class="logo-small">
                 <img src="https://jobbank.uz/storage/mobile-icon/dVoQCe3r6UWkfQ0rIad86pjLzPbexkGFNuakdz6U.png" alt="Logo">
             </a>
             <a id="toggle_btn" href="javascript:void(0);">
@@ -136,7 +136,7 @@
 
                 <div class="d-flex align-items-center">
                     <div class="me-2 site-link">
-                        <a href="https://jobbank.uz" class="d-flex align-items-center justify-content-center mx-2"><i class="feather-globe mx-1"></i>Veb-saytga tashrif buyuring</a>
+                        <a href="/" class="d-flex align-items-center justify-content-center mx-2"><i class="feather-globe mx-1"></i>Veb-saytga tashrif buyuring</a>
                     </div>
                     <div class="provider-head-links">
                         <div>

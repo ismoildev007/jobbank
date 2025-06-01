@@ -20,7 +20,7 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 //Admin panel login register end
 Route::middleware(['auth'])->prefix('provider')->group(function () {
-    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('provider.dashboard');
 });
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
