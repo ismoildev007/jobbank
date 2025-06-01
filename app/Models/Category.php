@@ -25,4 +25,10 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
+    // Sub-kategoriyalarga munosabat
+    public function subCategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
 }

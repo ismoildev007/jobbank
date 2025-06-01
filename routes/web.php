@@ -49,7 +49,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 });
 Route::get('/pricing', [SubController::class, 'index'])->name('pricing');
 
-
+Route::get('/get-sub-categories', [CategoryController::class, 'getSubCategories'])->name('get.sub.categories');
 Route::post('locale', [LanguageController::class, 'setLocale'])->name('locale.change');
 
 

@@ -10,6 +10,14 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+
+    public function getSubCategories(Request $request)
+    {
+        $categoryId = $request->input('category_id');
+        $subCategories = Category::where('parent_id', $categoryId)->get();
+
+        return response()->json($subCategories);
+    }
     public function index()
     {
         $categories = Category::all();
