@@ -18,11 +18,13 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('admin.category.create');
+        $categories = Category::all();
+        return view('admin.category.create',  compact('categories'));
     }
     public function store(Request $request)
     {
         $request->validate([
+            'parent_id' => 'nullable|integer',
             'title_uz' => 'required',
             'title_ru' => 'required',
             'title_en' => 'required',
@@ -33,11 +35,10 @@ class CategoryController extends Controller
         ]);
 
         $data = $request->only([
-            'title_uz', 'title_ru', 'title_en',
+            'title_uz', 'title_ru', 'title_en', 'parent_id',
             'description_uz', 'description_ru', 'description_en'
         ]);
-        $data['slug'] = Str::slug($request->title_uz);
-
+        $data['slug'] = Str::uuid();
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = time() . '_' . $file->getClientOriginalName();
@@ -53,8 +54,9 @@ class CategoryController extends Controller
 
     public function edit($id)
     {
+        $categories = Category::all();
         $category=Category::findOrFail($id);
-        return view('admin.category.edit',  compact('category'));
+        return view('admin.category.edit',  compact('category', 'categories'));
 
     }
     public function update(Request $request, $id)
@@ -62,6 +64,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         $request->validate([
+            'parent_id' => 'nullable',
             'title_uz' => 'required',
             'title_ru' => 'required',
             'title_en' => 'required',
@@ -72,7 +75,7 @@ class CategoryController extends Controller
         ]);
 
         $data = $request->only([
-            'title_uz', 'title_ru', 'title_en',
+            'title_uz', 'title_ru', 'title_en', 'parent_id',
             'description_uz', 'description_ru', 'description_en'
         ]);
         $data['slug'] = Str::slug($request->title_uz);

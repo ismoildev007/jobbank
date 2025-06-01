@@ -25,6 +25,7 @@ class Service extends Model
         'available_days',
         'available_hours',
         'is_active',
+        'type_price',
     ];
 
     protected $casts = [
