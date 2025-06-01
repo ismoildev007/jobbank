@@ -21,7 +21,7 @@
                                     <select class="form-select" name="category_id" id="category_id" required>
                                         <option value="">Select Parent Category</option>
                                         @foreach ($categories as $cat)
-                                            <option value="{{ $cat->id }}" {{ (old('category_id', $service->category_id) == $cat->id) ? 'selected' : '' }}>
+                                            <option value="{{ $cat->id }}" {{ old('category_id', $service->category_id) == $cat->id ? 'selected' : '' }}>
                                                 {{ $cat->title_uz }}
                                             </option>
                                         @endforeach
@@ -30,19 +30,37 @@
                                     @error('category_id') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
-
-                            {{-- Provider --}}
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
+                                    <select class="form-select" name="sub_category_id" id="sub_category_id">
+                                        <option value="">Select Sub Category</option>
+                                        @if($service->sub_category_id)
+                                            @foreach ($subCategories as $subCat)
+                                                <option value="{{ $subCat->id }}" {{ old('sub_category_id', $service->sub_category_id) == $subCat->id ? 'selected' : '' }}>
+                                                    {{ $subCat->title_uz }}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <label for="sub_category_id">Sub Category</label>
+                                    @error('sub_category_id') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-floating form-floating-outline">
+                                    @if(auth()->user()->role === '2') {{-- admin bo‘lsa --}}
                                     <select class="form-select" name="provider_id" id="provider_id" required>
                                         <option value="">Select Provider</option>
                                         @foreach ($providers as $provider)
-                                            <option value="{{ $provider->id }}" {{ (old('provider_id', $service->provider_id) == $provider->id) ? 'selected' : '' }}>
+                                            <option value="{{ $provider->id }}" {{ old('provider_id', $service->provider_id) == $provider->id ? 'selected' : '' }}>
                                                 {{ $provider->full_name }}
                                             </option>
                                         @endforeach
                                     </select>
                                     <label for="provider_id">Provider</label>
+                                    @else {{-- provider bo‘lsa --}}
+                                    <input type="hidden" name="provider_id" value="{{ auth()->id() }}">
+                                    @endif
                                     @error('provider_id') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
@@ -176,6 +194,49 @@
         </div>
     </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const categorySelect = document.getElementById('category_id');
+            const subCategorySelect = document.getElementById('sub_category_id');
+
+            // Dastlabki sub-kategoriyalarni yuklash (edit holatida)
+            function loadSubCategories(categoryId) {
+                subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+
+                if (categoryId) {
+                    fetch('{{ route("get.sub.categories") }}?category_id=' + categoryId)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(subCategory => {
+                                const option = document.createElement('option');
+                                option.value = subCategory.id;
+                                option.textContent = subCategory.title_uz;
+                                // Agar sub_category_id mavjud bo‘lsa, uni tanlangan qilib belgilash
+                                if (subCategory.id == '{{ old("sub_category_id", $service->sub_category_id) }}') {
+                                    option.selected = true;
+                                }
+                                subCategorySelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching sub-categories:', error);
+                        });
+                }
+            }
+
+            // Dastlabki holatda sub-kategoriyalarni yuklash
+            const initialCategoryId = categorySelect.value;
+            if (initialCategoryId) {
+                loadSubCategories(initialCategoryId);
+            }
+
+            // Kategoriya o‘zgarganda sub-kategoriyalarni yangilash
+            categorySelect.addEventListener('change', function () {
+                const categoryId = this.value;
+                loadSubCategories(categoryId);
+            });
+        });
+    </script>
     <style>
         .custom-dropzone {
             border: 2px dashed #696cff;
