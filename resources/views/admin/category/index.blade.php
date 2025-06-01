@@ -29,9 +29,9 @@
                             <td>
                                 <img src="{{ asset('storage/'.$category->image) }}" alt="Image" width="100">
                             </td>
-                            <td><span>{{ $category->{'title_' . $lang} }}</span></td>
+                            <td><span>{{ $category->{'title_' . $lang} }} </span></td>
                             <td>
-                                {{ $category->parent ? $category->parent->{'title_' . $lang} : '-' }}
+                                {{ $category->parent ? $category->parent->{'title_' . $lang} : 'Asosiy Kategoriya' }}
                             </td>
 
 

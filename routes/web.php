@@ -42,6 +42,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/subscribe/{subId}', [SubController::class, 'subscribe'])->name('subscribe');
     Route::post('/subscription/restart', [SubController::class, 'restartSubscription'])->name('subscription.restart');
     Route::get('/subscriptions', [SubController::class, 'allSubscriptions'])->name('admin.subscriptions');
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::post('/subscription/cancel/{id}', [SubController::class, 'cancelSubscription'])->name('subscription.cancel');
+
+
 });
 Route::get('/pricing', [SubController::class, 'index'])->name('pricing');
 

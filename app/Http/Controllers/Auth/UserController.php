@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('pages.providers.profile', compact('user'));
+    }
+
     public function dashboard()
     {
         $services = Auth::user()->services; // Buyurtmalarni olish

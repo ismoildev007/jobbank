@@ -33,24 +33,35 @@
                                 <th>Tugash Sanasi</th>
                                 <th>Holati</th>
                                 <th>Ishlatilgan Xizmatlar</th>
+                                <th>Amallar</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($subscriptions as $index => $subscription)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $subscription->provider->name ?? 'Noma`lum Provaider' }}</td>
+                                    <td>{{ $subscription->provider->full_name ?? 'Noma`lum Provaider' }}</td>
                                     <td>{{ $subscription->sub->name_uz ?? 'Noma`lum Reja' }}</td>
                                     <td>{{ $subscription->start_date->format('d.m.Y H:i') }}</td>
                                     <td>{{ $subscription->end_date->format('d.m.Y H:i') }}</td>
                                     <td>
                                         @if($subscription->status == 'active')
                                             <span class="badge bg-success">Faol</span>
+                                        @elseif($subscription->status == 'canceled')
+                                            <span class="badge bg-danger">Bekor qilingan</span>
                                         @else
                                             <span class="badge bg-danger">Tugagan</span>
                                         @endif
                                     </td>
                                     <td>{{ $subscription->used_services_count }}</td>
+                                    <td>
+                                        @if($subscription->status == 'active')
+                                            <form action="{{ route('subscription.cancel', $subscription->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Obunani bekor qilishni tasdiqlaysizmi?')">Bekor qilish</button>
+                                            </form>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

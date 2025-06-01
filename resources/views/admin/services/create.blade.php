@@ -28,7 +28,7 @@
                                         @error('category_id') <small class="text-danger">{{ $message }}</small> @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-2">
                                     <div class="form-floating form-floating-outline">
                                         @if(auth()->user()->role === '2') {{-- admin bo‘lsa --}}
                                         <select class="form-select" name="provider_id" id="provider_id" required>
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                <div class="col-md-4">
+                                <div class="col-md-4 mt-2">
                                     <div class="form-floating form-floating-outline">
                                         <select name="type_price" id="type_price" class="form-select" required>
                                             <option value="">Narx turi</option>
@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-4 mt-2">
                                     <div class="form-floating form-floating-outline">
                                         <input type="number" step="0.01" name="price" id="price" class="form-control" placeholder="Narx" value="{{ old('price') }}" required>
                                         <label for="price">Narx</label>
@@ -71,7 +71,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-4 mt-2">
                                     <div class="form-floating form-floating-outline">
                                         <select name="is_active" id="is_active" class="form-select" required>
                                             <option value="1" {{ old('is_active') == '1' ? 'selected' : '' }}>Faol</option>

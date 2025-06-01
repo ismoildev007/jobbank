@@ -46,7 +46,7 @@
                                 <div class="row mb-4">
                                     <div class="col-md-12">
                                         <div class="form-floating form-floating-outline">
-                                            <input type="text" id="title_uz" name="title_uz" class="form-control" placeholder="Title (UZ)" value="{{ old('title_uz', $service->title_uz) }}">
+                                            <input type="text" id="title_uz" name="title_uz" class="form-control" placeholder="Title (UZ)" value="{{ old('title_uz', $category->title_uz) }}">
                                             <label for="title_uz">Title (UZ)</label>
                                             @error('title_uz') <small class="text-danger">{{ $message }}</small> @enderror
                                         </div>
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="mb-4">
                                     <label for="description_uz" class="form-label">Description (UZ)</label>
-                                    <textarea id="description_uz" name="description_uz" class="form-control editor" rows="5">{{ old('description_uz', $service->description_uz) }}</textarea>
+                                    <textarea id="description_uz" name="description_uz" class="form-control editor" rows="5">{{ old('description_uz', $category->description_uz) }}</textarea>
                                     @error('description_uz') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                 <div class="row mb-4">
                                     <div class="col-md-12">
                                         <div class="form-floating form-floating-outline">
-                                            <input type="text" id="title_ru" name="title_ru" class="form-control" placeholder="Title (RU)" value="{{ old('title_ru', $service->title_ru) }}">
+                                            <input type="text" id="title_ru" name="title_ru" class="form-control" placeholder="Title (RU)" value="{{ old('title_ru', $category->title_ru) }}">
                                             <label for="title_ru">Title (RU)</label>
                                             @error('title_ru') <small class="text-danger">{{ $message }}</small> @enderror
                                         </div>
@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="mb-4">
                                     <label for="description_ru" class="form-label">Description (RU)</label>
-                                    <textarea id="description_ru" name="description_ru" class="form-control editor" rows="5">{{ old('description_ru', $service->description_ru) }}</textarea>
+                                    <textarea id="description_ru" name="description_ru" class="form-control editor" rows="5">{{ old('description_ru', $category->description_ru) }}</textarea>
                                     @error('description_ru') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                 <div class="row mb-4">
                                     <div class="col-md-12">
                                         <div class="form-floating form-floating-outline">
-                                            <input type="text" id="title_en" name="title_en" class="form-control" placeholder="Title (EN)" value="{{ old('title_en', $service->title_en) }}">
+                                            <input type="text" id="title_en" name="title_en" class="form-control" placeholder="Title (EN)" value="{{ old('title_en',$category->title_en) }}">
                                             <label for="title_en">Title (EN)</label>
                                             @error('title_en') <small class="text-danger">{{ $message }}</small> @enderror
                                         </div>
@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="mb-4">
                                     <label for="description_en" class="form-label">Description (EN)</label>
-                                    <textarea id="description_en" name="description_en" class="form-control editor" rows="5">{{ old('description_en', $service->description_en) }}</textarea>
+                                    <textarea id="description_en" name="description_en" class="form-control editor" rows="5">{{ old('description_en',$category->description_en) }}</textarea>
                                     @error('description_en') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
