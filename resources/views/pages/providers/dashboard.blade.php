@@ -241,43 +241,43 @@
                         <li class="active">
                             <a href="https://jobbank.uz/provider/dashboard" class="active"><i class="ti ti-layout-grid"></i><span>Boshqaruv paneli</span></a>
                         </li>
-{{--                        <li class="">--}}
-{{--                            <a href="https://jobbank.uz/provider/leads" class="">--}}
-{{--                                <i class="ti ti-world"></i><span>Yetakchilar</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="">--}}
-{{--                            <a href="https://jobbank.uz/provider/transaction" class="">--}}
-{{--                                <i class="ti ti-credit-card"></i><span>Tranzaksiya</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="">--}}
-{{--                            <a href="https://jobbank.uz/provider/payouts"><i class="ti ti-wallet"></i><span>To`lov</span></a>--}}
-{{--                        </li>--}}
+                        {{--                        <li class="">--}}
+                        {{--                            <a href="https://jobbank.uz/provider/leads" class="">--}}
+                        {{--                                <i class="ti ti-world"></i><span>Yetakchilar</span>--}}
+                        {{--                            </a>--}}
+                        {{--                        </li>--}}
+                        {{--                        <li class="">--}}
+                        {{--                            <a href="https://jobbank.uz/provider/transaction" class="">--}}
+                        {{--                                <i class="ti ti-credit-card"></i><span>Tranzaksiya</span>--}}
+                        {{--                            </a>--}}
+                        {{--                        </li>--}}
+                        {{--                        <li class="">--}}
+                        {{--                            <a href="https://jobbank.uz/provider/payouts"><i class="ti ti-wallet"></i><span>To`lov</span></a>--}}
+                        {{--                        </li>--}}
                         <li class="">
                             <a href="https://jobbank.uz/provider/service"><i class="ti ti-briefcase"></i><span>Mening xizmatim</span></a>
                         </li>
                         <li class="">
                             <a href="https://jobbank.uz/provider/bookinglist" class=""><i class="ti ti-calendar-month"></i><span>Buyurtmalar </span></a>
                         </li>
-{{--                        <li class="">--}}
-{{--                            <a href="https://jobbank.uz/provider/calendar" class=""><i class="ti ti-calendar"></i><span>Kalendar</span></a>--}}
-{{--                        </li>--}}
+                        {{--                        <li class="">--}}
+                        {{--                            <a href="https://jobbank.uz/provider/calendar" class=""><i class="ti ti-calendar"></i><span>Kalendar</span></a>--}}
+                        {{--                        </li>--}}
                         <li class="">
                             <a href="https://jobbank.uz/provider/subscription" class=""><i class="ti ti-bell-plus"></i><span>Obuna</span></a>
                         </li>
-{{--                        <li class="">--}}
-{{--                            <a href="https://jobbank.uz/provider/reviews"><i class="ti ti-star"></i><span>Sharhlar</span></a>--}}
-{{--                        </li>--}}
-{{--                        <li class="">--}}
-{{--                            <a href="https://jobbank.uz/provider/chat" class=""><i class="ti ti-message"></i><span>Chat</span></a>--}}
-{{--                        </li>--}}
-{{--                        <li class="">--}}
-{{--                            <a href="https://jobbank.uz/provider/notifications" class="d-flex align-items-center ">--}}
-{{--                                <i class="ti ti-bell me-2"></i>--}}
-{{--                                <span>Bildirishnoma</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
+                        {{--                        <li class="">--}}
+                        {{--                            <a href="https://jobbank.uz/provider/reviews"><i class="ti ti-star"></i><span>Sharhlar</span></a>--}}
+                        {{--                        </li>--}}
+                        {{--                        <li class="">--}}
+                        {{--                            <a href="https://jobbank.uz/provider/chat" class=""><i class="ti ti-message"></i><span>Chat</span></a>--}}
+                        {{--                        </li>--}}
+                        {{--                        <li class="">--}}
+                        {{--                            <a href="https://jobbank.uz/provider/notifications" class="d-flex align-items-center ">--}}
+                        {{--                                <i class="ti ti-bell me-2"></i>--}}
+                        {{--                                <span>Bildirishnoma</span>--}}
+                        {{--                            </a>--}}
+                        {{--                        </li>--}}
                         <li>
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf

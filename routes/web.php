@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\provider\ProviderController;
+use App\Http\Controllers\provider\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,7 +22,10 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 //Admin panel login register end
 Route::middleware(['auth'])->prefix('provider')->group(function () {
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('provider.dashboard');
+    Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
+    Route::get('/profile', [ProviderController::class, 'profile'])->name('provider.profile');
+    Route::resource('services', ServiceController::class);
+    Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
 });
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
