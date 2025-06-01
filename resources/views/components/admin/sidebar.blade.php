@@ -7,17 +7,17 @@
             <div class="badge badge-center text-bg-danger rounded-pill ms-auto">5</div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item">
-                <a href="app-ecommerce-dashboard.html" class="menu-link">
-                    <div data-i18n="eCommerce">eCommerce</div>
+            <li class="menu-item {{ Route::is('categories.index') ? 'active' : '' }}">
+                <a href="{{ route('categories.index') }}" class="menu-link">
+                    <div data-i18n="eCommerce">Category</div>
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item" >
                 <a href="dashboards-crm.html" class="menu-link">
                     <div data-i18n="CRM">CRM</div>
                 </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item">
                 <a href="index.html" class="menu-link">
                     <div data-i18n="Analytics">Analytics</div>
                 </a>
