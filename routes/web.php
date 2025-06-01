@@ -28,9 +28,16 @@ Route::middleware(['auth'])->prefix('provider')->group(function () {
     Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
 });
 
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('categories', CategoryController::class);
+    Route::resource('services', ServiceController::class);
+    Route::post('/subscribe/{subId}', [SubController::class, 'subscribe'])->name('subscribe');
+    Route::post('/subscription/restart', [SubController::class, 'restartSubscription'])->name('subscription.restart');
+    Route::get('/subscriptions', [SubController::class, 'allSubscriptions'])->name('admin.subscriptions');
+});
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('services', ServiceController::class);
     Route::post('/subscribe/{subId}', [SubController::class, 'subscribe'])->name('subscribe');
     Route::post('/subscription/restart', [SubController::class, 'restartSubscription'])->name('subscription.restart');
