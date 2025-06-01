@@ -11,7 +11,7 @@ class ProviderController extends Controller
     {
         $services = Auth::user()->services; // Buyurtmalarni olish
 
-        return view('pages.providers.profile',compact('services'));
+        return view('pages.providers.dashboard',compact('services'));
     }
 
     public function profile()

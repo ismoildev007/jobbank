@@ -30,6 +30,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating form-floating-outline">
+                                        @if(auth()->user()->role === '2') {{-- admin bo‘lsa --}}
                                         <select class="form-select" name="provider_id" id="provider_id" required>
                                             <option value="">Select Provider</option>
                                             @foreach ($providers as $provider)
@@ -39,6 +40,9 @@
                                             @endforeach
                                         </select>
                                         <label for="provider_id">Provider</label>
+                                        @else {{-- provider bo‘lsa --}}
+                                        <input type="hidden" name="provider_id" value="{{ auth()->id() }}">
+                                        @endif
                                         @error('provider_id') <small class="text-danger">{{ $message }}</small> @enderror
                                     </div>
                                 </div>
