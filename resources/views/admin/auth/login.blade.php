@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -10,26 +11,19 @@
     <meta name="author" content="theme_ocean">
     <!--! The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags !-->
     <!--! BEGIN: Apps Title-->
-    <title>DORA Academy</title>
+    <title>Duralux || Login Minimal</title>
     <!--! END:  Apps Title-->
     <!--! BEGIN: Favicon-->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico">
     <!--! END: Favicon-->
     <!--! BEGIN: Bootstrap CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <!--! END: Bootstrap CSS-->
     <!--! BEGIN: Vendors CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/vendors.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/select2.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/select2-theme.min.css') }}">
-
-    <!-- For employees CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/jquery.steps.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/quill.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/datepicker.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/css/vendors.min.css">
     <!--! END: Vendors CSS-->
     <!--! BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/theme.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="assets/css/theme.min.css">
     <!--! END: Custom CSS-->
     <!--! HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries !-->
     <!--! WARNING: Respond.js doesn"t work if you view the page via file: !-->
@@ -40,10 +34,35 @@
 </head>
 
 <body>
-
-
-@yield('content')
-
+<!--! ================================================================ !-->
+<!--! [Start] Main Content !-->
+<!--! ================================================================ !-->
+<main class="auth-minimal-wrapper">
+    <div class="auth-minimal-inner">
+        <div class="minimal-card-wrapper">
+            <div class="card mb-4 mt-5 mx-4 mx-sm-0 position-relative">
+                <div class="wd-50 bg-white p-2 rounded-circle shadow-lg position-absolute translate-middle top-0 start-50">
+                    <img src="assets/images/logo-abbr.png" alt="" class="img-fluid">
+                </div>
+                <div class="card-body p-sm-5">
+                    <h2 class="fs-20 fw-bolder mb-4">Login</h2>
+                    <form action="{{route('login')}}" method="post" class="w-100 mt-4 pt-2">
+                        @csrf
+                        <div class="mb-4">
+                            <input type="email" class="form-control" placeholder="Email or Username" value="wrapcode.info@gmail.com" required name="email">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" placeholder="Password" value="123456" required name="password">
+                        </div>
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-lg btn-primary w-100">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 <!--! ================================================================ !-->
 <!--! [End] Main Content !-->
 <!--! ================================================================ !-->

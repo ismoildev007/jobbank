@@ -1,45 +1,167 @@
 <nav class="nxl-navigation">
     <div class="navbar-wrapper">
         <div class="m-header">
-            <a href="/dashboard" class="b-brand">
-                <h3 class="logo logo-lg">Role Permissions</h3>
-                <h6 class="logo logo-sm"> </h6>
+            <a href="/" class="b-brand">
+                <img src="/assets/images/logo-full.png" alt="" class="logo logo-lg">
+                <img src="/assets/images/logo/dora_seo.png" alt="" class="logo logo-sm">
             </a>
         </div>
-        <div class="navbar-content ps">
+        <div class="navbar-content">
             <ul class="nxl-navbar">
-                <!-- Navigation Header -->
                 <li class="nxl-item nxl-caption">
-                    <label>Навигация</label>
+                    <label>Navigation</label>
                 </li>
+                <li class="nxl-item">
+                    <a href="{{route('admin.dashboard')}}"
+{{--                        @if( auth()->user()->role == 'admin')--}}
+{{--                           href="{{ route('dashboard') }}"--}}
+{{--                       @elseif( auth()->user()->role == 'manager')--}}
+{{--                           href="{{ route('manager.dashboard') }}"--}}
+{{--                       @elseif (auth()->user()->role == 'staff')--}}
+{{--                           href="{{ route('staff.dashboard') }}"--}}
+{{--                       @endif --}}
+                        class="nxl-link">
+                        <span class="nxl-micon"><i class="feather-airplay"></i></span>
+                        <span class="nxl-mtext">Dashboards</span>
+                    </a>
+                </li>
+                <li class="nxl-item">
+                    <a href="{{ route('file.index') }}" class="nxl-link">
+                        <span class="nxl-micon"><i class="feather-life-buoy"></i></span>
+                        <span class="nxl-mtext">Excel file</span>
+                    </a>
+                </li>
+                <li class="nxl-item">
+                    <a href="{{ route('students.index') }}" class="nxl-link">
+                        <span class="nxl-micon"><i class="feather-life-buoy"></i></span>
+                        <span class="nxl-mtext">Students</span>
+                    </a>
+                </li>
+{{--                <li class="nxl-item">--}}
+{{--                    <a href="{{ route('buildings.index') }}" class="nxl-link">--}}
+{{--                        <span class="nxl-micon"><i class="feather-life-buoy"></i></span>--}}
+{{--                        <span class="nxl-mtext">Obyekti</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nxl-item">--}}
+{{--                    <a href="{{ route('sections.index') }}" class="nxl-link">--}}
+{{--                        <span class="nxl-micon"><i class="feather-life-buoy"></i></span>--}}
+{{--                        <span class="nxl-mtext">Seksiya</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nxl-item">--}}
+{{--                    <a href="{{ route('floors.index') }}" class="nxl-link">--}}
+{{--                        <span class="nxl-micon"><i class="feather-life-buoy"></i></span>--}}
+{{--                        <span class="nxl-mtext">Etaj</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
 
-                <!-- Dashboard -->
-                <li class="nxl-item">
-                    <a href="{{ route('dashboard') }}" class="nxl-link">
-                        <span class="nxl-micon"><i class="feather-home"></i></span>
-                        <span class="nxl-mtext">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nxl-item">
-                    <a href="{{ route('users.index') }}" class="nxl-link">
-                        <span class="nxl-micon"><i class="feather-users"></i></span>
-                        <span class="nxl-mtext">Users</span>
-                    </a>
-                </li>
-                <li class="nxl-item">
-                    <a href="{{ route('roles.index') }}" class="nxl-link">
-                        <span class="nxl-micon"><i class="feather-users"></i></span>
-                        <span class="nxl-mtext">Roles</span>
-                    </a>
-                </li>
+{{--                <li class="nxl-item">--}}
+{{--                    <a href="{{ route('rooms.index') }}" class="nxl-link">--}}
+{{--                        <span class="nxl-micon"><i class="feather-life-buoy"></i></span>--}}
+{{--                        <span class="nxl-mtext">Xonalar</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nxl-item">--}}
+{{--                    <a href="{{ route('clients.index') }}" class="nxl-link">--}}
+{{--                        <span class="nxl-micon"><i class="feather-life-buoy"></i></span>--}}
+{{--                        <span class="nxl-mtext">Client</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
             </ul>
-
-            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-            </div>
-            <div class="ps__rail-y" style="top: 0px; height: 598px; right: 0px;">
-                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
-            </div>
         </div>
     </div>
 </nav>
+
+{{--<!-- Modal HTML -->--}}
+{{--<div class="modal fade" id="branchModal" tabindex="-1" aria-labelledby="branchModalLabel" aria-hidden="true">--}}
+{{--    <div class="modal-dialog">--}}
+{{--        <div class="modal-content">--}}
+{{--            <div class="modal-header">--}}
+{{--                <h5 class="modal-title" id="branchModalLabel">Ushbu siyosatni yopish va (x) tugmasini bosishdan avval qaysi amallarni ketma ket qilishingizni eslab qolishingizni so'raymiz</h5>--}}
+{{--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" disabled></button>--}}
+{{--            </div>--}}
+{{--            <div class="modal-body">--}}
+{{--                Eslatma--}}
+{{--            </div>--}}
+{{--            <div class="modal-footer">--}}
+{{--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" disabled>Yopish</button>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
+
+
+
+<!-- JavaScript -->
+{{--<script>--}}
+{{--    document.addEventListener('DOMContentLoaded', function () {--}}
+{{--        function showModal() {--}}
+{{--            var messages = [--}}
+{{--                "Filial qo'shishingizni so'raymiz.",--}}
+{{--                "Xodim qo'shishingizni so'raymiz.",--}}
+{{--                "Xona qo'shishingizni so'raymiz.",--}}
+{{--                "Client qo'shishingizni so'raymiz.",--}}
+{{--                "Shartnoma tuzishingizni so'raymiz."--}}
+{{--            ];--}}
+
+{{--            var currentIndex = 0;--}}
+{{--            var modal = new bootstrap.Modal(document.getElementById('branchModal'));--}}
+
+{{--            function showModalMessage() {--}}
+{{--                var messageWithIndex = (currentIndex + 1) + ". " + messages[currentIndex];--}}
+{{--                $('.modal-body').append('<p>' + messageWithIndex + '</p>');--}}
+{{--                modal.show();--}}
+{{--                currentIndex++;--}}
+
+{{--                if (currentIndex < messages.length) {--}}
+{{--                    setTimeout(showModalMessage, 5000);--}}
+{{--                } else {--}}
+{{--                    setTimeout(function () {--}}
+{{--                        modal.hide();--}}
+{{--                        $.ajax({--}}
+{{--                            url: "{{ route('modal.seen') }}",--}}
+{{--                            method: "POST",--}}
+{{--                            data: {--}}
+{{--                                _token: "{{ csrf_token() }}",--}}
+{{--                            },--}}
+{{--                            success: function(response) {--}}
+{{--                                if (response.status === 'success') {--}}
+{{--                                    sessionStorage.setItem('admin_modal_shown', 'true');--}}
+{{--                                }--}}
+{{--                            }--}}
+{{--                        });--}}
+{{--                    }, 5000);--}}
+{{--                }--}}
+{{--            }--}}
+
+{{--            setTimeout(function() {--}}
+{{--                $('.btn-close, .btn-secondary').removeAttr('disabled');--}}
+{{--            }, 10000);--}}
+
+{{--            showModalMessage();--}}
+{{--        }--}}
+
+{{--        function checkAndShowModal() {--}}
+{{--            if (!sessionStorage.getItem('admin_modal_shown')) {--}}
+{{--                $.ajax({--}}
+{{--                    url: "{{ route('modal.check') }}",--}}
+{{--                    method: "GET",--}}
+{{--                    success: function(response) {--}}
+{{--                        if (response.show_modal) {--}}
+{{--                            showModal();--}}
+{{--                        }--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            }--}}
+{{--        }--}}
+
+{{--        setInterval(function() {--}}
+{{--            sessionStorage.removeItem('admin_modal_shown');--}}
+{{--            checkAndShowModal();--}}
+{{--        }, 4 * 60 * 60 * 1000);--}}
+
+{{--        checkAndShowModal();--}}
+{{--    });--}}
+
+{{--</script>--}}
