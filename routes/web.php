@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\LanguageController;
@@ -25,6 +26,7 @@ Route::middleware(['auth'])->prefix('provider')->group(function () {
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('categories', CategoryController::class);
+    Route::resource('services', ServiceController::class);
 
 });
 

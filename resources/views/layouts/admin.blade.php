@@ -258,6 +258,7 @@
 
 <!-- Page JS -->
 <script src="/admin/assets/js/dashboards-analytics.js"></script>
+<script src="/admin/assets/js/forms-file-upload.js"></script>
 
 </body>
 </html>
