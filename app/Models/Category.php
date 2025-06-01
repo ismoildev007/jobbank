@@ -10,6 +10,7 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
+        'parent_id',
         'title_uz',
         'title_ru',
         'title_en',
@@ -19,4 +20,9 @@ class Category extends Model
         'description_en',
         'image',
     ];
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
 }

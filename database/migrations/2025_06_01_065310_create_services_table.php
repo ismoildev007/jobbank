@@ -23,8 +23,9 @@ return new class extends Migration
             $table->text('description_ru')->nullable();
             $table->text('description_en')->nullable();
             $table->string('image')->nullable();
+            $table->string('type_price')->nullable();
             $table->decimal('price', 10, 2);
-            $table->integer('duration_hours');
+            $table->integer('duration_hours')->nullable();
             $table->json('available_days')->nullable();
             $table->json('available_hours')->nullable();
             $table->boolean('is_active')->default(true);

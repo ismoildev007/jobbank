@@ -2,7 +2,6 @@
 @section('content')
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
-
     <div class="row mb-6 gy-6 p-5">
         <div class="col-xl">
             <div class="card">
@@ -11,23 +10,83 @@
                     <small class="text-body float-end">Merged input group</small>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('categories.update', [$category->id]) }}" method="POST" enctype="multipart/form-data">
-                    @method('PUT')
+                    <form action="{{ route('services.update', $service->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="col-md-12 mb-4">
-                            <div class="form-floating form-floating-outline">
-                                <select class="form-select" name="parent_id" id="parent_id">
-                                    <option value="">-- No Parent --</option>
-                                    @foreach ($categories as $cat)
-                                        <option value="{{ $cat->id }}"
-                                            {{ isset($category) && $category->parent_id == $cat->id ? 'selected' : '' }}>
-                                            {{ $cat->title_uz }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="parent_id">Parent Category</label>
+                        @method('PUT')
+
+                        <div class="row mb-4">
+                            {{-- Category --}}
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <select class="form-select" name="category_id" id="category_id" required>
+                                        <option value="">Select Parent Category</option>
+                                        @foreach ($categories as $cat)
+                                            <option value="{{ $cat->id }}" {{ (old('category_id', $service->category_id) == $cat->id) ? 'selected' : '' }}>
+                                                {{ $cat->title_uz }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="category_id">Parent Category</label>
+                                    @error('category_id') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
+
+                            {{-- Provider --}}
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <select class="form-select" name="provider_id" id="provider_id" required>
+                                        <option value="">Select Provider</option>
+                                        @foreach ($providers as $provider)
+                                            <option value="{{ $provider->id }}" {{ (old('provider_id', $service->provider_id) == $provider->id) ? 'selected' : '' }}>
+                                                {{ $provider->full_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="provider_id">Provider</label>
+                                    @error('provider_id') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
                             </div>
                         </div>
+
+                        <div class="row mb-4">
+                            {{-- Type Price --}}
+                            <div class="col-md-4">
+                                <div class="form-floating form-floating-outline">
+                                    <select name="type_price" id="type_price" class="form-select" required>
+                                        <option value="">Narx turi</option>
+                                        @foreach (['m2', 'soat'] as $type)
+                                            <option value="{{ $type }}" {{ (old('type_price', $service->type_price) == $type) ? 'selected' : '' }}>
+                                                {{ $type }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="type_price">Narx birligi</label>
+                                    @error('type_price') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
+
+                            {{-- Price --}}
+                            <div class="col-md-4">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="number" step="0.01" name="price" id="price" class="form-control" placeholder="Narx" value="{{ old('price', $service->price) }}" required>
+                                    <label for="price">Narx</label>
+                                    @error('price') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
+
+                            {{-- Status --}}
+                            <div class="col-md-4">
+                                <div class="form-floating form-floating-outline">
+                                    <select name="is_active" id="is_active" class="form-select" required>
+                                        <option value="1" {{ (old('is_active', $service->is_active) == '1') ? 'selected' : '' }}>Faol</option>
+                                        <option value="0" {{ (old('is_active', $service->is_active) == '0') ? 'selected' : '' }}>Faol emas</option>
+                                    </select>
+                                    <label for="is_active">Status</label>
+                                    @error('is_active') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
+                        </div>
+
                         <ul class="nav nav-tabs mb-4" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#uz" role="tab" aria-selected="true">O‘zbek</a>
@@ -96,22 +155,23 @@
                             </div>
                         </div>
 
+                        {{-- Image section --}}
                         <div class="mb-4">
+                            <label class="form-label">Image</label><br>
+                            @if($service->image)
+                                <img src="{{ asset('storage/' . $service->image) }}" alt="Service Image" style="max-width: 150px; margin-bottom: 10px;">
+                            @endif
                             <label>
                                 <input type="file" name="image">
                             </label>
-                            @if ($category->image)
-                                <div class="mt-2">
-                                    <img src="{{ asset('storage/' . $category->image) }}" alt="Category Image" width="150">
-                                </div>
-                            @endif
+                            @error('image') <br><small class="text-danger">{{ $message }}</small> @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary inline-block">Save</button>
+                        {{-- Submit --}}
+                        <button type="submit" class="btn btn-primary">Saqlash</button>
                     </form>
-
-
                 </div>
+
             </div>
         </div>
     </div>
