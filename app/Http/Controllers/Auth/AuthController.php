@@ -43,12 +43,14 @@ class AuthController extends Controller{
         return view('auth.register');
     }
 
-    public function userRegister(Request $request, User $user)
+    public function userRegister(Request $request)
     {
         $request->validate([
             'full_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20|unique:users,phone',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:0,1', // Role 0 yoki 1 bo‘lishi kerak
+            'terms_policy' => 'required|accepted', // Checkbox majburiy
         ], [
             'full_name.required' => 'Ismni kiritish majburiy.',
             'phone.required' => 'Telefon raqamni kiritish majburiy.',
@@ -56,18 +58,31 @@ class AuthController extends Controller{
             'password.required' => 'Parolni kiritish majburiy.',
             'password.min' => 'Parol kamida 8 ta belgidan iborat bo‘lishi kerak.',
             'password.confirmed' => 'Tasdiqlovchi parol mos emas.',
+            'role.required' => 'Rolni tanlash majburiy.',
+            'terms_policy.required' => 'Shartlar va qoidalarni qabul qilish majburiy.',
+            'terms_policy.accepted' => 'Shartlar va qoidalarni qabul qilishingiz kerak.',
         ]);
 
         $user = new User();
         $user->full_name = $request->full_name;
         $user->phone = $request->phone;
         $user->password = bcrypt($request->password);
-        $user->role = User::ROLE_PROVIDER;
+        $user->role = $request->role == '1' ? User::ROLE_PROVIDER : User::ROLE_USER; // Role qiymatiga qarab belgilaymiz
         $user->save();
 
         auth()->login($user);
+        switch ($user->role) {
+            case User::ROLE_PROVIDER:
+                return redirect()->route('provider.dashboard');
+            case User::ROLE_ADMIN:
+                return redirect()->route('admin.dashboard');
+            default:
+                Auth::logout();
 
-        return redirect()->route('admin.dashboard')->with('success', 'Siz muvaffaqiyatli ro‘yxatdan o‘tdingiz!');
+                return redirect('/')->withErrors(['role' => 'Invalid role assigned to the user.']);
+        }
+
+//        return redirect()->route('admin.dashboard')->with('success', 'Siz muvaffaqiyatli ro‘yxatdan o‘tdingiz!');
     }
 
     public function logout(Request $request)
@@ -76,7 +91,7 @@ class AuthController extends Controller{
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Вы успешно вышли из системы!');
+        return redirect('/')->with('success', 'Вы успешно вышли из системы!');
     }
 
 }
