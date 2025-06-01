@@ -1,0 +1,94 @@
+
+/* Main cookie consent container */
+.cookie-consent {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  color: #fff;
+  padding: 15px 20px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Archivo", sans-serif;
+  font-size: 15px;
+}
+
+/* Text styling */
+.cookie-consent__message {
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  font-weight: 500;
+  color: #242B3A;
+  line-height: 1.5;
+}
+
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Button styling */
+.cookie-consent__agree {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-left: 15px;
+}
+
+.cookie-consent__agree:hover {
+  background-color: #45a049;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .cookie-consent {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cookie-consent__message {
+    margin-bottom: 10px;
+  }
+}
+
+
+/* Initially hidden */
+.cookie-consent.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+}
+
+/* Visible state */
+.cookie-consent.visible {
+  opacity: 1;
+  visibility: visible;
+}
+.loader_front {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(235, 255, 255, 0.9);
+    z-index: 9999;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .loader_front .loader-content {
+    margin-top: 23rem;
+  }

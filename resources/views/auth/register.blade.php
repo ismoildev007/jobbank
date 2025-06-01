@@ -4,7 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MAD Parfüm </title>
-    <meta property="og:site_name" content="MAD Parfüm – Let&#39;s Get Mad! Kadın Parfüm, Erkek Parfüm" /><meta property="og:description" content="" /><meta property="og:image" content="" /><meta property="og:title" content="Niche Parfüm Alana Hediye!" /><meta property="og:type" content="product.group" /><meta property="og:url" content="https://www.madparfum.com/niche-parfum-alana-hediye" />    <link rel='preload' href='https://static.ticimax.cloud/51735/CustomCss/ticimax/style.css?v=8.13.252.0.125237' as='style' />
+    <meta property="og:site_name" content="MAD Parfüm – Let&#39;s Get Mad! Kadın Parfüm, Erkek Parfüm"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:title" content="Niche Parfüm Alana Hediye!"/>
+    <meta property="og:type" content="product.group"/>
+    <meta property="og:url" content="https://www.madparfum.com/niche-parfum-alana-hediye"/>
+    <link rel='preload' href='https://static.ticimax.cloud/51735/CustomCss/ticimax/style.css?v=8.13.252.0.125237'
+          as='style'/>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="../../css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -65,7 +72,8 @@
                                 @csrf
                                 <div class="form-group">
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Full Name" name="full_name" value="{{ old('full_name') }}">
+                                        <input type="text" class="form-control" placeholder="Full Name" name="full_name"
+                                               value="{{ old('full_name') }}">
                                         @error('full_name')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -73,7 +81,8 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Phone Number" name="phone" value="{{ old('phone') }}">
+                                        <input type="text" class="form-control" placeholder="Phone Number" name="phone"
+                                               value="{{ old('phone') }}">
                                         @error('phone')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -81,7 +90,8 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="controls">
-                                        <input type="password" class="form-control" placeholder="Password" name="password">
+                                        <input type="password" class="form-control" placeholder="Password"
+                                               name="password">
                                         @error('password')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -89,7 +99,8 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="controls">
-                                        <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation">
+                                        <input type="password" class="form-control" placeholder="Confirm Password"
+                                               name="password_confirmation">
                                     </div>
                                 </div>
                                 <div class="button-box">
@@ -166,3 +177,5 @@
 <script src="/admin/dist/js/demo.js"></script>
 </body>
 </html>
+
+
