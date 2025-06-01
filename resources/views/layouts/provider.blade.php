@@ -254,7 +254,7 @@
                         {{--                            <a href="https://jobbank.uz/provider/payouts"><i class="ti ti-wallet"></i><span>To`lov</span></a>--}}
                         {{--                        </li>--}}
                         <li class="">
-                            <a href="{{ route('services.index') }}"><i class="ti ti-briefcase"></i><span>Mening xizmatim</span></a>
+                            <a href="{{ route('service.index') }}"><i class="ti ti-briefcase"></i><span>Mening xizmatim</span></a>
                         </li>
                         <li class="">
                             <a href="https://jobbank.uz/provider/bookinglist" class=""><i class="ti ti-calendar-month"></i><span>Buyurtmalar </span></a>
