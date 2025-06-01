@@ -229,8 +229,6 @@
         </div>
     </div>
 </div>
-
-
 <!-- Header -->
 <header class="header header-new d-none d-md-block">
     <div class="container-fluid">
