@@ -1,153 +1,178 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="uz" class="layout-wide customizer-hide" dir="ltr" data-skin="default" data-bs-theme="light"
+      data-assets-path="/admin/assets/" data-template="vertical-menu-template">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MAD Parfüm </title>
-    <meta property="og:site_name" content="MAD Parfüm – Let&#39;s Get Mad! Kadın Parfüm, Erkek Parfüm" /><meta property="og:description" content="" /><meta property="og:image" content="" /><meta property="og:title" content="Niche Parfüm Alana Hediye!" /><meta property="og:type" content="product.group" /><meta property="og:url" content="https://www.madparfum.com/niche-parfum-alana-hediye" />    <link rel='preload' href='https://static.ticimax.cloud/51735/CustomCss/ticimax/style.css?v=8.13.252.0.125237' as='style' />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Jobbank.uz: Kirish | Ish topish platformasi</title>
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="../../css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="/admin/plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="../../ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet" href="/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- JQVMap -->
-    <link rel="stylesheet" href="/admin/plugins/jqvmap/jqvmap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="/admin/dist/css/adminlte.min.css?v=3.2.0">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="/admin/plugins/daterangepicker/daterangepicker.css">
-    <!-- summernote -->
-    <link rel="stylesheet" href="/admin/plugins/summernote/summernote-bs4.min.css">
+    <meta name="description"
+          content="Jobbank.uz - O'zbekistonda ish topish uchun eng yaxshi platforma. Hisobingizga kiring va yangi imkoniyatlarni kashf eting.">
+    <meta name="keywords"
+          content="Jobbank.uz, ish topish, vakansiya, O'zbekiston, ish platformasi, bootstrap dashboard">
+    <meta property="og:title" content="Jobbank.uz - Ish topish platformasi">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jobbank.uz">
+    <meta property="og:image"
+          content="/admin/assets/img/logo.png">
+    <meta property="og:description"
+          content="Jobbank.uz - O'zbekistonda ish topish uchun eng yaxshi platforma. Hisobingizga kiring va yangi imkoniyatlarni kashf eting.">
+    <meta property="og:site_name" content="Jobbank.uz">
+    <link rel="canonical" href="https://jobbank.uz">
 
-    <link rel="stylesheet" href="/admin/plugins/fontawesome-free/css/all.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="/admin/dist/css/adminlte.min.css?v=3.2.0">
-    <!-- summernote -->
-    <link rel="stylesheet" href="./admin/plugins/summernote/summernote-bs4.min.css">
-    <!-- CodeMirror -->
-    <link rel="stylesheet" href="/admin/plugins/codemirror/codemirror.css">
-    <link rel="stylesheet" href="/admin/plugins/codemirror/theme/monokai.css">
-    <!-- SimpleMDE -->
-    <link rel="stylesheet" href="/admin/plugins/simplemde/simplemde.min.css">
+    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5J3LMKC');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/admin/assets/img/logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="../../../css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/admin/assets/vendor/fonts/iconify-icons.css">
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/admin/assets/vendor/libs/node-waves/node-waves.css">
+    <link rel="stylesheet" href="/admin/assets/vendor/libs/pickr/pickr-themes.css">
+    <link rel="stylesheet" href="/admin/assets/vendor/css/core.css">
+    <link rel="stylesheet" href="/admin/assets/css/demo.css">
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="/admin/assets/vendor/libs/%40form-validation/form-validation.css">
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="/admin/assets/vendor/css/pages/page-auth.css">
+
+    <!-- Helpers -->
+    <script src="/admin/assets/vendor/js/helpers.js"></script>
+    <script src="/admin/assets/vendor/js/template-customizer.js"></script>
+    <script src="/admin/assets/js/config.js"></script>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
 
-    <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="/admin/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-    </div>
+<body>
+<!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5J3LMKC" height="0" width="0"
+            style="display: none; visibility: hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
 
+<!-- Content -->
+<div class="position-relative">
+    <div class="authentication-wrapper authentication-basic container-p-y p-4 p-sm-0">
+        <div class="authentication-inner py-6">
+            <!-- Login -->
+            <div class="card p-md-7 p-1">
+                <!-- Logo -->
+                <div class="app-brand justify-content-center mt-5">
+                    <a href="/" class="app-brand-link gap-2">
+                        <span class="app-brand-logo demo">
+                            <img src="/admin/assets/img/logo.png" alt="Jobbank.uz Logo" width="50">
+                        </span>
+                    </a>
+                </div>
+                <!-- /Logo -->
 
-    <!-- Start Content -->
-    <div id="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-lg-6 col-lg-offset-3">
-                    <div class="login">
-                        @if (session('error'))
-                            <div class="alert alert-danger">{{ session('error') }}</div>
-                        @endif
-                        <div class="login-form-container">
-                            <div class="login-text">
-                                <h3>Login</h3>
-                                <p>Please Register using account detail bellow.</p>
-                            </div>
-                            <!-- Login Form Start -->
-                            <form class="login-form" role="form" action="{{ route('authenticate') }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <div class="controls">
-                                        <input type="text" class="form-control" placeholder="Username" name="phone">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="controls">
-                                        <input type="password" class="form-control" placeholder="Password" name="password">
-                                    </div>
-                                </div>
-                                <div class="button-box">
-                                    <div class="login-toggle-btn">
-                                        <input type="checkbox">
-                                        <label>Remember me</label>
-                                        <a href="/register">Register</a>
-                                    </div>
-                                    <button type="submit" class="btn btn-common log-btn">Login</button>
-                                </div>
-                            </form>
-                            <!-- Login Form End -->
+                <div class="card-body mt-1">
+                    <h4 class="mb-1">Jobbank.uz ga xush kelibsiz! 👋</h4>
+                    @if (session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}</div>
+                    @endif
+
+                    <form class="login-form" role="form" action="{{ route('authenticate') }}" method="POST">
+                        @csrf
+                        <div class="form-floating form-floating-outline mb-5 form-control-validation">
+                            <input type="text" class="form-control" placeholder="Telefon raqami" name="phone">
+                            <label for="phone">Telefon raqami</label>
                         </div>
+                        <div class="mb-5">
+                            <div class="form-password-toggle form-control-validation">
+                                <div class="input-group input-group-merge">
+                                    <div class="form-floating form-floating-outline">
+                                        <input type="password" id="password" class="form-control" name="password"
+                                               placeholder="············"
+                                               aria-describedby="password">
+                                        <label for="password">Parol</label>
+                                    </div>
+                                    <span class="input-group-text cursor-pointer"><i
+                                            class="icon-base ri ri-eye-off-line icon-20px"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <button class="btn btn-primary d-grid w-100" type="submit">Kirish</button>
+                        </div>
+                    </form>
+
+                    <p class="text-center mb-5">
+                        <span>Platformamizda yangimisiz?</span>
+                        <a href="auth-register-basic.html">
+                            <span>Hisob yarating</span>
+                        </a>
+                    </p>
+
+                    <div class="divider my-5">
+                        <div class="divider-text">yoki</div>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="javascript:;" class="btn btn-icon rounded-circle btn-text-facebook">
+                            <i class="icon-base ri ri-facebook-fill icon-18px"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-icon rounded-circle btn-text-twitter">
+                            <i class="icon-base ri ri-twitter-fill icon-18px"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-icon rounded-circle btn-text-github">
+                            <i class="icon-base ri ri-github-fill icon-18px"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-icon btn-lg rounded-pill btn-text-google-plus">
+                            <i class="icon-base ri ri-google-fill icon-18px"></i>
+                        </a>
                     </div>
                 </div>
             </div>
+            <!-- /Login -->
+            <img alt="mask" src="/admin/assets/img/illustrations/auth-basic-login-mask-light.png"
+                 class="authentication-image d-none d-lg-block"
+                 data-app-light-img="illustrations/auth-basic-login-mask-light.png"
+                 data-app-dark-img="illustrations/auth-basic-login-mask-dark.png">
         </div>
     </div>
-    <!-- End Content -->
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
+<!-- / Content -->
 
-<!-- jQuery -->
-<script src="/admin/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-    $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="/admin/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="/admin/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="/admin/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="/admin/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="/admin/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="/admin/plugins/moment/moment.min.js"></script>
-<script src="/admin/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="/admin/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/admin/dist/js/adminlte.js?v=3.2.0"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/admin/dist/js/demo.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/admin/dist/js/pages/dashboard.js"></script>
-<script src="/admin/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/admin/dist/js/adminlte.min.js?v=3.2.0"></script>
-<!-- Summernote -->
-<script src="/admin/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- CodeMirror -->
-<script src="/admin/plugins/codemirror/codemirror.js"></script>
-<script src="/admin/plugins/codemirror/mode/css/css.js"></script>
-<script src="/admin/plugins/codemirror/mode/xml/xml.js"></script>
-<script src="/admin/plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/admin/dist/js/demo.js"></script>
+<!-- Core JS -->
+<script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="/admin/assets/vendor/libs/popper/popper.js"></script>
+<script src="/admin/assets/vendor/js/bootstrap.js"></script>
+<script src="/admin/assets/vendor/libs/node-waves/node-waves.js"></script>
+<script src="/admin/assets/vendor/libs/%40algolia/autocomplete-js.js"></script>
+<script src="/admin/assets/vendor/libs/pickr/pickr.js"></script>
+<script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="/admin/assets/vendor/libs/hammer/hammer.js"></script>
+<script src="/admin/assets/vendor/libs/i18n/i18n.js"></script>
+<script src="/admin/assets/vendor/js/menu.js"></script>
+<script src="/admin/assets/vendor/libs/%40form-validation/popular.js"></script>
+<script src="/admin/assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
+<script src="/admin/assets/vendor/libs/%40form-validation/auto-focus.js"></script>
+<script src="/admin/assets/js/main.js"></script>
+<script src="/admin/assets/js/pages-auth.js"></script>
 </body>
 </html>
-
