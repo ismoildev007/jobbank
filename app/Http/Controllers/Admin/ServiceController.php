@@ -30,9 +30,22 @@ class ServiceController extends Controller
 
     public function create()
     {
+        $user = Auth::user();
+
+        if ($user->role == '1') { // Provaider
+            $subscriptions = Subscription::where('provider_id', $user->id)
+                ->where('status', 'active')
+                ->where('end_date', '>', now())
+                ->exists();
+
+            if (!$subscriptions) {
+                return redirect()->route('services.index')
+                    ->with('error', 'Xizmat qo‘shish uchun faol obuna talab qilinadi!');
+            }
+        }
+
         $categories = Category::all();
 
-        $user = Auth::user();
         if ($user->role == '2') { // Admin
             $providers = User::where('role', '1')->get();
         } else {
