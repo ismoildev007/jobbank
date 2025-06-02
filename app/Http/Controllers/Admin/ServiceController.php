@@ -16,7 +16,16 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::all();
+        $user = auth()->user();
+
+        if ($user->role == '2') {
+            // Agar admin bo'lsa, barcha service'larni teskari tartibda olish
+            $services = Service::orderBy('created_at', 'desc')->get();
+        } else {
+            // Agar provider bo'lsa, faqat o'z service'lari
+            $services = Service::where('provider_id', $user->id)->get();
+        }
+
         return view('admin.services.index', compact('services'));
     }
 
