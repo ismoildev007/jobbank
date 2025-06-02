@@ -66,6 +66,7 @@ class ServiceController extends Controller
         $request->validate([
             'provider_id' => 'required',
             'category_id' => 'required',
+            'sub_category_id' => 'nullable|exists:categories,id', // Sub-kategoriya ixtiyoriy
             'price' => 'required',
             'type_price' => 'required',
             'title_ru' => 'required',
@@ -79,8 +80,8 @@ class ServiceController extends Controller
         ]);
 
         $data = $request->only([
-            'title_uz', 'title_ru', 'title_en', 'provider_id', 'category_id', 'price', 'type_price', 'is_active',
-            'description_uz', 'description_ru', 'description_en'
+            'title_uz', 'title_ru', 'title_en', 'provider_id', 'category_id', 'sub_category_id', // Sub-kategoriya qo‘shildi
+            'price', 'type_price', 'is_active', 'description_uz', 'description_ru', 'description_en'
         ]);
         $data['slug'] = Str::uuid();
 
@@ -136,6 +137,7 @@ class ServiceController extends Controller
         $request->validate([
             'provider_id' => 'required',
             'category_id' => 'required',
+            'sub_category_id' => 'nullable|exists:categories,id', // Sub-kategoriya ixtiyoriy
             'price' => 'required',
             'type_price' => 'required',
             'title_ru' => 'required',
@@ -149,8 +151,8 @@ class ServiceController extends Controller
         ]);
 
         $data = $request->only([
-            'title_uz', 'title_ru', 'title_en', 'provider_id', 'category_id', 'price', 'type_price', 'is_active',
-            'description_uz', 'description_ru', 'description_en'
+            'title_uz', 'title_ru', 'title_en', 'provider_id', 'category_id', 'sub_category_id', // Sub-kategoriya qo‘shildi
+            'price', 'type_price', 'is_active', 'description_uz', 'description_ru', 'description_en'
         ]);
 
         if ($request->hasFile('image')) {
