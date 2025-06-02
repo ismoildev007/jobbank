@@ -72,7 +72,7 @@
                                 <div class="form-floating form-floating-outline">
                                     <select name="type_price" id="type_price" class="form-select" required>
                                         <option value="">Narx turi</option>
-                                        @foreach (['m2', 'soat'] as $type)
+                                        @foreach (['m2', 'soat','belgilangan'] as $type)
                                             <option value="{{ $type }}" {{ (old('type_price', $service->type_price) == $type) ? 'selected' : '' }}>
                                                 {{ $type }}
                                             </option>
