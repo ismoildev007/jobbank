@@ -254,27 +254,28 @@
         </div>
     </div>
 
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const categorySelect = document.getElementById('category_id');
             const subCategorySelect = document.getElementById('sub_category_id');
 
-            // Dastlabki sub-kategoriyalarni yuklash
-            function loadSubCategories(categoryId) {
+            categorySelect.addEventListener('change', function () {
+                const categoryId = this.value;
+
+                // Sub Category select-ni tozalash
                 subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
 
                 if (categoryId) {
+                    // AJAX so‘rov yuborish
                     fetch('{{ route("get.sub.categories") }}?category_id=' + categoryId)
                         .then(response => response.json())
                         .then(data => {
+                            // Sub-kategoriyalarni qo‘shish
                             data.forEach(subCategory => {
                                 const option = document.createElement('option');
                                 option.value = subCategory.id;
                                 option.textContent = subCategory.title_uz;
-                                // Sub-kategoriyani tanlangan holatda belgilash
-                                if (subCategory.id == '{{ $service->sub_category_id }}') {
-                                    option.selected = true;
-                                }
                                 subCategorySelect.appendChild(option);
                             });
                         })
@@ -282,18 +283,6 @@
                             console.error('Error fetching sub-categories:', error);
                         });
                 }
-            }
-
-            // Dastlabki holatda sub-kategoriyalarni yuklash
-            const initialCategoryId = '{{ $service->category_id }}';
-            if (initialCategoryId) {
-                loadSubCategories(initialCategoryId);
-            }
-
-            // Kategoriya o‘zgarganda sub-kategoriyalarni yangilash
-            categorySelect.addEventListener('change', function () {
-                const categoryId = this.value;
-                loadSubCategories(categoryId);
             });
         });
     </script>
