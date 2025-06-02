@@ -206,8 +206,8 @@
                                 @endif
                             </td>
                             <td>
-                                    <span class="badge {{ $user->is_verified ? 'bg-label-success' : 'bg-label-danger' }}">
-                                        {{ $user->is_verified ? 'Tasdiqlangan' : 'Tasdiqlanmagan' }}
+                                    <span class="badge {{ $user->status ? 'bg-label-success' : 'bg-label-danger' }}">
+                                        {{ $user->status ? 'Tasdiqlangan' : 'Tasdiqlanmagan' }}
                                     </span>
                             </td>
                             <td>
