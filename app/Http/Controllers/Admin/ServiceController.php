@@ -101,6 +101,8 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
         $categories = Category::all();
 
+        $subCategories = Category::where('parent_id', $service->category_id)->get();
+
         $user = Auth::user();
         if ($user->role == '2') {
             $providers = User::where('role', '1')->get();
@@ -115,7 +117,7 @@ class ServiceController extends Controller
             $providers = $subscriptions->pluck('provider')->unique('id');
         }
 
-        return view('admin.services.edit', compact('service', 'categories', 'providers'));
+        return view('admin.services.edit', compact('service', 'categories', 'subCategories', 'providers'));
     }
 
     public function update(Request $request, $id)
