@@ -18,12 +18,13 @@
                                 <div class="form-floating form-floating-outline">
                                     <select class="form-select" name="parent_id" id="parent_id">
                                         <option value="">-- No Parent --</option>
-                                        @foreach ($categories as $cat)
+                                        @foreach ($categories->whereNull('parent_id') as $cat)
                                             <option value="{{ $cat->id }}"
                                                 {{ isset($category) && $category->parent_id == $cat->id ? 'selected' : '' }}>
                                                 {{ $cat->title_uz }}
                                             </option>
                                         @endforeach
+
                                     </select>
                                     <label for="parent_id">Parent Category</label>
                                 </div>
