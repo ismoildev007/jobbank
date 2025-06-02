@@ -1,6 +1,6 @@
 <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    <li class="menu-item active ">
+    <li class="menu-item  ">
         <a href="javascript:void(0);" class="menu-link ">
             <i class="menu-icon ri ri-home-smile-line"></i>
             <div data-i18n="Dashboards">Dashboards</div>
