@@ -19,7 +19,6 @@ class ServiceController extends Controller
         $user = auth()->user();
 
         if ($user->role == '2') {
-            // Agar admin bo'lsa, barcha service'larni teskari tartibda olish
             $services = Service::orderBy('created_at', 'desc')->get();
         } else {
             // Agar provider bo'lsa, faqat o'z service'lari
@@ -33,13 +32,10 @@ class ServiceController extends Controller
     {
         $categories = Category::all();
 
-        // Joriy foydalanuvchi role’ini tekshirish
         $user = Auth::user();
         if ($user->role == '2') { // Admin
-            // Admin uchun barcha provayderlarni ko‘rsatish
             $providers = User::where('role', '1')->get();
-        } else { // Provaider
-            // Faqat faol obunasi bo‘lgan provayderlarni ko‘rsatish
+        } else {
             $subscriptions = Subscription::where('status', 'active')
                 ->where('end_date', '>', now())
                 ->whereHas('provider', function ($query) {
@@ -55,9 +51,8 @@ class ServiceController extends Controller
 
     public function store(Request $request)
     {
-        // Joriy foydalanuvchi role’ini tekshirish
         $user = Auth::user();
-        if ($user->role != '2') { // Admin emas, ya'ni provayder
+        if ($user->role != '2') {
             $subscription = Subscription::where('provider_id', $request->provider_id)
                 ->where('status', 'active')
                 ->where('end_date', '>', now())
@@ -105,13 +100,10 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
         $categories = Category::all();
 
-        // Joriy foydalanuvchi role’ini tekshirish
         $user = Auth::user();
-        if ($user->role == '2') { // Admin
-            // Admin uchun barcha provayderlarni ko‘rsatish
+        if ($user->role == '2') {
             $providers = User::where('role', '1')->get();
-        } else { // Provaider
-            // Faqat faol obunasi bo‘lgan provayderlarni ko‘rsatish
+        } else {
             $subscriptions = Subscription::where('status', 'active')
                 ->where('end_date', '>', now())
                 ->whereHas('provider', function ($query) {
@@ -129,9 +121,8 @@ class ServiceController extends Controller
     {
         $service = Service::findOrFail($id);
 
-        // Joriy foydalanuvchi role’ini tekshirish
         $user = Auth::user();
-        if ($user->role != '2') { // Admin emas, ya'ni provayder
+        if ($user->role != '2') {
             $subscription = Subscription::where('provider_id', $request->provider_id)
                 ->where('status', 'active')
                 ->where('end_date', '>', now())
