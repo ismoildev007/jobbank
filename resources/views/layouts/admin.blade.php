@@ -177,13 +177,6 @@
 </div>
 <!-- / Layout wrapper -->
 
-
-<div class="buy-now">
-    <a href="https://themeforest.net/item/materialize-material-design-admin-template/11446068" target="_blank"
-       class="btn btn-danger btn-buy-now">Buy Now</a>
-</div>
-
-
 <!-- Core JS -->
 
 <!-- build:js assets/vendor/js/theme.js  -->

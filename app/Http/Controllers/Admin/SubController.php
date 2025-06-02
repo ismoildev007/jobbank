@@ -33,12 +33,10 @@ class SubController extends Controller
         $user = Auth::user();
         $sub = Sub::findOrFail($subId);
 
-        // Pullik rejani cheklash (to‘lov tizimi yo‘qligi sababli)
         if ($sub->price > 0) {
             return redirect()->back()->with('error', 'Hozircha pullik rejalar mavjud emas, chunki to‘lov tizimi qo‘shilmagan.');
         }
 
-        // Bepul versiyani bir marta ishlatish cheklovi
         if ($sub->price == 0) { // Bepul reja (Basic)
             $hasUsedFreePlan = Subscription::where('provider_id', $user->id)
                 ->where('sub_id', $sub->id)
@@ -49,7 +47,6 @@ class SubController extends Controller
             }
         }
 
-        // Standard rejani umri davomida faqat bir marta ishlatish cheklovi
         if ($sub->name_en === 'Standard') {
             $hasUsedStandard = Subscription::where('provider_id', $user->id)
                 ->where('sub_id', $sub->id)
@@ -60,17 +57,14 @@ class SubController extends Controller
             }
         }
 
-        // Foydalanuvchining joriy obunasini tekshirish
         $currentSubscription = Subscription::where('provider_id', $user->id)
             ->where('end_date', '>=', now())
             ->first();
 
-        // Agar foydalanuvchi allaqachon faol obunaga ega bo‘lsa
         if ($currentSubscription && $currentSubscription->sub_id == $subId) {
             return redirect()->back()->with('error', 'Siz allaqachon ushbu rejaga obuna bo‘lgansiz!');
         }
 
-        // Agar joriy obuna bo‘lsa, uni yangilaymiz, aks holda yangi obuna qo‘shamiz
         if ($currentSubscription) {
             $currentSubscription->update([
                 'sub_id' => $sub->id,
@@ -100,7 +94,6 @@ class SubController extends Controller
     {
         $subscription = Subscription::findOrFail($id);
 
-        // Obunani bekor qilish
         $subscription->update([
             'status' => 'canceled',
             'end_date' => now(),

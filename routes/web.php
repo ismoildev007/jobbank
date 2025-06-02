@@ -20,7 +20,6 @@ Route::post('register', [AuthController::class, 'userRegister'])->name('user.reg
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 
-
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::resource('categories', CategoryController::class);
@@ -31,6 +30,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 });
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::post('/users/{id}/approve', [AdminController::class, 'approveUser'])->name('admin.users.approve');
+    Route::post('/users/{id}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
+    Route::post('/users/{id}/toggle-status', [AdminController::class, 'toggleStatus'])->name('admin.users.toggle-status');
     Route::resource('services', ServiceController::class);
     Route::post('/subscribe/{subId}', [SubController::class, 'subscribe'])->name('subscribe');
     Route::post('/subscription/restart', [SubController::class, 'restartSubscription'])->name('subscription.restart');
