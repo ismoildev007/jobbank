@@ -64,19 +64,19 @@ class ServiceController extends Controller
         }
 
         $request->validate([
-            'provider_id' => 'required',
-            'category_id' => 'required',
-            'sub_category_id' => 'nullable|exists:categories,id', // Sub-kategoriya ixtiyoriy
-            'price' => 'required',
-            'type_price' => 'required',
-            'title_ru' => 'required',
-            'title_en' => 'required',
-            'title_uz' => 'required',
-            'description_ru' => 'required',
-            'description_en' => 'required',
-            'description_uz' => 'required',
-            'image' => 'nullable|file|mimes:jpg,jpeg,png',
-            'is_active' => 'required|numeric',
+            'provider_id' => 'required|exists:users,id',
+            'category_id' => 'required|exists:categories,id',
+            'sub_category_id' => 'nullable|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'type_price' => 'required|in:m2,soat,belgilangan',
+            'title_ru' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
+            'title_uz' => 'required|string|max:255',
+            'description_ru' => 'required|string',
+            'description_en' => 'required|string',
+            'description_uz' => 'required|string',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'is_active' => 'required|in:0,1',
         ]);
 
         $data = $request->only([
@@ -135,19 +135,19 @@ class ServiceController extends Controller
         }
 
         $request->validate([
-            'provider_id' => 'required',
-            'category_id' => 'required',
-            'sub_category_id' => 'nullable|exists:categories,id', // Sub-kategoriya ixtiyoriy
-            'price' => 'required',
-            'type_price' => 'required',
-            'title_ru' => 'required',
-            'title_en' => 'required',
-            'title_uz' => 'required',
-            'description_ru' => 'required',
-            'description_en' => 'required',
-            'description_uz' => 'required',
-            'image' => 'nullable|file|mimes:jpg,jpeg,png',
-            'is_active' => 'required|numeric',
+            'provider_id' => 'required|exists:users,id',
+            'category_id' => 'required|exists:categories,id',
+            'sub_category_id' => 'nullable|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'type_price' => 'required|in:m2,soat,belgilangan',
+            'title_ru' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
+            'title_uz' => 'required|string|max:255',
+            'description_ru' => 'required|string',
+            'description_en' => 'required|string',
+            'description_uz' => 'required|string',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'is_active' => 'required|in:0,1',
         ]);
 
         $data = $request->only([

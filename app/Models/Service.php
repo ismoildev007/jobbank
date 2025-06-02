@@ -33,6 +33,10 @@ class Service extends Model
         'available_days' => 'array',
         'available_hours' => 'array',
     ];
+    public function subCategory()
+    {
+        return $this->belongsTo(Category::class, 'sub_category_id');
+    }
 
     public function category()
     {
