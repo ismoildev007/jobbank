@@ -20,13 +20,7 @@ Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'userRegister'])->name('user.register');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-//Admin panel login register end
-Route::middleware(['auth'])->prefix('provider')->group(function () {
-    Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
-    Route::get('/profile', [ProviderController::class, 'profile'])->name('provider.profile');
-    Route::resource('service', ServiceController::class);
-    Route::get('/dashboard', [ProviderController::class, 'dashboard'])->name('provider.dashboard');
-});
+
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
