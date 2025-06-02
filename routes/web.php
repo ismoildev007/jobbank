@@ -7,7 +7,6 @@ use App\Http\Controllers\Admin\SubController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\provider\ProviderController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
