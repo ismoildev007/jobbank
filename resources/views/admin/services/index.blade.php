@@ -30,8 +30,8 @@
                             <td>
                                 <img src="{{ asset('storage/'.$service->image) }}" alt="Image" width="100">
                             </td>
-                            <td><span>{{ $service->category->{'title_' . $lang} }}</span></td>
-                            <td><span>{{ $service->{'title_' . $lang} }}</span></td>
+                            <td><span>{{ $service->category->{'title_uz'} ?? 'Asosiy kategoriya' }}</span></td>
+                            <td><span>{{ $service->{'title_uz'} }}</span></td>
                             <td><span>{{ $service->provider->full_name }}</span></td>
 
                             <td>
