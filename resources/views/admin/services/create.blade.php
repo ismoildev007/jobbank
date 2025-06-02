@@ -20,7 +20,7 @@
                             @csrf
                             <div class="row mb-4">
                                 {{-- Category --}}
-                                <div class="col-md-4">
+                                <div class="col-md-4 mt-2">
                                     <div class="form-floating form-floating-outline">
                                         <select class="form-select" name="category_id" id="category_id" required>
                                             <option value="">Select Parent Category</option>
@@ -35,7 +35,7 @@
                                         @error('category_id') <small class="text-danger">{{ $message }}</small> @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mt-2">
                                     <div class="form-floating form-floating-outline">
                                         <select class="form-select" name="sub_category_id" id="sub_category_id">
                                             <option value="">Select Sub Category</option>
