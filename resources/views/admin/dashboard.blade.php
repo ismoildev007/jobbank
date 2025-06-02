@@ -2,6 +2,17 @@
 @section('content')
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="row g-6 mb-6">
             <div class="col-sm-6 col-xl-3">
                 <div class="card">
@@ -52,7 +63,7 @@
                             <div class="me-1">
                                 <p class="text-heading mb-1">Faol Foydalanuvchilar</p>
                                 <div class="d-flex align-items-center">
-                                    <h4 class="mb-1 me-1">{{ $users->where('status', 1)->count() }}</h4>
+                                    <h4 class="mb-1 me-1">{{ $users->where('status', 'Aktiv')->count() }}</h4>
                                     <p class="text-danger mb-1">(+0%)</p>
                                 </div>
                                 <small class="mb-0">O‘tgan haftadagi analitika</small>
@@ -106,8 +117,8 @@
                         <div class="col-md-4 user_plan">
                             <select class="form-select" name="status" onchange="this.form.submit()">
                                 <option value="">Statusni tanlang</option>
-                                <option value="1" {{ $statusFilter == '1' ? 'selected' : '' }}>Faol</option>
-                                <option value="0" {{ $statusFilter == '0' ? 'selected' : '' }}>Faol emas</option>
+                                <option value="Aktiv" {{ $statusFilter == 'Aktiv' ? 'selected' : '' }}>Faol</option>
+                                <option value="Bloklangan" {{ $statusFilter == 'Bloklangan' ? 'selected' : '' }}>Faol emas</option>
                             </select>
                         </div>
                         <div class="col-md-4 user_status">
@@ -196,27 +207,49 @@
                             </td>
                             <td>
                                 @if($user->role == \App\Models\User::ROLE_PROVIDER)
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input toggle-status" type="checkbox" data-user-id="{{ $user->id }}" {{ $user->status ? 'checked' : '' }}>
-                                    </div>
+                                    <form action="{{ route('admin.users.toggle-status', $user->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" name="status" {{ $user->status === 'Aktiv' ? 'checked' : '' }} onchange="this.form.submit()">
+                                            <label class="form-check-label">{{ $user->status === 'Aktiv' ? 'Faol' : 'Faol emas' }}</label>
+                                        </div>
+                                    </form>
                                 @else
-                                    <span class="badge {{ $user->status ? 'bg-label-success' : 'bg-label-warning' }}">
-                                            {{ $user->status ? 'Faol' : 'Faol emas' }}
+                                    <span class="badge {{ $user->status === 'Aktiv' ? 'bg-label-success' : 'bg-label-warning' }}">
+                                            {{ $user->status === 'Aktiv' ? 'Faol' : 'Faol emas' }}
                                         </span>
                                 @endif
                             </td>
                             <td>
-                                    <span class="badge {{ $user->status ? 'bg-label-success' : 'bg-label-danger' }}">
-                                        {{ $user->status ? 'Tasdiqlangan' : 'Tasdiqlanmagan' }}
-                                    </span>
+                                @if($user->role == \App\Models\User::ROLE_PROVIDER)
+                                    <form action="{{ route('admin.users.toggle-verification', $user->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" name="is_verified" {{ $user->is_verified ? 'checked' : '' }} onchange="this.form.submit()">
+                                            <label class="form-check-label">{{ $user->is_verified ? 'Tasdiqlangan' : 'Tasdiqlanmagan' }}</label>
+                                        </div>
+                                    </form>
+                                @else
+                                    <span class="badge {{ $user->is_verified ? 'bg-label-success' : 'bg-label-danger' }}">
+                                            {{ $user->is_verified ? 'Tasdiqlangan' : 'Tasdiqlanmagan' }}
+                                        </span>
+                                @endif
                             </td>
                             <td>
                                 @if($user->role == \App\Models\User::ROLE_PROVIDER)
                                     <a href="#" class="btn btn-sm btn-primary">Tahrirlash</a>
-                                    <a href="#" class="btn btn-sm btn-danger">O‘chirish</a>
+                                    <form action="{{ route('admin.users.delete', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bu foydalanuvchini o‘chirishni tasdiqlaysizmi?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">O‘chirish</button>
+                                    </form>
                                 @else
                                     <a href="#" class="btn btn-sm btn-primary">Tahrirlash</a>
-                                    <a href="#" class="btn btn-sm btn-danger">O‘chirish</a>
+                                    <form action="{{ route('admin.users.delete', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bu foydalanuvchini o‘chirishni tasdiqlaysizmi?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">O‘chirish</button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>
@@ -227,39 +260,4 @@
         </div>
     </div>
     <!-- / Content -->
-
-    <!-- AJAX uchun JavaScript -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                document.querySelectorAll('.toggle-status').forEach(function (toggle) {
-                    toggle.addEventListener('change', function () {
-                        const userId = this.getAttribute('data-user-id');
-                        const status = this.checked ? 1 : 0;
-
-                        fetch('{{ url('admin/users') }}/' + userId + '/toggle-status', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            },
-                            body: JSON.stringify({ status: status }),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    alert(data.message);
-                                } else {
-                                    alert('Xato: ' + data.message);
-                                    this.checked = !this.checked; // Agar xato bo‘lsa, avvalgi holatga qaytarish
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Xato:', error);
-                                alert('Xato yuz berdi, iltimos qayta urinib ko‘ring.');
-                                this.checked = !this.checked;
-                            });
-                    });
-                });
-            });
-        </script>
 @endsection

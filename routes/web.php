@@ -33,6 +33,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/users/{id}/approve', [AdminController::class, 'approveUser'])->name('admin.users.approve');
     Route::post('/users/{id}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
     Route::post('/users/{id}/toggle-status', [AdminController::class, 'toggleStatus'])->name('admin.users.toggle-status');
+    Route::post('/users/{id}/toggle-verification', [AdminController::class, 'toggleVerification'])->name('admin.users.toggle-verification');
+    Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
     Route::resource('services', ServiceController::class);
     Route::post('/subscribe/{subId}', [SubController::class, 'subscribe'])->name('subscribe');
     Route::post('/subscription/restart', [SubController::class, 'restartSubscription'])->name('subscription.restart');

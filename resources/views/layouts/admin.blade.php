@@ -10,7 +10,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>Demo: Dashboard - Analytics | Materialize - Bootstrap Dashboard PRO</title>
 
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description"
           content="Materialize is the best bootstrap 5 dashboard for responsive web apps. Streamline your app development process with ease.">
     <!-- Canonical SEO -->

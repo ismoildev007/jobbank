@@ -40,22 +40,23 @@ class AdminController extends Controller{
     public function toggleStatus(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
         if ($user->role == User::ROLE_PROVIDER) {
-            $user->status = $request->input('status') ? 1 : 0;
+            $user->status = $user->status === 'Aktiv' ? 'Bloklangan' : 'Aktiv';
             $user->save();
-
-            return response()->json([
-                'success' => true,
-                'status' => $user->status,
-                'message' => 'Status muvaffaqiyatli o‘zgartirildi.'
-            ]);
+            return redirect()->route('admin.dashboard')->with('success', 'Status muvaffaqiyatli o‘zgartirildi.');
         }
+        return redirect()->route('admin.dashboard')->with('error', 'Faqat providerlarning statusini o‘zgartirish mumkin.');
+    }
 
-        return response()->json([
-            'success' => false,
-            'message' => 'Faqat providerlarning statusini o‘zgartirish mumkin.'
-        ], 403);
+    public function toggleVerification(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->role == User::ROLE_PROVIDER) {
+            $user->is_verified = $user->is_verified ? 0 : 1; // Tasdiqlash holatini teskari holatga o‘zgartirish
+            $user->save();
+            return redirect()->route('admin.dashboard')->with('success', 'Tasdiqlash holati muvaffaqiyatli o‘zgartirildi.');
+        }
+        return redirect()->route('admin.dashboard')->with('error', 'Faqat providerlarning tasdiqlash holatini o‘zgartirish mumkin.');
     }
 
 
@@ -77,5 +78,12 @@ class AdminController extends Controller{
             $user->save();
         }
         return redirect()->route('admin.dashboard')->with('success', 'Provider o‘chirildi.');
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete(); // Foydalanuvchini o‘chirish
+        return redirect()->route('admin.dashboard')->with('success', 'Foydalanuvchi muvaffaqiyatli o‘chirildi.');
     }
 }
