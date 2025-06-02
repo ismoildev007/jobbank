@@ -8,64 +8,74 @@ use App\Models\Service;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use NunoMaduro\Collision\Provider;
 
 class ServiceController extends Controller
 {
     public function index()
     {
         $services = Service::all();
-        return view('admin.services.index', compact( 'services'));
+        return view('admin.services.index', compact('services'));
     }
-
 
     public function create()
     {
         $categories = Category::all();
 
-        $subscriptions = Subscription::where('status', 'active')
-            ->where('end_date', '>', now())
-            ->whereHas('provider', function ($query) {
-                $query->where('role', '1');
-            })
-            ->with('provider')
-            ->get();
-        $providers = $subscriptions->pluck('provider')->unique('id');
+        // Joriy foydalanuvchi role’ini tekshirish
+        $user = Auth::user();
+        if ($user->role == '2') { // Admin
+            // Admin uchun barcha provayderlarni ko‘rsatish
+            $providers = User::where('role', '1')->get();
+        } else { // Provaider
+            // Faqat faol obunasi bo‘lgan provayderlarni ko‘rsatish
+            $subscriptions = Subscription::where('status', 'active')
+                ->where('end_date', '>', now())
+                ->whereHas('provider', function ($query) {
+                    $query->where('role', '1');
+                })
+                ->with('provider')
+                ->get();
+            $providers = $subscriptions->pluck('provider')->unique('id');
+        }
 
         return view('admin.services.create', compact('categories', 'providers'));
     }
 
-
     public function store(Request $request)
     {
-        $subscription = Subscription::where('provider_id', $request->provider_id)
-            ->where('status', 'active')
-            ->where('end_date', '>', now())
-            ->first();
+        // Joriy foydalanuvchi role’ini tekshirish
+        $user = Auth::user();
+        if ($user->role != '2') { // Admin emas, ya'ni provayder
+            $subscription = Subscription::where('provider_id', $request->provider_id)
+                ->where('status', 'active')
+                ->where('end_date', '>', now())
+                ->first();
 
-        if (!$subscription) {
-            return redirect()->back()->with('error', 'Xizmat qo‘shish uchun faol obuna talab qilinadi!');
+            if (!$subscription) {
+                return redirect()->back()->with('error', 'Xizmat qo‘shish uchun faol obuna talab qilinadi!');
+            }
         }
 
-       $request->validate([
-           'provider_id' => 'required',
-           'category_id' => 'required',
-           'price' => 'required',
-           'type_price' => 'required',
-           'title_ru' => 'required',
-           'title_en' => 'required',
-           'title_uz' => 'required',
-           'description_ru' => 'required',
-           'description_en' => 'required',
-           'description_uz' => 'required',
-           'image' => 'nullable|file|mimes:jpg,jpeg,png',
-           'is_active' => 'required|numeric',
+        $request->validate([
+            'provider_id' => 'required',
+            'category_id' => 'required',
+            'price' => 'required',
+            'type_price' => 'required',
+            'title_ru' => 'required',
+            'title_en' => 'required',
+            'title_uz' => 'required',
+            'description_ru' => 'required',
+            'description_en' => 'required',
+            'description_uz' => 'required',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png',
+            'is_active' => 'required|numeric',
+        ]);
 
-       ]);
         $data = $request->only([
-            'title_uz', 'title_ru', 'title_en', 'provider_id', 'category_id', 'price', 'type_price','is_active',
+            'title_uz', 'title_ru', 'title_en', 'provider_id', 'category_id', 'price', 'type_price', 'is_active',
             'description_uz', 'description_ru', 'description_en'
         ]);
         $data['slug'] = Str::uuid();
@@ -76,22 +86,52 @@ class ServiceController extends Controller
             $filePath = $file->storeAs('uploads/services', $fileName, 'public');
             $data['image'] = $filePath;
         }
+
         Service::create($data);
-        return redirect()->route('services.index');
-
-
+        return redirect()->route('services.index')->with('success', 'Xizmat muvaffaqiyatli qo‘shildi!');
     }
 
     public function edit($id)
     {
-        $service=Service::findOrFail($id);
+        $service = Service::findOrFail($id);
         $categories = Category::all();
-        $providers=User::where('role', '1')->get();
+
+        // Joriy foydalanuvchi role’ini tekshirish
+        $user = Auth::user();
+        if ($user->role == '2') { // Admin
+            // Admin uchun barcha provayderlarni ko‘rsatish
+            $providers = User::where('role', '1')->get();
+        } else { // Provaider
+            // Faqat faol obunasi bo‘lgan provayderlarni ko‘rsatish
+            $subscriptions = Subscription::where('status', 'active')
+                ->where('end_date', '>', now())
+                ->whereHas('provider', function ($query) {
+                    $query->where('role', '1');
+                })
+                ->with('provider')
+                ->get();
+            $providers = $subscriptions->pluck('provider')->unique('id');
+        }
+
         return view('admin.services.edit', compact('service', 'categories', 'providers'));
     }
+
     public function update(Request $request, $id)
     {
         $service = Service::findOrFail($id);
+
+        // Joriy foydalanuvchi role’ini tekshirish
+        $user = Auth::user();
+        if ($user->role != '2') { // Admin emas, ya'ni provayder
+            $subscription = Subscription::where('provider_id', $request->provider_id)
+                ->where('status', 'active')
+                ->where('end_date', '>', now())
+                ->first();
+
+            if (!$subscription) {
+                return redirect()->back()->with('error', 'Xizmatni yangilash uchun faol obuna talab qilinadi!');
+            }
+        }
 
         $request->validate([
             'provider_id' => 'required',
@@ -128,6 +168,7 @@ class ServiceController extends Controller
 
         return redirect()->route('services.index')->with('success', 'Xizmat muvaffaqiyatli yangilandi.');
     }
+
     public function destroy($id)
     {
         $service = Service::findOrFail($id);
@@ -139,7 +180,4 @@ class ServiceController extends Controller
 
         return redirect()->route('services.index')->with('success', 'Xizmat muvaffaqiyatli o\'chirildi.');
     }
-
-
-
 }
