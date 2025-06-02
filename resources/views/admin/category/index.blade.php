@@ -35,11 +35,11 @@
                                 @endif
                             </td>
                             <td>
-                                <span>{{ $category->{'title_' . $lang} }}</span>
+                                <span>{{ $category->{'title_uz'} }}</span>
                             </td>
                             <td>
                                     <span>
-                                        {{ $category->parent ? $category->parent->{'title_' . $lang} : 'Asosiy kategoriya' }}
+                                        {{ $category->parent ? $category->parent->{'title_uz'} : 'Asosiy kategoriya' }}
                                     </span>
                             </td>
                             <td>
