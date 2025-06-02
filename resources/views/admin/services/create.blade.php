@@ -24,11 +24,12 @@
                                     <div class="form-floating form-floating-outline">
                                         <select class="form-select" name="category_id" id="category_id" required>
                                             <option value="">Select Parent Category</option>
-                                            @foreach ($categories as $cat)
+                                            @foreach ($categories->whereNull('parent_id') as $cat)
                                                 <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
                                                     {{ $cat->title_uz }}
                                                 </option>
                                             @endforeach
+
                                         </select>
                                         <label for="category_id">Parent Category</label>
                                         @error('category_id') <small class="text-danger">{{ $message }}</small> @enderror

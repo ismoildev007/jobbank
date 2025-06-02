@@ -51,11 +51,12 @@
                                     @if(auth()->user()->role === '2') {{-- admin bo‘lsa --}}
                                     <select class="form-select" name="provider_id" id="provider_id" required>
                                         <option value="">Select Provider</option>
-                                        @foreach ($providers as $provider)
-                                            <option value="{{ $provider->id }}" {{ old('provider_id', $service->provider_id) == $provider->id ? 'selected' : '' }}>
-                                                {{ $provider->full_name }}
+                                        @foreach ($categories->whereNull('parent_id') as $cat)
+                                            <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
+                                                {{ $cat->title_uz }}
                                             </option>
                                         @endforeach
+
                                     </select>
                                     <label for="provider_id">Provider</label>
                                     @else {{-- provider bo‘lsa --}}
