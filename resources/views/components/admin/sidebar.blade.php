@@ -1,10 +1,9 @@
 <ul class="menu-inner py-1">
     <!-- Dashboards -->
-    <li class="menu-item active open">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
+    <li class="menu-item active ">
+        <a href="javascript:void(0);" class="menu-link ">
             <i class="menu-icon ri ri-home-smile-line"></i>
             <div data-i18n="Dashboards">Dashboards</div>
-            <div class="badge badge-center text-bg-danger rounded-pill ms-auto">5</div>
         </a>
     </li>
 
@@ -27,7 +26,7 @@
     <li class="menu-item {{ Request::is('pricing') ? 'active' : '' }}">
         <a href="{{ route('pricing') }}" class="menu-link">
             <i class="menu-icon ri ri-wallet-line"></i>
-            <div data-i18n="Obuna Rejasi">Narxlar Rejasi</div>
+            <div data-i18n="Obuna Rejasi">Obuna Rejasi</div>
         </a>
     </li>
 
