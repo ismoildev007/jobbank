@@ -113,7 +113,7 @@
 
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
-            <li class="page-item me-2">
+            <li class="page-item me-1">
                 <a class="d-flex justify-content-center align-items-center prev-next" href="{{ $paginator->nextPageUrl() }}" rel="next">
                      <i class="ti ti-arrow-right ms-2"></i>
                 </a>
