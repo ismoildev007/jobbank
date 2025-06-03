@@ -483,7 +483,7 @@
         border-color: #007bff;
     }
 </style>
-<div class="modal fade" id="login-modal" style="display: block;" tabindex="-1">
+<div class="modal fade" id="login-modal" style="display: none;" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
