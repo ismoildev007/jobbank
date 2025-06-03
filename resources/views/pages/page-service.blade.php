@@ -24,7 +24,7 @@
             left: 10px;
             background-color: rgba(255, 255, 255, 0.7); /* Yanada shaffof oq fon */
             padding: 5px 10px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             border-radius: 4px;
             max-width: 80%;
@@ -36,7 +36,7 @@
         /* Mobil versiya uchun (576px dan kichik ekranlar) */
         @media (max-width: 576px) {
             .category-tag {
-                max-width: 135px;
+                max-width: 125px;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
