@@ -2,6 +2,17 @@
 
 @section('content')
     <style>
+        .mobile-filter-bar {
+            position: fixed;
+            top: 51px; /* header balandligiga qarab sozlanadi */
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            background-color: #fff;
+            padding: 8px 16px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
         .service-card {
             transition: transform 0.3s, box-shadow 0.3s;
             border: none;
