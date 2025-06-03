@@ -224,6 +224,9 @@
                 </button>
             </form>
         </div>
+        @include('components.page.mobile-filter')
+
+
     </section>
 
     <section class="section category-section bg-white mt-0 pt-0">
