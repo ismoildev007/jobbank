@@ -210,7 +210,7 @@
         </div>
     </section>
 
-    <section class="hero-section d-block d-md-none pt-0" id="home">
+    <section class="hero-section d-block d-md-none pt-0 mt-5" id="home">
         <div class="hero-content position-relative overflow-hidden">
             <div class="text-center">
                 <img src="/front/img/1.png" alt="Texnika ta'miri banneri" class="img-fluid banner-img-mobile"
