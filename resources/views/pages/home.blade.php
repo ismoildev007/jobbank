@@ -157,7 +157,6 @@
                 </div>
             </div>
             <div class="row g-4 row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-xl-6 row-cols-xxl-6 justify-content-center">
-                <div class="row g-4 row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-xl-6 row-cols-xxl-6 justify-content-center">
                     @foreach ($categories as $category)
                         <div class="col d-flex">
                             <a href="/services/{{ $category->slug }}" class="text-decoration-none flex-fill">
@@ -178,7 +177,6 @@
                             </a>
                         </div>
                     @endforeach
-                </div>
             </div>
         </div>
     </section>
