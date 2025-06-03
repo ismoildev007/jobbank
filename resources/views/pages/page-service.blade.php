@@ -44,9 +44,9 @@
         .fav-icon {
             position: absolute;
             top: 10px;
-            right: 10px;
+            right: 4px;
             color: #fff;
-            font-size: 18px; /* Skrinshotdagi kabi kichikroq */
+            font-size: 16px; /* Skrinshotdagi kabi kichikroq */
             transition: color 0.3s;
         }
         .fav-icon:hover {
