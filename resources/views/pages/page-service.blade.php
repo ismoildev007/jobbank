@@ -32,7 +32,6 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             color: #333;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
         /* Mobil versiya uchun (576px dan kichik ekranlar) */
         @media (max-width: 576px) {
