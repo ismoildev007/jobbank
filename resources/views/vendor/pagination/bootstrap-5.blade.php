@@ -73,13 +73,13 @@
         @if ($paginator->onFirstPage())
             <li class="page-item me-2 disabled">
                 <span class="d-flex justify-content-center align-items-center prev-next">
-                    <i class="ti ti-arrow-left me-2"></i>Orqaga
+                    <i class="ti ti-arrow-left me-2"></i>
                 </span>
             </li>
         @else
             <li class="page-item me-2">
                 <a class="d-flex justify-content-center align-items-center prev-next" href="{{ $paginator->previousPageUrl() }}" rel="prev">
-                    <i class="ti ti-arrow-left me-2"></i>Orqaga
+                    <i class="ti ti-arrow-left me-2"></i>
                 </a>
             </li>
         @endif
@@ -115,13 +115,13 @@
         @if ($paginator->hasMorePages())
             <li class="page-item me-2">
                 <a class="d-flex justify-content-center align-items-center prev-next" href="{{ $paginator->nextPageUrl() }}" rel="next">
-                    Keyingi <i class="ti ti-arrow-right ms-2"></i>
+                     <i class="ti ti-arrow-right ms-2"></i>
                 </a>
             </li>
         @else
             <li class="page-item me-2 disabled">
                 <span class="d-flex justify-content-center align-items-center prev-next">
-                    Keyingi <i class="ti ti-arrow-right ms-2"></i>
+                     <i class="ti ti-arrow-right ms-2"></i>
                 </span>
             </li>
         @endif
