@@ -1,6 +1,61 @@
 @extends('layouts.page')
 
 @section('content')
+    <style>
+        .service-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fff;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+        }
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .category-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 123, 255, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .fav-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #fff;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        .fav-icon:hover {
+            color: #ff4d4f;
+        }
+        .order-btn {
+            background: #ff007a;
+            border: none;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .order-btn:hover {
+            background: #e6006b;
+        }
+        .rating-stars i {
+            font-size: 14px;
+            margin-right: 2px;
+        }
+    </style>
     <!-- Breadcrumb -->
     <div class="breadcrumb-bar text-center">
         <div class="container">

@@ -42,7 +42,7 @@ class PageController extends Controller
             $query->where('sub_category_id', $subcategory);
         }
 
-        $services = $query->with(['category', 'subCategory'])->paginate(6);
+        $services = $query->with(['category', 'subCategory'])->paginate(10);
 
         $categories = Category::whereNull('parent_id')->get();
 
