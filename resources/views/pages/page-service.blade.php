@@ -56,6 +56,7 @@
             margin-right: 2px;
         }
     </style>
+
     <!-- Breadcrumb -->
     <div class="breadcrumb-bar text-center">
         <div class="container">
@@ -121,7 +122,6 @@
                                     <label class="form-label">Joylashuv</label>
                                     <select class="form-select" name="location">
                                         <option value="">Joyni Tanlang</option>
-                                        <!-- Joylashuvlarni dinamik qo'shish kerak bo'lsa, modeldan oling -->
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -215,7 +215,6 @@
                                             <div class="mb-3">
                                                 <select class="form-select" name="location" id="location">
                                                     <option value="" {{ request('location') ? '' : 'selected' }}>Joyni Tanlang</option>
-                                                    <!-- Joylashuvlarni modeldan olish kerak bo'lsa, qo'shing -->
                                                 </select>
                                             </div>
                                         </div>
@@ -271,59 +270,55 @@
                     <div class="col-xl-9 col-lg-8">
                         <div class="row align-items-center">
                             @forelse ($services as $service)
-                                <div class="col-6 col-sm-6 col-md-6 col-xl-4">
-                                    <div class="card p-0">
-                                        <div class="card-body p-0">
-                                            <div class="img-sec w-100" style="overflow: hidden;">
-                                                <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}" class="serv_img">
-                                                    <img src="{{ $service->image ? asset('storage/' . $service->image) : asset('front/img/default-placeholder-image.png') }}"
-                                                         class="img-cover" alt="{{ $service->title_uz }}">
-                                                </a>
-                                                <div class="image-tag-custom">
-                                                    <span class="trend-tag-custom">{{ $service->category->title_uz ?? 'Noma’lum kategoriya' }}</span>
-                                                    <a href="javascript:void(0);" onclick="addfavour({{ $service->id }})" class="fav-icon like-icon like-icon2">
-                                                        <i class="ti ti-heart"></i>
-                                                    </a>
-                                                </div>
+                                <div class="col-6 col-sm-6 col-md-6 col-xl-4 mb-4">
+                                    <div class="card service-card p-0 shadow-sm">
+                                        <div class="position-relative">
+                                            <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}">
+                                                <img src="{{ $service->image ? asset('storage/' . $service->image) : asset('front/img/default-placeholder-image.png') }}"
+                                                     alt="{{ $service->title_uz }}">
+                                            </a>
+                                            <span class="category-tag">{{ $service->category->title_uz ?? 'Noma’lum kategoriya' }}</span>
+                                            <a href="javascript:void(0);" onclick="addfavour({{ $service->id }})" class="fav-icon">
+                                                <i class="ti ti-heart"></i>
+                                            </a>
+                                        </div>
+                                        <div class="card-body p-3">
+                                            <h5 class="mb-2 fs-16">
+                                                <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}">{{ $service->title_uz }}</a>
+                                            </h5>
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <p class="fs-14 mb-0">
+                                                    <i class="ti ti-map-pin me-2"></i>
+                                                    <!-- Joylashuv maydoni yo'q -->
+                                                </p>
+                                                <span class="rating-stars">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <i class="fas fa-star {{ $i <= 0 ? 'filled' : '' }} text-warning"></i>
+                                                    @endfor
+                                                    <span class="ms-1 text-gray">0.0</span>
+                                                </span>
                                             </div>
-                                            <div class="p-3">
-                                                <h5 class="mb-2 fs-11">
-                                                    <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}">{{ $service->title_uz }}</a>
-                                                </h5>
-                                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                                    <p class="fs-11 mb-0">
-                                                        <i class="ti ti-map-pin me-2"></i>
-                                                        <!-- Joylashuv maydoni yo'q, agar kerak bo'lsa qo'shing -->
-                                                    </p>
-                                                    <span class="rating text-gray fs-14">
-                                                        <i class="fa fa-star filled me-1"></i>
-                                                        <!-- Reyting maydoni yo'q, agar kerak bo'lsa qo'shing -->
-                                                        0.0
-                                                    </span>
-                                                </div>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <input type="hidden" name="lang_id" id="lang_id" value="24">
-                                                    <div class="price-box">
-                                                        <div class="price-amount">
-                                                            {{ $service->price ? number_format($service->price) . ' So‘m' : 'Narx keltirilmagan' }}
-                                                        </div>
-                                                        <div class="price-unit">
-                                                            / {{ $service->type_price ?? 'Noma’lum' }}
-                                                        </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="price-box">
+                                                    <div class="price-amount fs-14">
+                                                        {{ $service->price ? number_format($service->price) . ' So‘m' : 'Narx keltirilmagan' }}
+                                                    </div>
+                                                    <div class="price-unit fs-12 text-muted">
+                                                        / {{ $service->type_price ?? 'Noma’lum' }}
                                                     </div>
                                                 </div>
-                                                <div class="mt-2">
-                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="btn btn-primary" style="font-size: 0.62em !important;">
-                                                        Hozir Buyurtma Bering
-                                                    </a>
-                                                </div>
+                                            </div>
+                                            <div class="mt-3 text-center">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="btn order-btn text-white w-100">
+                                                    Hozir Buyurtma Bering
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             @empty
                                 <div class="col-12">
-                                    <p>Bu filtrlar bo‘yicha xizmatlar topilmadi.</p>
+                                    <p class="text-center">Bu filtrlar bo‘yicha xizmatlar topilmadi.</p>
                                 </div>
                             @endforelse
                         </div>
