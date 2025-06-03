@@ -22,12 +22,25 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            background: rgba(0, 123, 255, 0.9);
+            background: #007BFF; /* Yorqin ko'k rang */
             color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Zamonaviy font */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Engil soya */
+            display: inline-block;
+            max-width: 120px; /* Dastlabki kenglik chegarasi */
+            white-space: nowrap;
+        }
+        /* Mobil versiya uchun (576px dan kichik ekranlar) */
+        @media (max-width: 576px) {
+            .category-tag {
+                max-width: 100px; /* Mobil uchun qisqaroq kenglik */
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
         .fav-icon {
             position: absolute;
@@ -41,15 +54,15 @@
             color: #ff4d4f;
         }
         .order-btn {
-            background: #ff007a;
+            background: #007BFFE5;
             border: none;
             padding: 8px 15px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
             transition: background 0.3s;
         }
         .order-btn:hover {
-            background: #e6006b;
+            background: #007BFFE5;
         }
         .rating-stars i {
             font-size: 14px;
