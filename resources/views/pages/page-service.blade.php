@@ -310,7 +310,7 @@
                                             </a>
                                         </div>
                                         <div class="card-body p-3">
-                                            <h5 class="mb-2 fs-16">
+                                            <h5 class="mb-2 fs-14">
                                                 <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}">{{ $service->title_uz }}</a>
                                             </h5>
                                             <div class="d-flex justify-content-between align-items-center mb-2">
