@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 <header class="header header-new d-none d-md-block">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg header-nav">
@@ -167,16 +168,67 @@
                 </div>
             </div>
 
-            <ul class="nav header-navbar-rht">
-                <li class="nav-item pe-1">
-                    <a class="nav-link btn btn-light" href="#" data-bs-toggle="modal" data-bs-target="#login-modal" id="header-login"><i
-                            class="ti ti-lock me-2"></i>Kirish</a>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link btn btn-jobbank" id="header-register">
-                        <i class="ti ti-user-filled me-2"></i>Ro`yxatdan o`tish</button>
-                </li>
+            <ul class="nav">
+
+                @guest
+                    <!-- Guestlar uchun: Kirish va Ro'yxatdan o'tish -->
+                    <li class="nav-item pe-1">
+                        <a class="nav-link btn btn-light" href="#" data-bs-toggle="modal" data-bs-target="#login-modal" id="header-login">
+                            <i class="ti ti-lock me-2"></i>Kirish
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link btn btn-jobbank" id="header-register">
+                            <i class="ti ti-user-filled me-2"></i>Ro`yxatdan o`tish
+                        </button>
+                    </li>
+                @else
+                    @php
+                        $user = Auth::user();
+                    @endphp
+
+                    @if ($user->role === '1')
+                        <!-- Provider -->
+                        @if ($user->status === 'Aktiv')
+                            <!-- Status active bo'lsa profilni ko'rsatamiz -->
+                            <li class="nav-item ">
+                                <a class="nav-link  d-flex align-items-center" href="{{route('services.index')}}" >
+                                    <i class="ti ti-user fs-16 me-2"></i>
+                                    <span>{{ $user->full_name }}</span>
+                                </a>
+                            </li>
+                        @else
+                            <!-- Status active emas, boshqa narsa yoki bo'sh -->
+                            <li class="nav-item">
+                                <a href="#" class="nav-link disabled">Provider status: Faol emas</a>
+                            </li>
+                        @endif
+                    @else
+                        <!-- Oddiy userlar uchun: Profil ikon va dropdown bosh qismda -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="ti ti-user fs-16 me-2"></i>
+                                <span>{{ $user->full_name }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" href="{{ route('user.profile') }}">Profil</a></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button class="dropdown-item" type="submit">Chiqish</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+                @endguest
+
             </ul>
+
+
+
+
         </nav>
     </div>
 </header>
@@ -231,24 +283,52 @@
 
 <!-- Mobile Bottom Navbar -->
 <div class="mobile-nav d-flex justify-content-around align-items-center d-md-none fixed-bottom bg-white border-top shadow-sm py-2 px-1">
+
     <a href="/" class="nav-icon text-center {{ request()->is('/') ? 'active' : '' }}">
         <i class="ti ti-home fs-20"></i>
         <div class="small">Bosh sahifa</div>
     </a>
+
     <a href="{{ route('page.service') }}" class="nav-icon text-center {{ Route::is('page.service') ? 'active' : '' }}">
         <i class="ti ti-layout-grid fs-20"></i>
         <div class="small">Xizmatlar</div>
     </a>
-    <a href="#" class="nav-icon text-center {{ request()->is('blogs') ? 'active' : '' }}">
+
+    <a href="#" class="nav-icon text-center ">
         <i class="ti ti-notebook fs-20"></i>
         <div class="small">Blog</div>
     </a>
 
-    <a href="#" class="nav-icon text-center" data-bs-toggle="modal" data-bs-target="#login-modal" id="header-login">
-        <i class="ti ti-lock fs-20"></i>
-        <div class="small">Kirish</div>
-    </a>
-</div>
+    @guest
+        <!-- Kirilmagan foydalanuvchi uchun -->
+        <a href="#" class="nav-icon text-center" data-bs-toggle="modal" data-bs-target="#login-modal" id="header-login">
+            <i class="ti ti-lock fs-20"></i>
+            <div class="small">Kirish</div>
+        </a>
+    @else
+        @php
+            $user = Auth::user();
+        @endphp
+        @php
+            $nameWords = explode(' ', $user->full_name);
+            $displayName = implode(' ', array_slice($nameWords, 0, 1)); // 2 ta so'z
+        @endphp
 
+        @if ($user->role === '1' && $user->status === 'active')
+            <!-- Provider bo‘lsa va status active bo‘lsa -->
+            <a href="{{ route('provider.profile') }}" class="nav-icon text-center {{ request()->is('provider/profile') ? 'active' : '' }}">
+                <i class="ti ti-user-user fs-20"></i>
+                <div class="small">{{ $displayName }}</div>
+            </a>
+        @else
+            <!-- Oddiy foydalanuvchi -->
+            <a href="{{ route('user.profile') }}" class="nav-icon text-center {{ request()->is('user/profile') ? 'active' : '' }}">
+                <i class="ti ti-user fs-20"></i>
+                <div class="small">{{ $displayName }}</div>
+            </a>
+        @endif
+    @endguest
+
+</div>
 
 <!-- /Header -->

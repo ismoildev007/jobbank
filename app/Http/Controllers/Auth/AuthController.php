@@ -27,6 +27,9 @@ class AuthController extends Controller{
                     return redirect()->route('services.index');
                 case User::ROLE_ADMIN:
                     return redirect()->route('admin.dashboard');
+                case User::ROLE_USER:
+                    return redirect()->route('user.profile');
+
                 default:
                     Auth::logout();
 
@@ -68,14 +71,19 @@ class AuthController extends Controller{
         $user->phone = $request->phone;
         $user->password = bcrypt($request->password);
         $user->role = $request->role == '1' ? User::ROLE_PROVIDER : User::ROLE_USER; // Role qiymatiga qarab belgilaymiz
+
+        $user->status = 'Bloklangan';
+
         $user->save();
 
         auth()->login($user);
         switch ($user->role) {
             case User::ROLE_PROVIDER:
-                return redirect()->route('admin.dashboard');
+                return redirect()->back()->with('success','Ro`yxatdan o`tdingiz');
             case User::ROLE_ADMIN:
                 return redirect()->route('admin.dashboard');
+            case User::ROLE_USER:
+                return redirect()->back()->with('success', 'Ro`yxatdan o`tdingiz.');
             default:
                 Auth::logout();
 

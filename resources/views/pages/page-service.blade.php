@@ -119,6 +119,10 @@
 
     <!-- Page Wrapper -->
     <div class="page-wrapper">
+{{--        toast start--}}
+        @include('components.page.toast')
+        {{--        toast end--}}
+
         <div class="content">
             <div class="container">
                 <div class="row">
@@ -297,10 +301,22 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="mt-3 text-center">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="btn order-btn text-white w-100">
-                                                    Hozir Buyurtma Bering
-                                                </a>
+                                            <div class="mt-3 text-center position-relative">
+                                                @auth
+                                                    <form action="{{ route('order.create', $service->id) }}" method="POST" class="order-form" data-service-id="{{ $service->id }}">
+                                                        @csrf
+                                                        <button type="submit" class="btn order-btn text-white w-100 order-button" data-service-id="{{ $service->id }}">
+                                                            Hozir Buyurtma Bering
+                                                        </button>
+                                                        <!-- Provider raqami -->
+                                                        <div id="provider-info-{{ $service->id }}" class="mt-2 text-success fw-bold d-none">
+                                                            Xizmat ko'rsatuvchi: {{ $service->user->phone ?? 'Raqam yoʻq' }}                                                        </div>
+                                                    </form>
+                                                @else
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="btn order-btn text-white w-100">
+                                                        Hozir Buyurtma Bering
+                                                    </a>
+                                                @endauth
                                             </div>
                                         </div>
                                     </div>
@@ -322,4 +338,25 @@
         </div>
     </div>
     <!-- /Page Wrapper -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const forms = document.querySelectorAll('form[id^="order-form-"]');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    const serviceId = this.id.replace('order-form-', '');
+                    const button = document.getElementById('order-btn-' + serviceId);
+                    const providerInfo = document.getElementById('provider-info-' + serviceId);
+
+                    // Tugmani deaktiv qilish
+                    button.disabled = true;
+                    button.innerText = "Buyurtma yuborildi";
+
+                    // Provider raqamini ko‘rsatish
+                    providerInfo.classList.remove('d-none');
+                });
+            });
+        });
+    </script>
+
 @endsection

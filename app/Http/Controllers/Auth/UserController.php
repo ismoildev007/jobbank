@@ -3,21 +3,38 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function profile()
+    public function userProfile()
     {
         $user = Auth::user();
-        return view('pages.providers.profile', compact('user'));
+        return view('pages.user.profile', compact('user'));
     }
 
-    public function dashboard()
+    public function userDashboard()
     {
         $services = Auth::user()->services; // Buyurtmalarni olish
 
-        return view('pages.providers.profile',compact('services'));
+        return view('pages.user.dashboard',compact('services'));
+    }
+
+    public function userUpdateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $validated = $request->validate([
+            'full_name'     => 'nullable|string|max:255',
+            'email'          => 'nullable|email',
+            'phone' => 'nullable|string|unique:users,phone,' . $user->id,
+        ]);
+
+
+        $user->update($validated);
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
     public function services()
