@@ -13,11 +13,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 
+Route::get('/service', [PageController::class, 'pageService'])->name('page.service');
+Route::get('/servicedetail/{id}/{slug}', [PageController::class, 'singleService'])->name('single.service');
+
+
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
 Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'userRegister'])->name('user.register');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+
 
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
