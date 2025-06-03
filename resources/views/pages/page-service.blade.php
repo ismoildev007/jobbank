@@ -19,20 +19,17 @@
             object-fit: cover;
         }
         .category-tag {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: linear-gradient(135deg, #FFFFFF 0%, rgba(255, 255, 255, 0.8) 100%); /* Oqdan shaffof oqqa gradient */
-            color: white;
+            background-color: rgba(255, 255, 255, 0.7);
             padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            display: inline-block;
-            max-width: 120px;
+            border-radius: 4px;
+            max-width: 80%;
+            overflow: hidden;
             white-space: nowrap;
+            text-overflow: ellipsis;
+            color: #333;
+
         }
         /* Mobil versiya uchun (576px dan kichik ekranlar) */
         @media (max-width: 576px) {
