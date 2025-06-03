@@ -36,7 +36,7 @@
         /* Mobil versiya uchun (576px dan kichik ekranlar) */
         @media (max-width: 576px) {
             .category-tag {
-                max-width: 125px;
+                max-width: 118px;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
@@ -310,7 +310,7 @@
                                             </a>
                                         </div>
                                         <div class="card-body p-3">
-                                            <h5 class="mb-2 fs-14">
+                                            <h5 class="mb-2 fs-12">
                                                 <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}">{{ $service->title_uz }}</a>
                                             </h5>
                                             <div class="d-flex justify-content-between align-items-center mb-2">
