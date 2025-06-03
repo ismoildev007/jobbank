@@ -232,7 +232,7 @@
                 <div class="col-lg-6 text-center wow fadeInUp" data-wow-delay="0.2s"
                      style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                     <div class="section-header text-center">
-                        <h2 class="">Bizning texnika ta'miri xizmatlarimiz</h2>
+                        <h2 class="">Ommabop Kategorylarimiz</h2>
                     </div>
                 </div>
             </div>
