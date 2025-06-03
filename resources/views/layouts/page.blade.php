@@ -158,6 +158,7 @@
         }
 
 
+
     </style>
 </head>
 <body data-frontend="home" data-lang="uz">
@@ -182,265 +183,14 @@
 
 
 
-<header class="header header-new d-none d-md-block">
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg header-nav">
-            <div class="navbar-header">
-                <a id="mobile_btn" href="javascript:void(0);">
-          <span class="bar-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-                </a>
-                <a href="https://jobbank.uz" class="navbar-brand logo">
-                    <img src="/admin/assets/img/logo.png" class="img-fluid" alt="Logo">
-                </a>
-                <a href="https://jobbank.uz" class="navbar-brand logo-small">
-                    <img src="/admin/assets/img/logo.png" class="img-fluid" alt="Logo">
-                </a>
-            </div>
-            <div class="main-menu-wrapper">
-                <div class="menu-header">
-                    <a href="https://jobbank.uz" class="menu-logo">
-                        <img src="/admin/assets/img/logo.png" class="img-fluid" alt="Logo">
-                    </a>
-                    <a id="menu_close" class="menu-close" href="javascript:void(0);"> <i class="fas fa-times"></i></a>
-                </div>
-                <div class="mobile-header d-flex flex-column justify-content-between h-100">
-                    <ul class="main-nav align-items-lg-center list-menus">
-                        <li class="d-none d-lg-block">
-                            <div>
-                                <div class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle bg-light-300 fw-medium"
-                                       data-bs-toggle="dropdown">
-                                        <i class="ti ti-layout-grid me-1"></i>Kategoriyalar
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="/services/santexnika-xizmati">
-                                                Santexnika xizmati
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="/services/elektrika-xizmati">
-                                                Elektrika xizmati
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="/services/maishiy-texnika-xizmati">
-                                                Maishiy texnika xizmati
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="/services/uy-tamirlash-xizmati">
-                                                Uy ta`mirlash xizmati
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="/services/tozalash-xizmati">
-                                                Tozalash xizmati
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="/services/dizenfeksiya-xizmati">
-                                                Dizenfeksiya xizmati
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="active ">
-                            <a href="index.html" target="_self">
-                                Bosh sahifa
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/about-us" target="_self">
-                                Biz haqimizda
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="service.html" target="_self">
-                                Xizmatlar
-                            </a>
-                        </li>
-                        <li class=" blog_menu">
-                            <a href="/blogs" target="_self">
-                                Bloglar
-                            </a>
-                        </li>
-                        <li class=" ">
-                            <a href="/contact-us" target="_self">
-                                Biz bilan bog'laning
-                            </a>
-                        </li>
+<x-page.header></x-page.header>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-bs-toggle="modal"
-                               data-bs-target="#provider">
-                                Xizmat Ko`rsatuvchi Bo`lish
-                            </a>
-                        </li>
-                        <li class="d-none d-lg-block">
-                            <div class="dropdown">
-                                <button class="btn dropdown-toggle d-flex align-items-center language-selects"
-                                        type="button" id="languageDropdown" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                    <img src="/front/img/flags/uz.png" class="me-2" alt="Logo">
-
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                                    <li>
-                                        <a class="dropdown-item d-flex align-items-center language-select" data-id="1"
-                                           href="javascript:void(0);">
-                                            <img src="/front/img/flags/en.png" class="me-2" alt="Logo">
-                                            English
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item d-flex align-items-center language-select" data-id="24"
-                                           href="javascript:void(0);">
-                                            <img src="/front/img/flags/uz.png" class="me-2" alt="Logo">
-                                            Uzbek
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item d-flex align-items-center language-select" data-id="25"
-                                           href="javascript:void(0);">
-                                            <img src="/front/img/flags/ru.png" class="me-2" alt="Logo">
-                                            Русский
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item px-3 py-1 w-100 d-lg-none d-block">
-                            <div class="dropdown w-100">
-                                <button
-                                    class="btn w-100 text-start dropdown-toggle d-flex align-items-center justify-content-between language-selects"
-                                    type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-
-
-                                    <img src="/front/img/flags/uz.png" class="me-2" alt="Logo">
-                                    <span>Uzbek</span>
-                                </button>
-
-                                <ul class="dropdown-menu w-100" aria-labelledby="languageDropdown">
-                                    <li>
-                                        <a class="dropdown-item d-flex align-items-center language-select" data-id="1"
-                                           href="javascript:void(0);">
-                                            <img src="/front/img/flags/en.png" class="me-2" alt="Logo">
-                                            English
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item d-flex align-items-center language-select" data-id="24"
-                                           href="javascript:void(0);">
-                                            <img src="/front/img/flags/uz.png" class="me-2" alt="Logo">
-                                            Uzbek
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item d-flex align-items-center language-select" data-id="25"
-                                           href="javascript:void(0);">
-                                            <img src="/front/img/flags/ru.png" class="me-2" alt="Logo">
-                                            Русский
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                    </ul>
-{{--                    <ul>--}}
-{{--                        <li class="nav-item px-3 py-1 w-100 d-lg-none d-block">--}}
-{{--                            <a class="nav-link btn btn-light" href="#" data-bs-toggle="modal"--}}
-{{--                               data-bs-target="#login-modal"><i class="ti ti-lock me-2"></i>Kirish</a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item px-3 py-1 mb-3 d-lg-none d-block">--}}
-{{--                            <a class="nav-link btn btn-jobbank" href="#" data-bs-toggle="modal" data-bs-target="#register-modal">--}}
-{{--                                <i class="ti ti-user-filled me-2"></i>Ro`yxatdan o`tish</a>--}}
-{{--                        </li>--}}
-
-{{--                    </ul>--}}
-                </div>
-            </div>
-
-            <ul class="nav header-navbar-rht">
-                <li class="nav-item pe-1">
-                    <a class="nav-link btn btn-light" href="#" data-bs-toggle="modal" data-bs-target="#login-modal" id="header-login"><i
-                            class="ti ti-lock me-2"></i>Kirish</a>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link btn btn-jobbank" id="header-register">
-                        <i class="ti ti-user-filled me-2"></i>Ro`yxatdan o`tish</button>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</header>
-<!-- /Header -->
 
 
 @yield('content')
+<x-page.footer></x-page.footer>
 
-<footer>
-    <div class="footer-top">
-        <div class="container">
-            <div class="row">
 
-                <div class="col-md-12 col-xl-4">
-                    <div class="footer-widget">
-                        <div class="card bg-light-200 border-0 mb-3">
-                            <div class="card-body">
-                                <h5 class="mb-3">Ro‘yxatdan o‘ting va obuna bo‘ling</h5>
-                                <form id="subscriberForm" autocomplete="off" novalidate="novalidate">
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control" name="subscriber_email"
-                                               id="subscriber_email"
-                                               placeholder="Elektron pochta manzilingizni kiriting">
-                                        <span class="text-danger error-text" id="subscriber_email_error"></span>
-                                    </div>
-                                    <button type="submit" class="btn-sm btn-jobbank w-100" id="subscriberBtn">Obuna
-                                        bo‘ling
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center ">
-                            <h6 class="fs-14 fw-normal me-2">Ilovamizni yuklab oling</h6>
-                            <img src="/front/img/icons/app-store.svg" class="me-2" alt="img">
-                            <img src="/front/img/icons/goolge-play.svg" class="me-2" alt="img">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap">
-                        <div>
-                            <p class="mb-2 text-start"></p>
-                        </div>
-                        <ul class="menu-links mb-2">
-                            <li>
-                                <a href="/terms-conditions">Shartlar va Qoidalar</a>
-                            </li>
-                            <li>
-                                <a href="/privacy-policy">Maxfiylik Siyosati</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
 <style>
     /* Modalning asl holatini belgilash */
     .modal.fade .modal-dialog {
@@ -483,7 +233,7 @@
         border-color: #007bff;
     }
 </style>
-<div class="modal fade" id="login-modal" style="display: block;" tabindex="-1">
+<div class="modal fade" id="login-modal" style="display: none;" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
@@ -632,84 +382,11 @@
         </div>
     </div>
 </div>
-<!-- Mobile Bottom Navbar -->
-<div class="mobile-nav d-flex justify-content-around align-items-center d-md-none fixed-bottom bg-white border-top shadow-sm py-2 px-1">
-
-    <!-- Bosh sahifa -->
-    <a href="index.html" class="nav-icon text-center active">
-        <i class="ti ti-home fs-20"></i>
-        <div class="small">Bosh sahifa</div>
-    </a>
-
-    <!-- Xizmatlar (Offcanvas) -->
-    <a href="service.html" class="nav-icon text-center  ">
-        <i class="ti ti-layout-grid fs-20"></i>
-        <div class="small">Xizmatlar</div>
-    </a>
-
-    <!-- Blog -->
-    <a href="/blogs" class="nav-icon text-center ">
-        <i class="ti ti-notebook fs-20"></i>
-        <div class="small">Blog</div>
-    </a>
 
 
-    <!-- Kirish / Kabinet -->
-    <!-- Mobil Nav ichida -->
-    <a href="#" class="nav-icon text-center" data-bs-toggle="modal" data-bs-target="#authRoleModal">
-        <i class="ti ti-lock fs-20"></i>
-        <div class="small">Kirish</div>
-    </a>
-
-</div>
-<div class="mobile-header sticky-top bg-white shadow-sm py-2 px-3 d-md-none">
-    <div class="d-flex align-items-center justify-content-between">
 
 
-        <a href="https://jobbank.uz">
-            <img src="/admin/assets/img/logo.png" alt="Logo" style="height: 35px;">
-        </a>
 
-
-        <div class="d-flex align-items-center gap-3">
-
-
-            <div class="dropdown">
-                <button class="btn p-0 border-0 bg-transparent d-flex align-items-center" type="button"
-                        id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src='/front/img/flags/uz.png' alt="flag" style="height: 24px;">
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center language-select" data-id="1" href="#">
-                            <img src="/front/img/flags/en.png" width="20" class="me-2">
-                            English
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center language-select" data-id="24" href="#">
-                            <img src="/front/img/flags/uz.png" width="20" class="me-2">
-                            Uzbek
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center language-select" data-id="25" href="#">
-                            <img src="/front/img/flags/ru.png" width="20" class="me-2">
-                            Русский
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-
-            <a href="tel:+998884455544" class="text-decoration-none d-flex align-items-center gap-1">
-                <i class="fa fa-phone" style="font-size: 20px; color: var(--primary-color);"></i>
-            </a>
-
-
-        </div>
-    </div>
-</div>
 <!-- Header -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {

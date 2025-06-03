@@ -106,9 +106,7 @@
                     <div class="col-lg-6">
                         <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay=".25s"
                              style="visibility: visible; animation-duration: 1s; animation-delay: 0.25s; animation-name: fadeInUp;">
-                            <h1 class="mb-2">Texnika ta'miri uchun mutaxassislarni toping <span
-                                    class="typed" data-type-text="Technicians">Technicians</span><span
-                                    class="ityped-cursor">|</span></h1>
+                            <h1 class="mb-2">Jobbank.uz — barcha maishiy xizmatlar uchun oson yechim!</h1>
                             <p class="mb-3 sub-title">Tezkor va sifatli texnika ta'miri xizmatlari.</p>
                             <div class="banner-form bg-white border mb-3">
                                 <form id="searchForm">
@@ -210,7 +208,7 @@
         </div>
     </section>
 
-    <section class="hero-section d-block d-md-none pt-0 mt-5" id="home">
+    <section class="hero-section d-block d-md-none pt-0 " id="home">
         <div class="hero-content position-relative overflow-hidden">
             <div class="text-center">
                 <img src="/front/img/1.png" alt="Texnika ta'miri banneri" class="img-fluid banner-img-mobile"
