@@ -22,22 +22,22 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            background: #007BFF; /* Yorqin ko'k rang */
+            background: linear-gradient(135deg, #FFFFFF 0%, rgba(255, 255, 255, 0.8) 100%); /* Oqdan shaffof oqqa gradient */
             color: white;
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 11px;
             font-weight: 600;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Zamonaviy font */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Engil soya */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             display: inline-block;
-            max-width: 120px; /* Dastlabki kenglik chegarasi */
+            max-width: 120px;
             white-space: nowrap;
         }
         /* Mobil versiya uchun (576px dan kichik ekranlar) */
         @media (max-width: 576px) {
             .category-tag {
-                max-width: 100px; /* Mobil uchun qisqaroq kenglik */
+                max-width: 150px; /* Mobil uchun qisqaroq kenglik */
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
