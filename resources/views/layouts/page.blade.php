@@ -181,55 +181,7 @@
 </div>
 
 
-<div class="mobile-header sticky-top bg-white shadow-sm py-2 px-3 d-md-none">
-    <div class="d-flex align-items-center justify-content-between">
 
-
-        <a href="https://jobbank.uz">
-            <img src="/admin/assets/img/logo.png" alt="Logo" style="height: 35px;">
-        </a>
-
-
-        <div class="d-flex align-items-center gap-3">
-
-
-            <div class="dropdown">
-                <button class="btn p-0 border-0 bg-transparent d-flex align-items-center" type="button"
-                        id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src='/front/img/flags/uz.png' alt="flag" style="height: 24px;">
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center language-select" data-id="1" href="#">
-                            <img src="/front/img/flags/en.png" width="20" class="me-2">
-                            English
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center language-select" data-id="24" href="#">
-                            <img src="/front/img/flags/uz.png" width="20" class="me-2">
-                            Uzbek
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center language-select" data-id="25" href="#">
-                            <img src="/front/img/flags/ru.png" width="20" class="me-2">
-                            Русский
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-
-            <a href="tel:+998884455544" class="text-decoration-none d-flex align-items-center gap-1">
-                <i class="fa fa-phone" style="font-size: 20px; color: var(--primary-color);"></i>
-            </a>
-
-
-        </div>
-    </div>
-</div>
-<!-- Header -->
 <header class="header header-new d-none d-md-block">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg header-nav">
@@ -431,36 +383,6 @@
 </header>
 <!-- /Header -->
 
-<!-- Mobile Bottom Navbar -->
-<div class="mobile-nav d-flex justify-content-around align-items-center d-md-none fixed-bottom bg-white border-top shadow-sm py-2 px-1">
-
-    <!-- Bosh sahifa -->
-    <a href="index.html" class="nav-icon text-center active">
-        <i class="ti ti-home fs-20"></i>
-        <div class="small">Bosh sahifa</div>
-    </a>
-
-    <!-- Xizmatlar (Offcanvas) -->
-    <a href="service.html" class="nav-icon text-center  ">
-        <i class="ti ti-layout-grid fs-20"></i>
-        <div class="small">Xizmatlar</div>
-    </a>
-
-    <!-- Blog -->
-    <a href="/blogs" class="nav-icon text-center ">
-        <i class="ti ti-notebook fs-20"></i>
-        <div class="small">Blog</div>
-    </a>
-
-
-    <!-- Kirish / Kabinet -->
-    <!-- Mobil Nav ichida -->
-    <a href="#" class="nav-icon text-center" data-bs-toggle="modal" data-bs-target="#authRoleModal">
-        <i class="ti ti-lock fs-20"></i>
-        <div class="small">Kirish</div>
-    </a>
-
-</div>
 
 @yield('content')
 
@@ -710,6 +632,86 @@
         </div>
     </div>
 </div>
+<!-- Mobile Bottom Navbar -->
+<div class="mobile-nav d-flex justify-content-around align-items-center d-md-none fixed-bottom bg-white border-top shadow-sm py-2 px-1">
+
+    <!-- Bosh sahifa -->
+    <a href="index.html" class="nav-icon text-center active">
+        <i class="ti ti-home fs-20"></i>
+        <div class="small">Bosh sahifa</div>
+    </a>
+
+    <!-- Xizmatlar (Offcanvas) -->
+    <a href="service.html" class="nav-icon text-center  ">
+        <i class="ti ti-layout-grid fs-20"></i>
+        <div class="small">Xizmatlar</div>
+    </a>
+
+    <!-- Blog -->
+    <a href="/blogs" class="nav-icon text-center ">
+        <i class="ti ti-notebook fs-20"></i>
+        <div class="small">Blog</div>
+    </a>
+
+
+    <!-- Kirish / Kabinet -->
+    <!-- Mobil Nav ichida -->
+    <a href="#" class="nav-icon text-center" data-bs-toggle="modal" data-bs-target="#authRoleModal">
+        <i class="ti ti-lock fs-20"></i>
+        <div class="small">Kirish</div>
+    </a>
+
+</div>
+<div class="mobile-header sticky-top bg-white shadow-sm py-2 px-3 d-md-none">
+    <div class="d-flex align-items-center justify-content-between">
+
+
+        <a href="https://jobbank.uz">
+            <img src="/admin/assets/img/logo.png" alt="Logo" style="height: 35px;">
+        </a>
+
+
+        <div class="d-flex align-items-center gap-3">
+
+
+            <div class="dropdown">
+                <button class="btn p-0 border-0 bg-transparent d-flex align-items-center" type="button"
+                        id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src='/front/img/flags/uz.png' alt="flag" style="height: 24px;">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center language-select" data-id="1" href="#">
+                            <img src="/front/img/flags/en.png" width="20" class="me-2">
+                            English
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center language-select" data-id="24" href="#">
+                            <img src="/front/img/flags/uz.png" width="20" class="me-2">
+                            Uzbek
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center language-select" data-id="25" href="#">
+                            <img src="/front/img/flags/ru.png" width="20" class="me-2">
+                            Русский
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <a href="tel:+998884455544" class="text-decoration-none d-flex align-items-center gap-1">
+                <i class="fa fa-phone" style="font-size: 20px; color: var(--primary-color);"></i>
+            </a>
+
+
+        </div>
+    </div>
+</div>
+<!-- Header -->
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
