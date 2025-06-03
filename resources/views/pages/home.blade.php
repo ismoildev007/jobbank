@@ -84,6 +84,18 @@
             font-size: 11px !important;
             color: #6c757d;
         }
+        .blog-card img {
+            transition: transform 0.3s;
+        }
+        .blog-card img:hover {
+            transform: scale(1.05);
+        }
+        .blog-card h5 {
+            transition: color 0.3s;
+        }
+        .blog-card h5:hover {
+            color: #007BFF;
+        }
     </style>
 
     <!-- Banner qismi -->
@@ -305,22 +317,28 @@
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="blog-card">
-                        <img src="/front/img/blog-1.jpg" alt="Blog rasm" class="img-fluid mb-3">
-                        <h5>Konditsionerni qanday tozalash kerak</h5>
+                        <a href="/blog/konditsioner-tozalash">
+                            <img src="/front/img/blog-1.jpg" alt="Konditsioner tozalash" class="img-fluid mb-3">
+                        </a>
+                        <h5><a href="/blog/konditsioner-tozalash" class="text-decoration-none">Konditsionerni qanday tozalash kerak</a></h5>
                         <p>Konditsioneringizni uzoq muddat ishlatish uchun o‘zingiz tozalash bo‘yicha maslahatlar.</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="blog-card">
-                        <img src="/front/img/blog-2.jpg" alt="Blog rasm" class="img-fluid mb-3">
-                        <h5>Elektr simlarini ta'mirlash bo‘yicha maslahatlar</h5>
+                        <a href="/blog/elektr-simlari-tamirlash">
+                            <img src="/front/img/blog-2.jpg" alt="Elektr simlari ta'mirlash" class="img-fluid mb-3">
+                        </a>
+                        <h5><a href="/blog/elektr-simlari-tamirlash" class="text-decoration-none">Elektr simlarini ta'mirlash bo‘yicha maslahatlar</a></h5>
                         <p>Elektr simlaridagi muammolarni xavfsiz hal qilish usullari.</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="blog-card">
-                        <img src="/front/img/blog-3.jpg" alt="Blog rasm" class="img-fluid mb-3">
-                        <h5>Maishiy texnikani uzoq muddat saqlash usullari</h5>
+                        <a href="/blog/maishiy-texnika-saqlash">
+                            <img src="/front/img/blog-3.jpg" alt="Maishiy texnika saqlash" class="img-fluid mb-3">
+                        </a>
+                        <h5><a href="/blog/maishiy-texnika-saqlash" class="text-decoration-none">Maishiy texnikani uzoq muddat saqlash usullari</a></h5>
                         <p>Maishiy texnikangizni buzilishdan himoya qilish bo‘yicha maslahatlar.</p>
                     </div>
                 </div>
@@ -337,7 +355,7 @@
                     <div class="section-header mb-md-0 mb-4">
                         <h2 class="text-white display-4">Texnika ta'miri xizmatlaringizni qo‘shing va daromad toping <span
                                 class="text-linear-primary"></span></h2>
-                        <p class="text-light">Santexnika, elektrika va maishiy texnika ta'miri mutaxassislari uchun platforma, mijozlarni osongina toping.</p>
+                        <p class="text-light">Santexnika, elektrika va maishiy texnika ta'miri mutaxassislarini uchun platforma, mijozlarni osongina toping.</p>
                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#provider"
                            class="btn btn-jobbank"><i class="ti ti-user-filled me-2"></i>Ro`yxatdan o`tish</a>
                     </div>
