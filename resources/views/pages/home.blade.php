@@ -317,8 +317,8 @@
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="blog-card">
-                        <a href="#">
-                            <img src="https://images.pexels.com/photos/5691620/pexels-photo-5691620.jpeg?auto=compress&cs=tinysrgb&w=640" alt="Konditsioner tozalash" class="img-fluid mb-3">
+                        <a href="/blog/konditsioner-tozalash">
+                            <img src="https://unsplash.com/photos/white-air-conditioner-unit-on-wall-8XzFjX1kXzA/download?force=true&w=300" alt="Konditsioner tozalash" class="img-fluid mb-3" width="300" height="200" style="object-fit: cover;">
                         </a>
                         <h5><a href="/blog/konditsioner-tozalash" class="text-decoration-none">Konditsionerni qanday tozalash kerak</a></h5>
                         <p>Konditsioneringizni uzoq muddat ishlatish uchun o‘zingiz tozalash bo‘yicha maslahatlar.</p>
@@ -326,8 +326,8 @@
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="blog-card">
-                        <a href="#">
-                            <img src="https://images.pexels.com/photos/5691620/pexels-photo-5691620.jpeg?auto=compress&cs=tinysrgb&w=640" alt="Elektr simlari ta'mirlash" class="img-fluid mb-3" height="150px">
+                        <a href="/blog/elektr-simlari-tamirlash">
+                            <img src="https://images.pexels.com/photos/5691620/pexels-photo-5691620.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Elektr simlari ta'mirlash" class="img-fluid mb-3" width="300" height="200" style="object-fit: cover;">
                         </a>
                         <h5><a href="/blog/elektr-simlari-tamirlash" class="text-decoration-none">Elektr simlarini ta'mirlash bo‘yicha maslahatlar</a></h5>
                         <p>Elektr simlaridagi muammolarni xavfsiz hal qilish usullari.</p>
@@ -335,8 +335,8 @@
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="blog-card">
-                        <a href="#">
-                            <img src="https://images.pexels.com/photos/5691620/pexels-photo-5691620.jpeg?auto=compress&cs=tinysrgb&w=640" alt="Maishiy texnika saqlash" class="img-fluid mb-3">
+                        <a href="/blog/maishiy-texnika-saqlash">
+                            <img src="https://pixabay.com/photos/washing-machine-appliance-laundry-214214/download?w=300" alt="Maishiy texnika saqlash" class="img-fluid mb-3" width="300" height="200" style="object-fit: cover;">
                         </a>
                         <h5><a href="/blog/maishiy-texnika-saqlash" class="text-decoration-none">Maishiy texnikani uzoq muddat saqlash usullari</a></h5>
                         <p>Maishiy texnikangizni buzilishdan himoya qilish bo‘yicha maslahatlar.</p>
