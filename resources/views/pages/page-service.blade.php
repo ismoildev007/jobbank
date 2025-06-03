@@ -19,8 +19,11 @@
             object-fit: cover;
         }
         .category-tag {
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 4px 8px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.5); /* Yanada shaffof oq fon */
+            padding: 5px 10px;
             font-size: 12px;
             font-weight: 600;
             border-radius: 4px;
@@ -29,12 +32,12 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             color: #333;
-
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
         /* Mobil versiya uchun (576px dan kichik ekranlar) */
         @media (max-width: 576px) {
             .category-tag {
-                max-width: 150px; /* Mobil uchun qisqaroq kenglik */
+                max-width: 150px;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
@@ -44,29 +47,45 @@
             top: 10px;
             right: 10px;
             color: #fff;
-            font-size: 20px;
+            font-size: 18px; /* Skrinshotdagi kabi kichikroq */
             transition: color 0.3s;
         }
         .fav-icon:hover {
             color: #ff4d4f;
         }
         .order-btn {
-            background: #007BFFE5;
+            background: #007BFF;
             border: none;
-            padding: 8px 15px;
-            font-size: 12px;
+            padding: 6px 12px; /* Kichikroq padding */
+            font-size: 11px; /* Kichikroq font */
             font-weight: 600;
+            border-radius: 20px; /* Ko'proq radius */
             transition: background 0.3s;
         }
         .order-btn:hover {
-            background: #007BFFE5;
+            background: #0056b3; /* Hoverda quyuqroq ko'k */
         }
         .rating-stars i {
-            font-size: 14px;
-            margin-right: 2px;
+            font-size: 12px; /* Skrinshotdagi kabi kichikroq yulduzlar */
+            margin-right: 1px;
+        }
+        .rating-stars {
+            font-size: 12px;
+        }
+        .service-title {
+            font-size: 14px; /* Skrinshotdagi kabi kichikroq font */
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .price-box {
+            font-size: 13px; /* Kichikroq font */
+        }
+        .price-unit {
+            font-size: 11px !important; /* Yanada kichikroq */
+            color: #6c757d;
         }
     </style>
-
     <!-- Breadcrumb -->
     <div class="breadcrumb-bar text-center">
         <div class="container">
