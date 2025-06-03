@@ -13,6 +13,9 @@
 @if ($paginator->hasPages())
     <ul class="pagination justify-content-center align-items-center flex-wrap" {{ $attributes }}>
         <style>
+            .me-1 {
+                margin-right: -0.35rem !important;
+            }
             .pagination .page-item a, .pagination .page-item span {
                 border-radius: 50%;
                 width: 40px;
