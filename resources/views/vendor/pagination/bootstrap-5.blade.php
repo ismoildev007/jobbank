@@ -71,13 +71,13 @@
 
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
-            <li class="page-item me-2 disabled">
+            <li class="page-item me-1 disabled">
                 <span class="d-flex justify-content-center align-items-center prev-next">
                     <i class="ti ti-arrow-left me-2"></i>
                 </span>
             </li>
         @else
-            <li class="page-item me-2">
+            <li class="page-item me-1">
                 <a class="d-flex justify-content-center align-items-center prev-next" href="{{ $paginator->previousPageUrl() }}" rel="prev">
                     <i class="ti ti-arrow-left me-2"></i>
                 </a>
@@ -86,17 +86,17 @@
 
         {{-- First Page Link --}}
         @if ($startPage > 1)
-            <li class="page-item me-2">
+            <li class="page-item me-1">
                 <a class="page-link-1 d-flex justify-content-center align-items-center" href="{{ $paginator->url(1) }}">1</a>
             </li>
             @if ($startPage > 2)
-                <li class="page-item me-2 disabled"><span class="ellipsis">...</span></li>
+                <li class="page-item me-1 disabled"><span class="ellipsis">...</span></li>
             @endif
         @endif
 
         {{-- Pagination Elements --}}
         @for ($page = $startPage; $page <= $endPage; $page++)
-            <li class="page-item me-2">
+            <li class="page-item me-1">
                 <a class="page-link-1 d-flex justify-content-center align-items-center {{ $page == $currentPage ? 'active' : '' }}" href="{{ $paginator->url($page) }}">{{ $page }}</a>
             </li>
         @endfor
@@ -104,9 +104,9 @@
         {{-- Last Page Link --}}
         @if ($endPage < $lastPage)
             @if ($endPage < $lastPage - 1)
-                <li class="page-item me-2 disabled"><span class="ellipsis">...</span></li>
+                <li class="page-item me-1 disabled"><span class="ellipsis">...</span></li>
             @endif
-            <li class="page-item me-2">
+            <li class="page-item me-1">
                 <a class="page-link-1 d-flex justify-content-center align-items-center" href="{{ $paginator->url($lastPage) }}">{{ $lastPage }}</a>
             </li>
         @endif
@@ -119,7 +119,7 @@
                 </a>
             </li>
         @else
-            <li class="page-item me-2 disabled">
+            <li class="page-item me-1 disabled">
                 <span class="d-flex justify-content-center align-items-center prev-next">
                      <i class="ti ti-arrow-right ms-2"></i>
                 </span>
