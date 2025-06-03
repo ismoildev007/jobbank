@@ -243,7 +243,8 @@
         <i class="ti ti-notebook fs-20"></i>
         <div class="small">Blog</div>
     </a>
-    <a href="#" class="nav-icon text-center" data-bs-toggle="modal" data-bs-target="#authRoleModal">
+
+    <a href="#" class="nav-icon text-center" data-bs-toggle="modal" data-bs-target="#login-modal" id="header-login">
         <i class="ti ti-lock fs-20"></i>
         <div class="small">Kirish</div>
     </a>
