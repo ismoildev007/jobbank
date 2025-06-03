@@ -22,7 +22,7 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            background-color: rgba(255, 255, 255, 0.5); /* Yanada shaffof oq fon */
+            background-color: rgba(255, 255, 255, 0.7); /* Yanada shaffof oq fon */
             padding: 5px 10px;
             font-size: 12px;
             font-weight: 600;
@@ -37,7 +37,7 @@
         /* Mobil versiya uchun (576px dan kichik ekranlar) */
         @media (max-width: 576px) {
             .category-tag {
-                max-width: 150px;
+                max-width: 135px;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
@@ -59,7 +59,6 @@
             padding: 6px 12px; /* Kichikroq padding */
             font-size: 11px; /* Kichikroq font */
             font-weight: 600;
-            border-radius: 20px; /* Ko'proq radius */
             transition: background 0.3s;
         }
         .order-btn:hover {
