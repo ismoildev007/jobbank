@@ -24,7 +24,7 @@ class AuthController extends Controller{
 
             switch ($user->role) {
                 case User::ROLE_PROVIDER:
-                    return redirect()->route('admin.dashboard');
+                    return redirect()->route('services.index');
                 case User::ROLE_ADMIN:
                     return redirect()->route('admin.dashboard');
                 default:

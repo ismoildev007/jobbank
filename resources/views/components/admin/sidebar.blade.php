@@ -1,11 +1,14 @@
 <ul class="menu-inner py-1">
     <!-- Dashboards -->
+    @if(auth()->check() && auth()->user()->role === \App\Models\User::ROLE_ADMIN)
+
     <li class="menu-item  ">
-        <a href="javascript:void(0);" class="menu-link ">
+        <a href="{{ route('admin.dashboard') }}" class="menu-link ">
             <i class="menu-icon ri ri-home-smile-line"></i>
             <div data-i18n="Dashboards">Dashboards</div>
         </a>
     </li>
+    @endif
 
     @if(auth()->check() && auth()->user()->role === \App\Models\User::ROLE_ADMIN)
         <li class="menu-item {{ Request::is('admin/categories*') ? 'active' : '' }}">

@@ -157,155 +157,27 @@
                 </div>
             </div>
             <div class="row g-4 row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-xl-6 row-cols-xxl-6 justify-content-center">
-                <div class="col d-flex">
-                    <a href="/services/santexnika-xizmati" class="text-decoration-none flex-fill">
-                        <div class="position-relative category-card d-flex flex-column justify-content-between"
-                             style="height: 160px; border-radius: 12px; overflow: hidden; background: url('/storage/categoriesIcon/TYyYNAxG06DAo67siLZBScGwZV1lsad5wa3rwYkq.png') center/cover no-repeat; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;">
-
-
-                            <div class="position-absolute top-0 start-0 w-100 h-100"
-                                 style="background-color: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
-
-
-                            <div class="category-title-wrapper">
-                                <h6 class="category-title mb-0" title="Santexnika xizmati">Santexnika xizmati</h6>
-                            </div>
-
-
-                            <div class="position-relative z-2 text-center pb-2 pt-5 view-btn"
-                                 style="opacity: 0; transition: opacity 0.3s;">
-              <span class="btn btn-sm btn-light rounded-pill px-3 py-1" style="font-size: 13px;">
-                Barchasini ko‘rish
-              </span>
-                            </div>
+                <div class="row g-4 row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-xl-6 row-cols-xxl-6 justify-content-center">
+                    @foreach ($categories as $category)
+                        <div class="col d-flex">
+                            <a href="/services/{{ $category->slug }}" class="text-decoration-none flex-fill">
+                                <div class="position-relative category-card d-flex flex-column justify-content-between"
+                                     style="height: 160px; border-radius: 12px; overflow: hidden; background: url('{{ asset('storage/' . $category->image) }}') center/cover no-repeat; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;">
+                                    <div class="position-absolute top-0 start-0 w-100 h-100"
+                                         style="background-color: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
+                                    <div class="category-title-wrapper">
+                                        <h6 class="category-title mb-0" title="{{ $category->title_uz }}">{{ $category->title_uz }}</h6>
+                                    </div>
+                                    <div class="position-relative z-2 text-center pb-2 pt-5 view-btn"
+                                         style="opacity: 0; transition: opacity 0.3s;">
+                           <span class="btn btn-sm btn-light rounded-pill px-3 py-1" style="font-size: 13px;">
+                               Barchasini ko‘rish
+                           </span>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-
-                    </a>
-                </div>
-                <div class="col d-flex">
-                    <a href="/services/elektrika-xizmati" class="text-decoration-none flex-fill">
-                        <div class="position-relative category-card d-flex flex-column justify-content-between"
-                             style="height: 160px; border-radius: 12px; overflow: hidden; background: url('/storage/categoriesIcon/bJbiBnOE4MCrz0YkhZV2UxWkz46BSWCkfaOTsHFk.png') center/cover no-repeat; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;">
-
-
-                            <div class="position-absolute top-0 start-0 w-100 h-100"
-                                 style="background-color: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
-
-
-                            jobbank          <div class="category-title-wrapper">
-                                <h6 class="category-title mb-0" title="Elektrika xizmati">Elektrika xizmati</h6>
-                            </div>
-
-
-                            <div class="position-relative z-2 text-center pb-2 pt-5 view-btn"
-                                 style="opacity: 0; transition: opacity 0.3s;">
-              <span class="btn btn-sm btn-light rounded-pill px-3 py-1" style="font-size: 13px;">
-                Barchasini ko‘rish
-              </span>
-                            </div>
-                        </div>
-
-                    </a>
-                </div>
-                <div class="col d-flex">
-                    <a href="/services/maishiy-texnika-xizmati" class="text-decoration-none flex-fill">
-                        <div class="position-relative category-card d-flex flex-column justify-content-between"
-                             style="height: 160px; border-radius: 12px; overflow: hidden; background: url('/storage/categoriesIcon/kI4LVou2DpxzRn6lWWr2twbhezzgYgdAF9IgG0eJ.png') center/cover no-repeat; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;">
-
-
-                            <div class="position-absolute top-0 start-0 w-100 h-100"
-                                 style="background-color: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
-
-
-                            <div class="category-title-wrapper">
-                                <h6 class="category-title mb-0" title="Maishiy texnika xizmati">Maishiy texnika xizmati</h6>
-                            </div>
-
-
-                            <div class="position-relative z-2 text-center pb-2 pt-5 view-btn"
-                                 style="opacity: 0; transition: opacity 0.3s;">
-              <span class="btn btn-sm btn-light rounded-pill px-3 py-1" style="font-size: 13px;">
-                Barchasini ko‘rish
-              </span>
-                            </div>
-                        </div>
-
-                    </a>
-                </div>
-                <div class="col d-flex">
-                    <a href="/services/uy-tamirlash-xizmati" class="text-decoration-none flex-fill">
-                        <div class="position-relative category-card d-flex flex-column justify-content-between"
-                             style="height: 160px; border-radius: 12px; overflow: hidden; background: url('/storage/categoriesIcon/bEVcSHxeYSOQw19PhkgeYKH1PvB2AUDOKEk7AThH.png') center/cover no-repeat; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;">
-
-
-                            <div class="position-absolute top-0 start-0 w-100 h-100"
-                                 style="background-color: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
-
-
-                            <div class="category-title-wrapper">
-                                <h6 class="category-title mb-0" title="Uy ta`mirlash xizmati">Uy ta`mirlash xizmati</h6>
-                            </div>
-
-
-                            <div class="position-relative z-2 text-center pb-2 pt-5 view-btn"
-                                 style="opacity: 0; transition: opacity 0.3s;">
-              <span class="btn btn-sm btn-light rounded-pill px-3 py-1" style="font-size: 13px;">
-                Barchasini ko‘rish
-              </span>
-                            </div>
-                        </div>
-
-                    </a>
-                </div>
-                <div class="col d-flex">
-                    <a href="/services/tozalash-xizmati" class="text-decoration-none flex-fill">
-                        <div class="position-relative category-card d-flex flex-column justify-content-between"
-                             style="height: 160px; border-radius: 12px; overflow: hidden; background: url('/storage/categoriesIcon/ox2y1SuY1cb5GFJPa5JKRd9fPVyS75OirpfTSFpU.png') center/cover no-repeat; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;">
-
-
-                            <div class="position-absolute top-0 start-0 w-100 h-100"
-                                 style="background-color: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
-
-
-                            <div class="category-title-wrapper">
-                                <h6 class="category-title mb-0" title="Tozalash xizmati">Tozalash xizmati</h6>
-                            </div>
-
-
-                            <div class="position-relative z-2 text-center pb-2 pt-5 view-btn"
-                                 style="opacity: 0; transition: opacity 0.3s;">
-              <span class="btn btn-sm btn-light rounded-pill px-3 py-1" style="font-size: 13px;">
-                Barchasini ko‘rish
-              </span>
-                            </div>
-                        </div>
-
-                    </a>
-                </div>
-                <div class="col d-flex">
-                    <a href="/services/dizenfeksiya-xizmati" class="text-decoration-none flex-fill">
-                        <div class="position-relative category-card d-flex flex-column justify-content-between"
-                             style="height: 160px; border-radius: 12px; overflow: hidden; background: url('/storage/categoriesIcon/UzannVjFlQPADxiXk1L8RV7gL6OXj6TUUX7RSQqe.png') center/cover no-repeat; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;">
-
-
-                            <div class="position-absolute top-0 start-0 w-100 h-100"
-                                 style="background-color: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
-
-
-                            <div class="category-title-wrapper">
-                                <h6 class="category-title mb-0" title="Dizenfeksiya xizmati">Dizenfeksiya xizmati</h6>
-                            </div>
-
-
-                            <div class="position-relative z-2 text-center pb-2 pt-5 view-btn"
-                                 style="opacity: 0; transition: opacity 0.3s;">
-              <span class="btn btn-sm btn-light rounded-pill px-3 py-1" style="font-size: 13px;">
-                Barchasini ko‘rish
-              </span>
-                            </div>
-                        </div>
-
-                    </a>
+                    @endforeach
                 </div>
             </div>
         </div>
