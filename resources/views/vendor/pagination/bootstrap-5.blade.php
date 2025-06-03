@@ -3,6 +3,11 @@
 @php
     $paginator->appends(request()->query());
     $elements = $paginator->links()->elements;
+    $currentPage = $paginator->currentPage();
+    $lastPage = $paginator->lastPage();
+    $window = 2; // Joriy sahifa atrofida ko‘rsatiladigan sahifalar soni (2 ta chapda, 2 ta o‘ngda)
+    $startPage = max(1, $currentPage - $window);
+    $endPage = min($lastPage, $currentPage + $window);
 @endphp
 
 @if ($paginator->hasPages())
@@ -20,24 +25,29 @@
                 transition: all 0.3s;
                 margin: 0 5px;
             }
+
             .pagination .page-item a.page-link-1 {
                 background-color: #fff;
                 color: #333;
                 border: 1px solid #ddd;
             }
+
             .pagination .page-item a.page-link-1:hover {
                 background-color: #f1f1f1;
             }
+
             .pagination .page-item a.page-link-1.active {
                 background-color: #007BFF;
                 color: white;
                 border: 1px solid #007BFF;
             }
+
             .pagination .page-item.disabled span {
                 background-color: transparent;
                 color: #6c757d;
                 border: none;
             }
+
             .pagination .page-item a.prev-next {
                 background-color: transparent;
                 color: #333;
@@ -45,8 +55,15 @@
                 font-size: 14px;
                 font-weight: 500;
             }
+
             .pagination .page-item a.prev-next:hover {
                 color: #007BFF;
+            }
+
+            .pagination .ellipsis {
+                margin: 0 5px;
+                font-size: 14px;
+                color: #6c757d;
             }
         </style>
 
@@ -59,39 +76,47 @@
             </li>
         @else
             <li class="page-item me-2">
-                <a class="d-flex justify-content-center align-items-center prev-next" href="{{ $paginator->previousPageUrl() }}" rel="prev">
+                <a class="d-flex justify-content-center align-items-center prev-next"
+                   href="{{ $paginator->previousPageUrl() }}" rel="prev">
                     <i class="ti ti-arrow-left me-2"></i>Orqaga
                 </a>
             </li>
         @endif
 
-        {{-- Pagination Elements --}}
-        @foreach ($elements as $element)
-            {{-- "Three Dots" Separator --}}
-            @if (is_string($element))
-                <li class="page-item me-2 disabled"><span>{{ $element }}</span></li>
+        {{-- First Page Link --}}
+        @if ($startPage > 1)
+            <li class="page-item me-2">
+                <a class="page-link-1 d-flex justify-content-center align-items-center" href="{{ $paginator->url(1) }}">1</a>
+            </li>
+            @if ($startPage > 2)
+                <li class="page-item me-2 disabled"><span class="ellipsis">...</span></li>
             @endif
+        @endif
 
-            {{-- Array Of Links --}}
-            @if (is_array($element))
-                @foreach ($element as $page => $url)
-                    @if ($page == $paginator->currentPage())
-                        <li class="page-item me-2">
-                            <a class="page-link-1 d-flex justify-content-center align-items-center active" href="{{ $url }}">{{ $page }}</a>
-                        </li>
-                    @else
-                        <li class="page-item me-2">
-                            <a class="page-link-1 d-flex justify-content-center align-items-center" href="{{ $url }}">{{ $page }}</a>
-                        </li>
-                    @endif
-                @endforeach
+        {{-- Pagination Elements --}}
+        @for ($page = $startPage; $page <= $endPage; $page++)
+            <li class="page-item me-2">
+                <a class="page-link-1 d-flex justify-content-center align-items-center {{ $page == $currentPage ? 'active' : '' }}"
+                   href="{{ $paginator->url($page) }}">{{ $page }}</a>
+            </li>
+        @endfor
+
+        {{-- Last Page Link --}}
+        @if ($endPage < $lastPage)
+            @if ($endPage < $lastPage - 1)
+                <li class="page-item me-2 disabled"><span class="ellipsis">...</span></li>
             @endif
-        @endforeach
+            <li class="page-item me-2">
+                <a class="page-link-1 d-flex justify-content-center align-items-center"
+                   href="{{ $paginator->url($lastPage) }}">{{ $lastPage }}</a>
+            </li>
+        @endif
 
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
             <li class="page-item me-2">
-                <a class="d-flex justify-content-center align-items-center prev-next" href="{{ $paginator->nextPageUrl() }}" rel="next">
+                <a class="d-flex justify-content-center align-items-center prev-next"
+                   href="{{ $paginator->nextPageUrl() }}" rel="next">
                     Keyingi <i class="ti ti-arrow-right ms-2"></i>
                 </a>
             </li>
