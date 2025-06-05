@@ -1,5 +1,17 @@
 <!-- Mobile Filter Offcanvas -->
+@php
+    // request('cate') ni arrayga aylantirish
+    $selectedCategories = request('cate');
 
+    if (!is_array($selectedCategories)) {
+        if ($selectedCategories) {
+            // Agar "4,5,6" ko'rinishda kelgan bo'lsa, explode qiling
+            $selectedCategories = explode(',', $selectedCategories);
+        } else {
+            $selectedCategories = [];
+        }
+    }
+@endphp
 <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileFilter" aria-labelledby="mobileFilterLabel">
     <div class="offcanvas-header">
         <h5 id="mobileFilterLabel">Filterlar</h5>
