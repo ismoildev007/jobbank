@@ -242,24 +242,31 @@
             <div class="row g-4 row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-xl-6 row-cols-xxl-6 justify-content-center">
                 @foreach ($categories as $category)
                     <div class="col d-flex">
-                        <a href="/services/{{ $category->id }}" class="text-decoration-none flex-fill">
-                            <div class="position-relative category-card d-flex flex-column justify-content-between"
-                                 style="height: 160px; border-radius: 12px; overflow: hidden; background: url('{{ asset('storage/' . $category->image) }}') center/cover no-repeat; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;">
+                        <a href="{{ url('/service') }}?cate={{ $category->id }}" class="text-decoration-none flex-fill">
+                            <div class="position-relative category-card d-flex flex-column justify-content-between
+                {{ request('cate') == $category->id ? 'border border-primary' : '' }}"
+                                 style="height: 160px; border-radius: 12px; overflow: hidden;
+                background: url('{{ asset('storage/' . $category->image) }}') center/cover no-repeat;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;">
+
                                 <div class="position-absolute top-0 start-0 w-100 h-100"
                                      style="background-color: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
+
                                 <div class="category-title-wrapper">
                                     <h6 class="category-title mb-0" title="{{ $category->title_uz }}">{{ $category->title_uz }}</h6>
                                 </div>
+
                                 <div class="position-relative z-2 text-center pb-2 pt-5 view-btn"
                                      style="opacity: 0; transition: opacity 0.3s;">
-                                    <span class="btn btn-sm btn-light rounded-pill px-3 py-1" style="font-size: 13px;">
-                                        Barchasini ko‘rish
-                                    </span>
+                    <span class="btn btn-sm btn-light rounded-pill px-3 py-1" style="font-size: 13px;">
+                        Barchasini ko‘rish
+                    </span>
                                 </div>
                             </div>
                         </a>
                     </div>
                 @endforeach
+
             </div>
         </div>
     </section>

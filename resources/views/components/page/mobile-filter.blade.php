@@ -1,4 +1,5 @@
 <!-- Mobile Filter Offcanvas -->
+
 <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileFilter" aria-labelledby="mobileFilterLabel">
     <div class="offcanvas-header">
         <h5 id="mobileFilterLabel">Filterlar</h5>
@@ -14,9 +15,9 @@
                 <label class="form-label">Kategoriyalar</label>
                 @foreach ($categories as $category)
                     <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" name="cate[]" value="{{ $category->id }}" id="cat_{{ $category->id }}"
-                            {{ in_array($category->id, request('cate', [])) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="cat_{{ $category->id }}">
+                        <label class="form-check-label">
+                            <input name="cate[]" value="{{ $category->id }}" class="form-check-input filter_category" type="checkbox"
+                                {{ in_array($category->id, $selectedCategories) ? 'checked' : '' }}>
                             {{ $category->title_uz }}
                         </label>
                     </div>

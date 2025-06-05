@@ -8,14 +8,15 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function home(){
+    public function home()
+    {
         $categories = Category::whereNull('parent_id')->get();
-        return view('pages.home',compact('categories'));
+        return view('pages.home', compact('categories'));
     }
 
     public function pageService(Request $request)
     {
-        $categoryId = $request->query('cate', []);
+        $categoryId = $request->query('cate');
         $keywords = $request->query('keywords');
         $rangePrice = $request->query('range_price');
         $subcategory = $request->query('subcategory');
@@ -23,7 +24,7 @@ class PageController extends Controller
         $query = Service::query();
 
         if (!empty($categoryId)) {
-            $query->whereIn('category_id', is_array($categoryId) ? $categoryId : [$categoryId]);
+            $query->where('category_id', (int)$categoryId);
         }
 
         if ($keywords) {
@@ -39,11 +40,10 @@ class PageController extends Controller
         }
 
         if ($subcategory) {
-            $query->where('sub_category_id', $subcategory);
+            $query->where('sub_category_id', (int)$subcategory);
         }
 
-        $services = $query->with(['category', 'subCategory'])->paginate(10);
-
+        $services = $query->with(['category', 'subCategory'])->paginate(12);
         $categories = Category::whereNull('parent_id')->get();
 
         return view('pages.page-service', compact('services', 'categories'));
@@ -55,3 +55,4 @@ class PageController extends Controller
         return view('pages.single-service', compact('service'));
     }
 }
+

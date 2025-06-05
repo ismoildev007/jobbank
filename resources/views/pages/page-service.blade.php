@@ -1,6 +1,19 @@
 @extends('layouts.page')
 
 @section('content')
+    @php
+        // request('cate') ni arrayga aylantirish
+        $selectedCategories = request('cate');
+
+        if (!is_array($selectedCategories)) {
+            if ($selectedCategories) {
+                // Agar "4,5,6" ko'rinishda kelgan bo'lsa, explode qiling
+                $selectedCategories = explode(',', $selectedCategories);
+            } else {
+                $selectedCategories = [];
+            }
+        }
+    @endphp
     <style>
         .mobile-filter-bar {
             position: fixed;
@@ -170,7 +183,7 @@
                                                         <div class="form-check mb-2">
                                                             <label class="form-check-label">
                                                                 <input name="cate[]" value="{{ $category->id }}" class="form-check-input filter_category" type="checkbox"
-                                                                    {{ in_array($category->id, request('cate', [])) ? 'checked' : '' }}>
+                                                                    {{ in_array($category->id, $selectedCategories) ? 'checked' : '' }}>
                                                                 {{ $category->title_uz }}
                                                             </label>
                                                         </div>
