@@ -315,21 +315,42 @@
                                                 </div>
                                             </div>
                                             <div class="mt-3 text-center position-relative">
-                                                @auth
-                                                    <form action="{{ route('order.create', $service->id) }}" method="POST" class="order-form" data-service-id="{{ $service->id }}">
-                                                        @csrf
-                                                        <button type="submit" class="btn order-btn text-white w-100 order-button" data-service-id="{{ $service->id }}">
-                                                            Hozir Buyurtma Bering
-                                                        </button>
-                                                        <!-- Provider raqami -->
-                                                        <div id="provider-info-{{ $service->id }}" class="mt-2 text-success fw-bold d-none">
-                                                            Xizmat ko'rsatuvchi: {{ $service->user->phone ?? 'Raqam yoʻq' }}                                                        </div>
-                                                    </form>
+                                                @php
+                                                    $hasOrdered = $userOrders[$service->id] ?? false;
+                                                @endphp
+
+                                                @if ($hasOrdered)
+                                                    @php
+                                                        $phoneRaw = $service->provider->phone ?? null;
+
+                                                        if ($phoneRaw) {
+                                                            if (!str_starts_with($phoneRaw, '+998')) {
+                                                                if (str_starts_with($phoneRaw, '0')) {
+                                                                    $phoneRaw = '+998' . substr($phoneRaw, 1);
+                                                                } else {
+                                                                    $phoneRaw = '+998' . $phoneRaw;
+                                                                }
+                                                            }
+
+                                                            $phoneDigits = substr($phoneRaw, 4);
+                                                            $formattedPhone = '+998 '
+                                                                . substr($phoneDigits, 0, 2) . ' '
+                                                                . substr($phoneDigits, 2, 3) . ' '
+                                                                . substr($phoneDigits, 5, 2) . ' '
+                                                                . substr($phoneDigits, 7, 2);
+                                                        } else {
+                                                            $formattedPhone = 'Noma’lum';
+                                                        }
+                                                    @endphp
+
+                                                    <div class="text-primary">📞 {{ $formattedPhone }}</div>
                                                 @else
-                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="btn order-btn text-white w-100">
-                                                        Hozir Buyurtma Bering
-                                                    </a>
-                                                @endauth
+                                                    <form method="POST" action="{{ route('order.create', $service->id) }}">
+                                                        @csrf
+                                                        <button class="btn order-btn text-white w-100">Hozir Buyurtma Bering</button>
+                                                    </form>
+                                                @endif
+
                                             </div>
                                         </div>
                                     </div>

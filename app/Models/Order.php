@@ -15,6 +15,7 @@ class Order extends Model
         'service_id',
         'category_id',
         'order_date',
+        'status', // qo‘shildi
     ];
 
     public function user()
@@ -36,4 +37,13 @@ class Order extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    // App\Models\Order.php
+    public function scopeRecentForService($query, $userId, $serviceId)
+    {
+        return $query->where('user_id', $userId)
+            ->where('service_id', $serviceId)
+            ->where('order_date', '>=', now()->subDay());
+    }
+
 }

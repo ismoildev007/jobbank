@@ -29,6 +29,7 @@ class OrderController extends Controller
             'service_id' => $service->id,
             'category_id' => $service->category_id,
             'order_date' => now(),
+            'status' => 'pending', // yangi status
         ]);
 
 

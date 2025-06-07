@@ -87,6 +87,13 @@
             background-color: #0056b3;
         }
 
+        .text-primary{
+            color: #0056b3!important;
+        }
+        .btn-primary{
+            background-color: #0056b3!important;
+        }
+
     </style>
     <style>
         .category-card {
