@@ -51,7 +51,9 @@ class PageController extends Controller
 
     public function singleService($id)
     {
-        $service = Service::with(['category', 'subCategory', 'provider'])->findOrFail($id);
+        $service = Service::with(['provider' => function ($query) {
+            $query->withCount('orders'); // provider ning buyurtmalar sonini hisoblaydi
+        }])->findOrFail($id);
         return view('pages.single-service', compact('service'));
     }
 

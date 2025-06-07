@@ -187,7 +187,7 @@
                             @if ($service->provider->phone ?? false)
                                 @php
                                     $phoneRaw = $service->provider->phone;
-                                    if (!str_starts_with($phoneRaw, '+998')) {
+                                    if (!str_starts_with($phoneRaw, '+')) {
                                         if (str_starts_with($phoneRaw, '0')) {
                                             $phoneRaw = '+998' . substr($phoneRaw, 1);
                                         } else {
@@ -195,12 +195,9 @@
                                         }
                                     }
                                     $phoneDigits = substr($phoneRaw, 4);
-                                    $formattedPhone = '+998 ' . substr($phoneDigits, 0, 2) . ' ' .
-                                        substr($phoneDigits, 2, 3) . ' ' .
-                                        substr($phoneDigits, 5, 2) . ' ' .
-                                        substr($phoneDigits, 7, 2);
+                                    $formattedPhone = '+998 ' . substr($phoneDigits, 0, 2) . ' ' . substr($phoneDigits, 2, 3) . ' ' . substr($phoneDigits, 5, 2) . ' ' . substr($phoneDigits, 7, 2);
                                 @endphp
-                                <div class="phone-number">{{ $formattedPhone }}</div>
+                                <a href="tel:{{ str_replace(' ', '', $phoneRaw) }}" class="phone-number" onclick="this.blur();">{{ $formattedPhone }}</a>
                             @else
                                 <p class="success-message text-muted">Telefon raqami mavjud emas.</p>
                             @endif

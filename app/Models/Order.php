@@ -42,6 +42,14 @@ class Order extends Model
         return $this->belongsTo(Category::class);
     }
 
+    protected static function booted()
+    {
+        static::created(function ($order) {
+            $order->provider->increment('orders_count');
+        });
+    }
+
+
     public function scopeRecentForService($query, $userId, $serviceId)
     {
         return $query->where('user_id', $userId)
