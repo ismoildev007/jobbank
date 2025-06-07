@@ -16,6 +16,9 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 
 Route::get('/service', [PageController::class, 'pageService'])->name('page.service');
 Route::get('/servicedetail/{id}/{slug}', [PageController::class, 'singleService'])->name('single.service');
+Route::get('/order/{service}', [OrderController::class, 'showOrderPage'])->name('order.page');
+Route::post('/service/{serviceId}/order', [OrderController::class, 'store'])->name('order.create');
+Route::get('/order/success/{service}', [OrderController::class, 'showSuccess'])->name('order.success');
 
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -61,7 +64,6 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::post('/profile/update', [UserController::class, 'userUpdateProfile'])->name('user.profile.update');
 
 });
-Route::post('/service/{serviceId}/order', [OrderController::class, 'createOrder'])->name('order.create');
 
 Route::get('/pricing', [SubController::class, 'index'])->name('pricing');
 

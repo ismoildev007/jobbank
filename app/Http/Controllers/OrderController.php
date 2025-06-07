@@ -10,29 +10,49 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+
+    public function showOrderPage($serviceId)
+    {
+        $service = Service::findOrFail($serviceId);
+        return view('pages.order.page-order', compact('service'));
+    }
+
+
     public function providerOrders()
     {
         $orders = Order::where('provider_id', Auth::id())->with(['service', 'user'])->latest()->get();
         return view('provider.orders', compact('orders'));
     }
-    public function createOrder(Request $request, $serviceId)
+
+    public function store(Request $request, $serviceId)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Buyurtma berish uchun tizimga kiring.');
-        }
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'additional_phone' => 'nullable|string|max:20',
+            'notes' => 'nullable|string|max:1000',
+        ]);
 
         $service = Service::findOrFail($serviceId);
 
-        $order = Order::create([
+        Order::create([
             'user_id' => Auth::id(),
+            'name' => $request->name,
             'provider_id' => $service->provider_id,
             'service_id' => $service->id,
             'category_id' => $service->category_id,
             'order_date' => now(),
-            'status' => 'pending', // yangi status
+            'status' => 'pending',
+            'address' => $request->address,
+            'additional_phone' => $request->additional_phone,
+            'notes' => $request->notes,
         ]);
 
-
-        return redirect()->back()->with('success', 'Buyurtma muvaffaqiyatli yuborildi!');
+        return redirect()->route('order.success', ['service' => $service->id])->with('success', 'Buyurtma muvaffaqiyatli yuborildi!');
+    }
+    public function showSuccess($serviceId)
+    {
+        $service = Service::findOrFail($serviceId);
+        return view('pages.order.success', compact('service'));
     }
 }

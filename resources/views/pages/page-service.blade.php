@@ -1,456 +1,418 @@
 @extends('layouts.page')
 
 @section('content')
-    @php
-        // request('cate') ni arrayga aylantirish
-        $selectedCategories = request('cate');
+        @php
+            // request('cate') ni arrayga aylantirish
+            $selectedCategories = request('cate');
 
-        if (!is_array($selectedCategories)) {
-            if ($selectedCategories) {
-                // Agar "4,5,6" ko'rinishda kelgan bo'lsa, explode qiling
-                $selectedCategories = explode(',', $selectedCategories);
-            } else {
-                $selectedCategories = [];
+            if (!is_array($selectedCategories)) {
+                if ($selectedCategories) {
+                    // Agar "4,5,6" ko'rinishda kelgan bo'lsa, explode qiling
+                    $selectedCategories = explode(',', $selectedCategories);
+                } else {
+                    $selectedCategories = [];
+                }
             }
-        }
-    @endphp
-    <style>
-        .mobile-filter-bar {
-            position: fixed;
-            top: 51px; /* header balandligiga qarab sozlanadi */
-            left: 0;
-            right: 0;
-            z-index: 1030;
-            background-color: #fff;
-            padding: 8px 16px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
+        @endphp
+        <style>
+            .mobile-filter-bar {
+                position: fixed;
+                top: 51px; /* header balandligiga qarab sozlanadi */
+                left: 0;
+                right: 0;
+                z-index: 1030;
+                background-color: #fff;
+                padding: 8px 16px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            }
 
-        .service-card {
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: none;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #fff;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
-        }
-
-        .service-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .category-tag {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: rgba(255, 255, 255, 0.7); /* Yanada shaffof oq fon */
-            padding: 5px 10px;
-            font-size: 11px;
-            font-weight: 600;
-            border-radius: 4px;
-            max-width: 80%;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            color: #333;
-        }
-
-        /* Mobil versiya uchun (576px dan kichik ekranlar) */
-        @media (max-width: 576px) {
-            .category-tag {
-                max-width: 118px;
+            .service-card {
+                transition: transform 0.3s, box-shadow 0.3s;
+                border: none;
+                border-radius: 10px;
                 overflow: hidden;
-                text-overflow: ellipsis;
+                background: #fff;
             }
-        }
 
-        .fav-icon {
-            position: absolute;
-            top: 10px;
-            right: 4px;
-            color: #fff;
-            font-size: 16px; /* Skrinshotdagi kabi kichikroq */
-            transition: color 0.3s;
-        }
+            .service-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+            }
 
-        .fav-icon:hover {
-            color: #ff4d4f;
-        }
+            .service-card img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
 
-        .order-btn {
-            background: #007BFF;
-            border: none;
-            padding: 6px 12px; /* Kichikroq padding */
-            font-size: 11px; /* Kichikroq font */
-            font-weight: 600;
-            transition: background 0.3s;
-        }
+            .category-tag {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background-color: rgba(255, 255, 255, 0.7); /* Yanada shaffof oq fon */
+                padding: 5px 10px;
+                font-size: 11px;
+                font-weight: 600;
+                border-radius: 4px;
+                max-width: 80%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                color: #333;
+            }
 
-        .order-btn:hover {
-            background: #0056b3; /* Hoverda quyuqroq ko'k */
-        }
+            /* Mobil versiya uchun (576px dan kichik ekranlar) */
+            @media (max-width: 576px) {
+                .category-tag {
+                    max-width: 118px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
 
-        .rating-stars i {
-            font-size: 12px; /* Skrinshotdagi kabi kichikroq yulduzlar */
-            margin-right: 1px;
-        }
+            .fav-icon {
+                position: absolute;
+                top: 10px;
+                right: 4px;
+                color: #fff;
+                font-size: 16px; /* Skrinshotdagi kabi kichikroq */
+                transition: color 0.3s;
+            }
 
-        .rating-stars {
-            font-size: 12px;
-        }
+            .fav-icon:hover {
+                color: #ff4d4f;
+            }
 
-        .service-title {
-            font-size: 14px; /* Skrinshotdagi kabi kichikroq font */
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
+            .order-btn {
+                background: #007BFF;
+                border: none;
+                padding: 6px 12px; /* Kichikroq padding */
+                font-size: 11px; /* Kichikroq font */
+                font-weight: 600;
+                transition: background 0.3s;
+            }
 
-        .price-box {
-            font-size: 13px; /* Kichikroq font */
-        }
+            .order-btn:hover {
+                background: #0056b3; /* Hoverda quyuqroq ko'k */
+            }
 
-        .price-unit {
-            font-size: 11px !important; /* Yanada kichikroq */
-            color: #6c757d;
-        }
-    </style>
-    <!-- Breadcrumb -->
-    <div class="breadcrumb-bar text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-12">
-                    <h2 class="breadcrumb-title mb-2 pt-5">Xizmatlar</h2>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center mb-0">
-                            <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="ti ti-home-2"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Xizmatlar</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-            <div class="breadcrumb-bg">
-                <img src="{{ asset('front/img/bg/breadcrumb-bg-01.png') }}" class="breadcrumb-bg-1" alt="Img">
-                <img src="{{ asset('front/img/bg/breadcrumb-bg-02.png') }}" class="breadcrumb-bg-2" alt="Img">
-            </div>
-        </div>
-    </div>
-    <!-- /Breadcrumb -->
+            .rating-stars i {
+                font-size: 12px; /* Skrinshotdagi kabi kichikroq yulduzlar */
+                margin-right: 1px;
+            }
 
-    <!-- Page Wrapper -->
-    <div class="page-wrapper">
-        {{--        toast start--}}
-        @include('components.page.toast')
-        {{--        toast end--}}
+            .rating-stars {
+                font-size: 12px;
+            }
 
-        <div class="content">
+            .service-title {
+                font-size: 14px; /* Skrinshotdagi kabi kichikroq font */
+                font-weight: 600;
+                color: #333;
+                margin-bottom: 8px;
+            }
+
+            .price-box {
+                font-size: 13px; /* Kichikroq font */
+            }
+
+            .price-unit {
+                font-size: 11px !important; /* Yanada kichikroq */
+                color: #6c757d;
+            }
+        </style>
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
             <div class="container">
                 <div class="row">
-                    <!-- Mobilda ko‘rinadigan fixed search panel -->
-                    <div class="mobile-filter-bar d-md-none">
-                        <form action="{{ route('page.service') }}" method="GET" class="d-flex">
-                            <input type="text" name="keywords" class="form-control me-2" placeholder="Xizmat qidiring"
-                                   value="{{ request('keywords') }}">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
-                                    data-bs-target="#mobileFilter">
-                                <i class="ti ti-filter"></i>
-                            </button>
-                        </form>
-                    </div>
-
-                    @include('components.page.mobile-filter')
-
-                    <!-- Desktop Filter Sidebar -->
-                    <div class="col-xl-3 col-lg-4 theiaStickySidebar d-none d-md-block">
-                        <div class="card mb-4 mb-lg-0">
-                            <div class="card-body">
-                                <form action="{{ route('page.service') }}" method="GET" id="filterForm">
-                                    <div
-                                        class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
-                                        <h5><i class="ti ti-filter-check me-2"></i>Filterlar</h5>
-                                        <a href="{{ route('page.service') }}">Filtrni Tiklash</a>
-                                    </div>
-                                    <div class="mb-3 pb-3 border-bottom">
-                                        <label class="form-label">Kalit So‘z Bo‘yicha Qidirish</label>
-                                        <input type="text" name="keywords" id="keywords" class="form-control"
-                                               maxlength="50" placeholder="Kerakli xizmatni kiriting"
-                                               value="{{ request('keywords') }}">
-                                    </div>
-                                    <div class="accordion border-bottom mb-3">
-                                        <div class="accordion-item mb-3">
-                                            <div class="accordion-header" id="accordion-headingThree">
-                                                <div class="accordion-button p-0 mb-3" data-bs-toggle="collapse"
-                                                     data-bs-target="#accordion-collapseThree" aria-expanded="true"
-                                                     aria-controls="accordion-collapseThree" role="button">
-                                                    Kategoriyalar
-                                                </div>
-                                            </div>
-                                            <div id="accordion-collapseThree" class="accordion-collapse collapse show"
-                                                 aria-labelledby="accordion-headingThree">
-                                                <div class="content-list mb-3" id="fill-more">
-                                                    <div class="form-check mb-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" id="all_categories"
-                                                                   type="checkbox">
-                                                            Barcha toifalar
-                                                        </label>
-                                                    </div>
-                                                    @foreach ($categories as $category)
-                                                        <div class="form-check mb-2">
-                                                            <label class="form-check-label">
-                                                                <input name="cate[]" value="{{ $category->id }}"
-                                                                       class="form-check-input filter_category"
-                                                                       type="checkbox"
-                                                                    {{ in_array($category->id, $selectedCategories) ? 'checked' : '' }}>
-                                                                {{ $category->title_uz }}
-                                                            </label>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion border-bottom mb-3">
-                                        <div class="accordion-header" id="accordion-headingFour">
-                                            <div class="accordion-button p-0 mb-3" data-bs-toggle="collapse"
-                                                 data-bs-target="#accordion-collapseFour" aria-expanded="true"
-                                                 aria-controls="accordion-collapseFour" role="button">
-                                                Subkategoriya
-                                            </div>
-                                        </div>
-                                        <div id="accordion-collapseFour" class="accordion-collapse collapse show"
-                                             aria-labelledby="accordion-headingFour">
-                                            <div class="mb-3">
-                                                <select class="form-select" name="subcategory" id="subcategory">
-                                                    <option value="" {{ request('subcategory') ? '' : 'selected' }}>
-                                                        Subkategoriyani tanlang
-                                                    </option>
-                                                    @foreach ($categories->flatMap->children as $subcategory)
-                                                        <option
-                                                            value="{{ $subcategory->id }}" {{ request('subcategory') == $subcategory->id ? 'selected' : '' }}>
-                                                            {{ $subcategory->title_uz }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion border-bottom mb-3">
-                                        <div class="accordion-header" id="accordion-headingFive">
-                                            <div class="accordion-button p-0 mb-3" data-bs-toggle="collapse"
-                                                 data-bs-target="#accordion-collapseFive" aria-expanded="true"
-                                                 aria-controls="accordion-collapseFive" role="button">
-                                                Joylashuv
-                                            </div>
-                                        </div>
-                                        <div id="accordion-collapseFive" class="accordion-collapse collapse show"
-                                             aria-labelledby="accordion-headingFive">
-                                            <div class="mb-3">
-                                                <select class="form-select" name="location" id="location">
-                                                    <option value="" {{ request('location') ? '' : 'selected' }}>Joyni
-                                                        Tanlang
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion border-bottom mb-3">
-                                        <div class="accordion-header" id="accordion-headingSix">
-                                            <div class="accordion-button p-0 mb-3" data-bs-toggle="collapse"
-                                                 data-bs-target="#accordion-collapseSix" aria-expanded="true"
-                                                 aria-controls="accordion-collapseSix" role="button">
-                                                Narxlar oralig‘i
-                                            </div>
-                                        </div>
-                                        <div id="accordion-collapseSix" class="accordion-collapse collapse show"
-                                             aria-labelledby="accordion-headingSix">
-                                            <div class="filter-range">
-                                                <input type="text" id="range" class="range" name="range_price"
-                                                       value="{{ request('range_price') }}">
-                                            </div>
-                                            <div class="filter-range-amount mb-3">
-                                                <p class="fs-14" id="price_display">Narx
-                                                    <span>{{ request('range_price') ?: '0 - 0' }}</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion">
-                                        <div class="accordion-item mb-3">
-                                            <div class="accordion-header" id="accordion-headingTwo">
-                                                <div class="accordion-button fs-18 p-0 mb-3" data-bs-toggle="collapse"
-                                                     data-bs-target="#accordion-collapseTwo" aria-expanded="true"
-                                                     aria-controls="accordion-collapseTwo" role="button">
-                                                    Baholar
-                                                </div>
-                                            </div>
-                                            <div id="accordion-collapseTwo" class="accordion-collapse collapse show"
-                                                 aria-labelledby="accordion-headingTwo">
-                                                <div class="mb-3">
-                                                    @foreach ([5, 4, 3, 2, 1] as $rate)
-                                                        <div class="form-check mb-2">
-                                                            <label class="form-check-label d-block">
-                                                                <input class="form-check-input rating_filter"
-                                                                       name="rating[]" value="{{ $rate }}"
-                                                                       type="checkbox"
-                                                                    {{ in_array($rate, request('rating', [])) ? 'checked' : '' }}>
-                                                                <span class="rating">
-                                                                    @for ($i = 1; $i <= 5; $i++)
-                                                                        <i class="fas fa-star {{ $i <= $rate ? 'filled' : '' }}"></i>
-                                                                    @endfor
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-dark w-100" id="searchServiceBtn">Qidirish
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Xizmatlar ro'yxati -->
-                    <div class="col-xl-9 col-lg-8">
-                        <div class="row align-items-center">
-                            @forelse ($services as $service)
-                                <div class="col-6 col-sm-6 col-md-6 col-xl-4 mb-4">
-                                    <div class="card service-card p-0 shadow-sm">
-                                        <div class="position-relative">
-                                            <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}">
-                                                <img
-                                                    src="{{ $service->image ? asset('storage/' . $service->image) : asset('front/img/default-placeholder-image.png') }}"
-                                                    alt="{{ $service->title_uz }}">
-                                            </a>
-                                            <span
-                                                class="category-tag">{{ $service->category->title_uz ?? 'Noma’lum kategoriya' }}</span>
-                                            <a href="javascript:void(0);" onclick="addfavour({{ $service->id }})"
-                                               class="fav-icon">
-                                                <i class="ti ti-heart"></i>
-                                            </a>
-                                        </div>
-                                        <div class="card-body p-3">
-                                            <h5 class="mb-2 fs-12">
-                                                <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}">{{ $service->title_uz }}</a>
-                                            </h5>
-                                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                                <p class="fs-14 mb-0">
-                                                    <i class="ti ti-map-pin me-2"></i>
-                                                    <!-- Joylashuv maydoni yo'q -->
-                                                </p>
-                                                <span class="rating-stars">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        <i class="fas fa-star {{ $i <= 0 ? 'filled' : '' }} text-warning"></i>
-                                                    @endfor
-                                                    <span class="ms-1 text-gray">0.0</span>
-                                                </span>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="price-box">
-                                                    <div class="price-amount fs-14">
-                                                        {{ $service->price ? number_format($service->price) . ' So‘m' : 'Narx keltirilmagan' }}
-                                                    </div>
-                                                    <div class="price-unit fs-12 text-muted">
-                                                        / {{ $service->type_price ?? 'Noma’lum' }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mt-3 text-center position-relative">
-                                                @php
-                                                    $hasOrdered = $userOrders[$service->id] ?? false;
-                                                @endphp
-
-                                                @if ($hasOrdered)
-                                                    @php
-                                                        $phoneRaw = $service->provider->phone ?? null;
-
-                                                        if ($phoneRaw) {
-                                                            if (!str_starts_with($phoneRaw, '+998')) {
-                                                                if (str_starts_with($phoneRaw, '0')) {
-                                                                    $phoneRaw = '+998' . substr($phoneRaw, 1);
-                                                                } else {
-                                                                    $phoneRaw = '+998' . $phoneRaw;
-                                                                }
-                                                            }
-
-                                                            $phoneDigits = substr($phoneRaw, 4);
-                                                            $formattedPhone = '+998 '
-                                                                . substr($phoneDigits, 0, 2) . ' '
-                                                                . substr($phoneDigits, 2, 3) . ' '
-                                                                . substr($phoneDigits, 5, 2) . ' '
-                                                                . substr($phoneDigits, 7, 2);
-                                                        } else {
-                                                            $formattedPhone = 'Noma’lum';
-                                                        }
-                                                    @endphp
-
-                                                    <div class="text-primary">📞 {{ $formattedPhone }}</div>
-                                                @else
-                                                    @auth
-                                                        <form method="POST"
-                                                              action="{{ route('order.create', $service->id) }}">
-                                                            @csrf
-                                                            <button class="btn order-btn text-white w-100">Hozir
-                                                                Buyurtma Bering
-                                                            </button>
-                                                        </form>
-                                                    @else
-                                                        <a href="#" class="btn order-btn text-white w-100"
-                                                           data-bs-toggle="modal" data-bs-target="#login-modal">
-                                                            Hozir Buyurtma Bering
-                                                        </a>
-                                                    @endauth
-
-                                                @endif
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @empty
-                                <div class="col-12">
-                                    <p class="text-center">Bu filtrlar bo‘yicha xizmatlar topilmadi.</p>
-                                </div>
-                            @endforelse
-                        </div>
-
-                        <!-- Sahifalash -->
-                        <nav aria-label="Page navigation">
-                            {{ $services->appends(request()->query())->links('vendor.pagination.bootstrap-5') }}
+                    <div class="col-md-12 col-12">
+                        <h2 class="breadcrumb-title mb-2 pt-5">Xizmatlar</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center mb-0">
+                                <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="ti ti-home-2"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Xizmatlar</li>
+                            </ol>
                         </nav>
                     </div>
                 </div>
+                <div class="breadcrumb-bg">
+                    <img src="{{ asset('front/img/bg/breadcrumb-bg-01.png') }}" class="breadcrumb-bg-1" alt="Img">
+                    <img src="{{ asset('front/img/bg/breadcrumb-bg-02.png') }}" class="breadcrumb-bg-2" alt="Img">
+                </div>
             </div>
         </div>
-    </div>
-    <!-- /Page Wrapper -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const forms = document.querySelectorAll('form[id^="order-form-"]');
+        <!-- /Breadcrumb -->
 
-            forms.forEach(form => {
-                form.addEventListener('submit', function (e) {
-                    const serviceId = this.id.replace('order-form-', '');
-                    const button = document.getElementById('order-btn-' + serviceId);
-                    const providerInfo = document.getElementById('provider-info-' + serviceId);
+        <!-- Page Wrapper -->
+        <div class="page-wrapper">
+            {{--        toast start--}}
+            @include('components.page.toast')
+            {{--        toast end--}}
 
-                    // Tugmani deaktiv qilish
-                    button.disabled = true;
-                    button.innerText = "Buyurtma yuborildi";
+            <div class="content">
+                <div class="container">
+                    <div class="row">
+                        <!-- Mobilda ko‘rinadigan fixed search panel -->
+                        <div class="mobile-filter-bar d-md-none">
+                            <form action="{{ route('page.service') }}" method="GET" class="d-flex">
+                                <input type="text" name="keywords" class="form-control me-2" placeholder="Xizmat qidiring"
+                                       value="{{ request('keywords') }}">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
+                                        data-bs-target="#mobileFilter">
+                                    <i class="ti ti-filter"></i>
+                                </button>
+                            </form>
+                        </div>
 
-                    // Provider raqamini ko‘rsatish
-                    providerInfo.classList.remove('d-none');
+                        @include('components.page.mobile-filter')
+
+                        <!-- Desktop Filter Sidebar -->
+                        <div class="col-xl-3 col-lg-4 theiaStickySidebar d-none d-md-block">
+                            <div class="card mb-4 mb-lg-0">
+                                <div class="card-body">
+                                    <form action="{{ route('page.service') }}" method="GET" id="filterForm">
+                                        <div
+                                            class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                                            <h5><i class="ti ti-filter-check me-2"></i>Filterlar</h5>
+                                            <a href="{{ route('page.service') }}">Filtrni Tiklash</a>
+                                        </div>
+                                        <div class="mb-3 pb-3 border-bottom">
+                                            <label class="form-label">Kalit So‘z Bo‘yicha Qidirish</label>
+                                            <input type="text" name="keywords" id="keywords" class="form-control"
+                                                   maxlength="50" placeholder="Kerakli xizmatni kiriting"
+                                                   value="{{ request('keywords') }}">
+                                        </div>
+                                        <div class="accordion border-bottom mb-3">
+                                            <div class="accordion-item mb-3">
+                                                <div class="accordion-header" id="accordion-headingThree">
+                                                    <div class="accordion-button p-0 mb-3" data-bs-toggle="collapse"
+                                                         data-bs-target="#accordion-collapseThree" aria-expanded="true"
+                                                         aria-controls="accordion-collapseThree" role="button">
+                                                        Kategoriyalar
+                                                    </div>
+                                                </div>
+                                                <div id="accordion-collapseThree" class="accordion-collapse collapse show"
+                                                     aria-labelledby="accordion-headingThree">
+                                                    <div class="content-list mb-3" id="fill-more">
+                                                        <div class="form-check mb-2">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" id="all_categories"
+                                                                       type="checkbox">
+                                                                Barcha toifalar
+                                                            </label>
+                                                        </div>
+                                                        @foreach ($categories as $category)
+                                                            <div class="form-check mb-2">
+                                                                <label class="form-check-label">
+                                                                    <input name="cate[]" value="{{ $category->id }}"
+                                                                           class="form-check-input filter_category"
+                                                                           type="checkbox"
+                                                                        {{ in_array($category->id, $selectedCategories) ? 'checked' : '' }}>
+                                                                    {{ $category->title_uz }}
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion border-bottom mb-3">
+                                            <div class="accordion-header" id="accordion-headingFour">
+                                                <div class="accordion-button p-0 mb-3" data-bs-toggle="collapse"
+                                                     data-bs-target="#accordion-collapseFour" aria-expanded="true"
+                                                     aria-controls="accordion-collapseFour" role="button">
+                                                    Subkategoriya
+                                                </div>
+                                            </div>
+                                            <div id="accordion-collapseFour" class="accordion-collapse collapse show"
+                                                 aria-labelledby="accordion-headingFour">
+                                                <div class="mb-3">
+                                                    <select class="form-select" name="subcategory" id="subcategory">
+                                                        <option value="" {{ request('subcategory') ? '' : 'selected' }}>
+                                                            Subkategoriyani tanlang
+                                                        </option>
+                                                        @foreach ($categories->flatMap->children as $subcategory)
+                                                            <option
+                                                                value="{{ $subcategory->id }}" {{ request('subcategory') == $subcategory->id ? 'selected' : '' }}>
+                                                                {{ $subcategory->title_uz }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion border-bottom mb-3">
+                                            <div class="accordion-header" id="accordion-headingFive">
+                                                <div class="accordion-button p-0 mb-3" data-bs-toggle="collapse"
+                                                     data-bs-target="#accordion-collapseFive" aria-expanded="true"
+                                                     aria-controls="accordion-collapseFive" role="button">
+                                                    Joylashuv
+                                                </div>
+                                            </div>
+                                            <div id="accordion-collapseFive" class="accordion-collapse collapse show"
+                                                 aria-labelledby="accordion-headingFive">
+                                                <div class="mb-3">
+                                                    <select class="form-select" name="location" id="location">
+                                                        <option value="" {{ request('location') ? '' : 'selected' }}>Joyni
+                                                            Tanlang
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion border-bottom mb-3">
+                                            <div class="accordion-header" id="accordion-headingSix">
+                                                <div class="accordion-button p-0 mb-3" data-bs-toggle="collapse"
+                                                     data-bs-target="#accordion-collapseSix" aria-expanded="true"
+                                                     aria-controls="accordion-collapseSix" role="button">
+                                                    Narxlar oralig‘i
+                                                </div>
+                                            </div>
+                                            <div id="accordion-collapseSix" class="accordion-collapse collapse show"
+                                                 aria-labelledby="accordion-headingSix">
+                                                <div class="filter-range">
+                                                    <input type="text" id="range" class="range" name="range_price"
+                                                           value="{{ request('range_price') }}">
+                                                </div>
+                                                <div class="filter-range-amount mb-3">
+                                                    <p class="fs-14" id="price_display">Narx
+                                                        <span>{{ request('range_price') ?: '0 - 0' }}</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion">
+                                            <div class="accordion-item mb-3">
+                                                <div class="accordion-header" id="accordion-headingTwo">
+                                                    <div class="accordion-button fs-18 p-0 mb-3" data-bs-toggle="collapse"
+                                                         data-bs-target="#accordion-collapseTwo" aria-expanded="true"
+                                                         aria-controls="accordion-collapseTwo" role="button">
+                                                        Baholar
+                                                    </div>
+                                                </div>
+                                                <div id="accordion-collapseTwo" class="accordion-collapse collapse show"
+                                                     aria-labelledby="accordion-headingTwo">
+                                                    <div class="mb-3">
+                                                        @foreach ([5, 4, 3, 2, 1] as $rate)
+                                                            <div class="form-check mb-2">
+                                                                <label class="form-check-label d-block">
+                                                                    <input class="form-check-input rating_filter"
+                                                                           name="rating[]" value="{{ $rate }}"
+                                                                           type="checkbox"
+                                                                        {{ in_array($rate, request('rating', [])) ? 'checked' : '' }}>
+                                                                    <span class="rating">
+                                                                        @for ($i = 1; $i <= 5; $i++)
+                                                                            <i class="fas fa-star {{ $i <= $rate ? 'filled' : '' }}"></i>
+                                                                        @endfor
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-dark w-100" id="searchServiceBtn">Qidirish
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Xizmatlar ro'yxati -->
+                        <div class="col-xl-9 col-lg-8">
+                            <div class="row align-items-center">
+                                @forelse ($services as $service)
+                                    <div class="col-6 col-sm-6 col-md-6 col-xl-4 mb-4">
+                                        <div class="card service-card p-0 shadow-sm">
+                                            <div class="position-relative">
+                                                <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}">
+                                                    <img
+                                                        src="{{ $service->image ? asset('storage/' . $service->image) : asset('front/img/default-placeholder-image.png') }}"
+                                                        alt="{{ $service->title_uz }}">
+                                                </a>
+                                                <span
+                                                    class="category-tag">{{ $service->category->title_uz ?? 'Noma’lum kategoriya' }}</span>
+                                                <a href="javascript:void(0);" onclick="addfavour({{ $service->id }})"
+                                                   class="fav-icon">
+                                                    <i class="ti ti-heart"></i>
+                                                </a>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <h5 class="mb-2 fs-12">
+                                                    <a href="{{ route('single.service', ['id' => $service->id, 'slug' => $service->slug]) }}">{{ $service->title_uz }}</a>
+                                                </h5>
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <p class="fs-14 mb-0">
+                                                        <i class="ti ti-map-pin me-2"></i>
+                                                        <!-- Joylashuv maydoni yo'q -->
+                                                    </p>
+                                                    <span class="rating-stars">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            <i class="fas fa-star {{ $i <= 0 ? 'filled' : '' }} text-warning"></i>
+                                                        @endfor
+                                                        <span class="ms-1 text-gray">0.0</span>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="price-box">
+                                                        <div class="price-amount fs-14">
+                                                            {{ $service->price ? number_format($service->price) . ' So‘m' : 'Narx keltirilmagan' }}
+                                                        </div>
+                                                        <div class="price-unit fs-12 text-muted">
+                                                            / {{ $service->type_price ?? 'Noma’lum' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 text-center position-relative">
+                                                    @auth
+                                                        <a href="{{ route('order.page', $service->id) }}" class="btn order-btn text-white w-100">
+                                                            Hozir Buyurtma Bering
+                                                        </a>
+                                                    @else
+                                                        <a href="#" class="btn order-btn text-white w-100" data-bs-toggle="modal" data-bs-target="#login-modal">
+                                                            Hozir Buyurtma Bering
+                                                        </a>
+                                                    @endauth
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="col-12">
+                                        <p class="text-center">Bu filtrlar bo‘yicha xizmatlar topilmadi.</p>
+                                    </div>
+                                @endforelse
+                            </div>
+
+                            <!-- Sahifalash -->
+                            <nav aria-label="Page navigation">
+                                {{ $services->appends(request()->query())->links('vendor.pagination.bootstrap-5') }}
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Wrapper -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const forms = document.querySelectorAll('form[id^="order-form-"]');
+
+                forms.forEach(form => {
+                    form.addEventListener('submit', function (e) {
+                        const serviceId = this.id.replace('order-form-', '');
+                        const button = document.getElementById('order-btn-' + serviceId);
+                        const providerInfo = document.getElementById('provider-info-' + serviceId);
+
+                        // Tugmani deaktiv qilish
+                        button.disabled = true;
+                        button.innerText = "Buyurtma yuborildi";
+
+                        // Provider raqamini ko‘rsatish
+                        providerInfo.classList.remove('d-none');
+                    });
                 });
             });
-        });
-    </script>
+        </script>
 
-@endsection
+    @endsection
