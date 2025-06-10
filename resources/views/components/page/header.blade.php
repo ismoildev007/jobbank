@@ -282,53 +282,119 @@
 </div>
 
 <!-- Mobile Bottom Navbar -->
-<div class="mobile-nav d-flex justify-content-around align-items-center d-md-none fixed-bottom bg-white border-top shadow-sm py-2 px-1">
+<div class="mobile-nav d-flex justify-content-around align-items-center d-md-none fixed-bottom bg-white border-top shadow-sm px-3 py-2" style="height: 70px;">
 
+    <!-- Bosh sahifa -->
     <a href="/" class="nav-icon text-center {{ request()->is('/') ? 'active' : '' }}">
-        <i class="ti ti-home fs-20"></i>
+        <i class="ti ti-home fs-24"></i>
         <div class="small">Bosh sahifa</div>
     </a>
 
-    <a href="{{ route('page.service') }}" class="nav-icon text-center {{ Route::is('page.service') ? 'active' : '' }}">
-        <i class="ti ti-layout-grid fs-20"></i>
+    <!-- Xizmatlar -->
+    <a href="#" class="nav-icon text-center {{ Route::is('page.service') ? 'active' : '' }}">
+        <i class="ti ti-layout-grid fs-24"></i>
         <div class="small">Xizmatlar</div>
     </a>
 
-    <a href="#" class="nav-icon text-center ">
-        <i class="ti ti-notebook fs-20"></i>
-        <div class="small">Blog</div>
+    <!-- Tezkor xizmatlar (Markazda joylashgan, Bootstrap Icons bilan) -->
+    <a href="#tezkor-form" class="nav-icon text-center position-relative" data-bs-toggle="modal">
+        <div class="quick-btn rounded-circle d-flex justify-content-center align-items-center shadow" style="width: 50px; height: 50px; margin-top: -25px; border: 2px solid #000;">
+            <i class="bi bi-lightning-fill fs-20" style="color: #000;"></i>
+        </div>
+        <div class="small text-dark mt-1" style="font-weight: 500;">Tezkor</div>
     </a>
 
+    <!-- Sevimlilar -->
+    <a href="#" class="nav-icon text-center {{ Route::is('favorites.index') ? 'active' : '' }}">
+        <i class="ti ti-heart fs-24"></i>
+        <div class="small">Sevimlilar</div>
+    </a>
+
+    <!-- Profil yoki Kirish -->
     @guest
-        <!-- Kirilmagan foydalanuvchi uchun -->
         <a href="#" class="nav-icon text-center" data-bs-toggle="modal" data-bs-target="#login-modal" id="header-login">
-            <i class="ti ti-lock fs-20"></i>
+            <i class="ti ti-lock fs-24"></i>
             <div class="small">Kirish</div>
         </a>
     @else
         @php
             $user = Auth::user();
-        @endphp
-        @php
             $nameWords = explode(' ', $user->full_name);
-            $displayName = implode(' ', array_slice($nameWords, 0, 1)); // 2 ta so'z
+            $displayName = $nameWords[0];
         @endphp
-
-        @if ($user->role === '1' && $user->status === 'active')
-            <!-- Provider bo‘lsa va status active bo‘lsa -->
-            <a href="{{ route('provider.profile') }}" class="nav-icon text-center {{ request()->is('provider/profile') ? 'active' : '' }}">
-                <i class="ti ti-user-user fs-20"></i>
-                <div class="small">{{ $displayName }}</div>
-            </a>
-        @else
-            <!-- Oddiy foydalanuvchi -->
-            <a href="{{ route('user.profile') }}" class="nav-icon text-center {{ request()->is('user/profile') ? 'active' : '' }}">
-                <i class="ti ti-user fs-20"></i>
-                <div class="small">{{ $displayName }}</div>
-            </a>
-        @endif
+        <a href="#" class="nav-icon text-center {{ request()->is('user/profile') ? 'active' : '' }}">
+            <i class="ti ti-user fs-24"></i>
+            <div class="small">{{ $displayName }}</div>
+        </a>
     @endguest
 
 </div>
 
-<!-- /Header -->
+<!-- Tezkor Xizmat Formasi (Modal) -->
+<div class="modal fade" id="tezkor-form" tabindex="-1" aria-labelledby="tezkorFormLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tezkorFormLabel">Tezkor Xizmat Uchun Ariza</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Ismingiz</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="service" class="form-label">Xizmat turi</label>
+                        <select class="form-select" id="service" required>
+                            <option value="">Tanlang</option>
+                            <option value="repair">Ta'mirlash</option>
+                            <option value="delivery">Yetkazib berish</option>
+                            <option value="consultation">Maslahat</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Izoh</label>
+                        <textarea class="form-control" id="description" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100">Yuborish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS -->
+<style>
+    .quick-btn {
+        transition: all 0.3s ease;
+        width: 50px;
+        height: 50px;
+        margin-top: -25px;
+        border: 2px solid #000;
+        background-color: transparent;
+        animation: pulse 2s infinite;
+    }
+    .quick-btn:hover {
+        transform: scale(1.2);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    .nav-icon .small {
+        font-size: 0.7rem;
+    }
+    .modal-content {
+        border-radius: 10px;
+    }
+    .btn-close {
+        font-size: 1.5rem;
+    }
+</style>
+
+<!-- JavaScript va Bootstrap uchun CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
