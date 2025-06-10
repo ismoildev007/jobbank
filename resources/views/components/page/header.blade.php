@@ -173,7 +173,8 @@
                 @guest
                     <!-- Guestlar uchun: Kirish va Ro'yxatdan o'tish -->
                     <li class="nav-item pe-1">
-                        <a class="nav-link btn btn-light" href="#" data-bs-toggle="modal" data-bs-target="#login-modal" id="header-login">
+                        <a class="nav-link btn btn-light" href="#" data-bs-toggle="modal" data-bs-target="#login-modal"
+                           id="header-login">
                             <i class="ti ti-lock me-2"></i>Kirish
                         </a>
                     </li>
@@ -192,7 +193,7 @@
                         @if ($user->status === 'Aktiv')
                             <!-- Status active bo'lsa profilni ko'rsatamiz -->
                             <li class="nav-item ">
-                                <a class="nav-link  d-flex align-items-center" href="{{route('services.index')}}" >
+                                <a class="nav-link  d-flex align-items-center" href="{{route('services.index')}}">
                                     <i class="ti ti-user fs-16 me-2"></i>
                                     <span>{{ $user->full_name }}</span>
                                 </a>
@@ -206,7 +207,8 @@
                     @else
                         <!-- Oddiy userlar uchun: Profil ikon va dropdown bosh qismda -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button"
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown"
+                               role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="ti ti-user fs-16 me-2"></i>
                                 <span>{{ $user->full_name }}</span>
@@ -277,7 +279,9 @@
 </div>
 
 <!-- Mobile Bottom Navbar -->
-<div class="mobile-nav d-flex justify-content-around align-items-center d-md-none fixed-bottom bg-white border-top shadow-sm px-3 py-2" style="height: 70px;">
+<div
+    class="mobile-nav d-flex justify-content-around align-items-center d-md-none fixed-bottom bg-white border-top shadow-sm px-3 py-2"
+    style="height: 70px;">
 
     <!-- Bosh sahifa -->
     <a href="/" class="nav-icon text-center {{ request()->is('/') ? 'active' : '' }}">
@@ -293,7 +297,8 @@
 
     <!-- Tezkor xizmatlar (Markazda joylashgan, Bootstrap Icons bilan) -->
     <a href="#tezkor-form" class="nav-icon text-center position-relative" data-bs-toggle="modal">
-        <div class="quick-btn rounded-circle d-flex justify-content-center align-items-center shadow" style="width: 50px; height: 50px; margin-top: -25px; border: 2px solid #0056b3;">
+        <div class="quick-btn rounded-circle d-flex justify-content-center align-items-center shadow"
+             style="width: 50px; height: 50px; margin-top: -25px; border: 2px solid #0056b3;">
             <i class="bi bi-lightning-fill fs-20" style="color: #0056b3;"></i>
         </div>
         <div class="small text-dark mt-1" style="font-weight: 500;">Tezkor</div>
@@ -336,33 +341,55 @@
             <div class="modal-body">
                 <form id="tezkor-form-submit" action="{{ route('tezkor.order.store') }}" method="POST">
                     @csrf
+
+                    <!-- Telefon -->
                     <div class="mb-3">
-                        <label for="name" class="form-label">Ismingiz</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <label for="additional_phone" class="form-label"> Telefon raqamingiz</label>
+
+                        <input type="tel"
+                               class="form-control"
+                               id="additional_phone"
+                               name="additional_phone"
+                               placeholder="+998 90 123 45 67"
+                               required
+                               maxlength="19">
                     </div>
+
+                    <!-- Asosiy kategoriya -->
                     <div class="mb-3">
-                        <label for="category_id" class="form-label">Kategoriyani tanlang</label>
+                        <label for="category_id" class="form-label">Xizmat turini tanlang</label>
                         <select class="form-select" id="category_id" name="category_id" required>
-                            <option value="">Tanlang</option>
+                            <option value="">-- Tanlang --</option>
                             @foreach (\App\Models\Category::whereNull('parent_id')->get() as $category)
                                 <option value="{{ $category->id }}">{{ $category->title_uz }}</option>
                             @endforeach
                         </select>
                     </div>
+
+                    <!-- Subkategoriya -->
                     <div class="mb-3">
-                        <label for="sub_category_id" class="form-label">Subkategoriya</label>
+                        <label for="sub_category_id" class="form-label">Yo‘nalishni aniqlashtiring
+                            (subkategoriya)</label>
                         <select class="form-select" id="sub_category_id" name="sub_category_id" required>
-                            <option value="">Avval kategoriyani tanlang</option>
+                            <option value="">Avval xizmat turini tanlang</option>
                         </select>
                     </div>
+
+                    <!-- Narx -->
                     <div class="mb-3">
-                        <label for="price_range" class="form-label">Narx oraligi bu yerdan narx chiqadi</label>
+                        <label for="price_range" class="form-label">
+                            Standart narx <span class="text-muted"
+                                                style="font-size: 0.875rem;">(+10% holatga qarab)</span>
+                        </label>
+
                         <input type="text" class="form-control" id="price_range" name="price_range" readonly>
                     </div>
+
+                    <!-- Hudud -->
                     <div class="mb-3">
-                        <label for="region" class="form-label">Hududni tanlang</label>
+                        <label for="region" class="form-label">Xizmat ko‘rsatiladigan hududni tanlang</label>
                         <select class="form-select" id="region" name="region" required>
-                            <option value="">Tanlang</option>
+                            <option value="">-- Hududni tanlang --</option>
                             <option value="bektemir">Bektemir</option>
                             <option value="chilonzor">Chilonzor</option>
                             <option value="mirzo-ulugbek">Mirzo Ulug‘bek</option>
@@ -377,14 +404,14 @@
                             <option value="mirobod">Mirobod</option>
                         </select>
                     </div>
+
+                    <!-- Izoh -->
                     <div class="mb-3">
-                        <label for="additional_phone" class="form-label">Qushimcha telefon raqam</label>
-                        <input type="text" class="form-control" id="additional_phone" name="additional_phone" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="notes" class="form-label">Buyurtma uchun izoh</label>
+                        <label for="notes" class="form-label">Buyurtma bo‘yicha izohingiz</label>
                         <textarea class="form-control" id="notes" name="notes" rows="3" required></textarea>
                     </div>
+
+                    <!-- Submit tugmasi -->
                     <button type="submit" class="btn btn-jobbank w-100">Buyurtmani tasdiqlash</button>
                 </form>
             </div>
@@ -394,28 +421,39 @@
 <style>
     .quick-btn {
         transition: all 0.3s ease;
-        width: 38px!important;
-        height: 38px!important;
-        margin-top: -12px!important;
+        width: 38px !important;
+        height: 38px !important;
+        margin-top: -12px !important;
         border: 2px solid #0056b3;
         background-color: transparent;
         animation: pulse 2s infinite;
     }
+
     .quick-btn:hover {
         transform: scale(1.2);
         box-shadow: 0px 10px 20px #0056b3;
     }
+
     @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
     }
+
     .nav-icon .small {
         font-size: 0.7rem;
     }
+
     .modal-content {
         border-radius: 10px;
     }
+
     .btn-close {
         font-size: 1.5rem;
     }
@@ -459,5 +497,27 @@
         } else {
             priceInput.value = '';
         }
+    });
+</script>
+
+
+<script>
+    const phoneInput = document.getElementById('additional_phone');
+
+    phoneInput.addEventListener('input', function (e) {
+        let input = this.value.replace(/\D/g, ''); // faqat raqamlar
+        if (!input.startsWith('998')) {
+            input = '998' + input;
+        }
+        input = input.substring(0, 12); // faqat 12 ta raqam (998 + 9 ta raqam)
+
+        // Formatlash: +998 90 123 45 67
+        let formatted = '+998 ';
+        if (input.length > 3) formatted += input.substring(3, 5);
+        if (input.length > 5) formatted += ' ' + input.substring(5, 8);
+        if (input.length > 8) formatted += ' ' + input.substring(8, 10);
+        if (input.length > 10) formatted += ' ' + input.substring(10, 12);
+
+        this.value = formatted.trim();
     });
 </script>
