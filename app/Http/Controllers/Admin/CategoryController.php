@@ -14,9 +14,33 @@ class CategoryController extends Controller
     public function getSubCategories(Request $request)
     {
         $categoryId = $request->query('category_id');
-        $subCategories = Category::where('parent_id', $categoryId)->get();
+        $onlyFeatured = $request->query('only_featured', false); // default: false
+
+        $query = Category::where('parent_id', $categoryId);
+
+        if ($onlyFeatured) {
+            $query->where('is_featured', 1);
+        }
+
+        $subCategories = $query->get();
+
         return response()->json($subCategories);
     }
+
+
+    public function getSubCategoryPrice($id)
+    {
+        $subcategory = \App\Models\Category::find($id);
+
+        if (!$subcategory) {
+            return response()->json(['price' => 0]);
+        }
+
+        return response()->json(['price' => $subcategory->price]);
+    }
+
+
+
     public function index()
     {
         $categories = Category::all();
@@ -38,12 +62,14 @@ class CategoryController extends Controller
             'description_uz' => 'required',
             'description_ru' => 'required',
             'description_en' => 'required',
+            'price' => 'nullable',
+            'is_featured' => 'nullable',
             'image' => 'nullable|file|mimes:jpg,jpeg,png',
         ]);
 
         $data = $request->only([
             'title_uz', 'title_ru', 'title_en', 'parent_id',
-            'description_uz', 'description_ru', 'description_en'
+            'description_uz', 'description_ru', 'description_en','price','is_featured'
         ]);
         $data['slug'] = Str::uuid();
         if ($request->hasFile('image')) {
@@ -78,12 +104,14 @@ class CategoryController extends Controller
             'description_uz' => 'required',
             'description_ru' => 'required',
             'description_en' => 'required',
+            'price' => 'nullable',
+            'is_featured' => 'nullable',
             'image' => 'nullable|file|mimes:jpg,jpeg,png',
         ]);
 
         $data = $request->only([
             'title_uz', 'title_ru', 'title_en', 'parent_id',
-            'description_uz', 'description_ru', 'description_en'
+            'description_uz', 'description_ru', 'description_en','price','is_featured'
         ]);
         $data['slug'] = Str::slug($request->title_uz);
 

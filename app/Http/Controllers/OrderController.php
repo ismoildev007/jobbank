@@ -50,6 +50,29 @@ class OrderController extends Controller
 
         return redirect()->route('order.success', ['service' => $service->id])->with('success', 'Buyurtma muvaffaqiyatli yuborildi!');
     }
+
+    public function storeTezkorOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'additional_phone' => 'required|string|max:20',
+            'category_id' => 'required|exists:categories,id',
+            'sub_category_id' => 'required|exists:categories,id',
+        ]);
+
+        Order::create([
+            'user_id' => Auth::id() ?? null,
+            'name' => $validated['name'],
+            'additional_phone' => $validated['additional_phone'],
+            'category_id' => $validated['category_id'],
+            'service_id' => null,
+            'provider_id' => null,
+            'order_date' => now(),
+            'status' => 'pending',
+        ]);
+
+        return redirect()->back()->with('success', 'Tezkor buyurtma muvaffaqiyatli yuborildi!');
+    }
     public function showSuccess($serviceId)
     {
         $service = Service::findOrFail($serviceId);

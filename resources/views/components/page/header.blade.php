@@ -223,12 +223,7 @@
                         </li>
                     @endif
                 @endguest
-
             </ul>
-
-
-
-
         </nav>
     </div>
 </header>
@@ -336,35 +331,66 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="tezkorFormLabel">Tezkor Xizmat Uchun Ariza</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="tezkor-form-submit" action="{{ route('tezkor.order.store') }}" method="POST">
+                    @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Ismingiz</label>
-                        <input type="text" class="form-control" id="name" required>
+                        <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="service" class="form-label">Xizmat turi</label>
-                        <select class="form-select" id="service" required>
+                        <label for="category_id" class="form-label">Kategoriyani tanlang</label>
+                        <select class="form-select" id="category_id" name="category_id" required>
                             <option value="">Tanlang</option>
-                            <option value="repair">Ta'mirlash</option>
-                            <option value="delivery">Yetkazib berish</option>
-                            <option value="consultation">Maslahat</option>
+                            @foreach (\App\Models\Category::whereNull('parent_id')->get() as $category)
+                                <option value="{{ $category->id }}">{{ $category->title_uz }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Izoh</label>
-                        <textarea class="form-control" id="description" rows="3" required></textarea>
+                        <label for="sub_category_id" class="form-label">Subkategoriya</label>
+                        <select class="form-select" id="sub_category_id" name="sub_category_id" required>
+                            <option value="">Avval kategoriyani tanlang</option>
+                        </select>
                     </div>
-                    <button type="submit" class="btn btn-dark w-100">Yuborish</button>
+                    <div class="mb-3">
+                        <label for="price_range" class="form-label">Narx oraligi bu yerdan narx chiqadi</label>
+                        <input type="text" class="form-control" id="price_range" name="price_range" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="region" class="form-label">Hududni tanlang</label>
+                        <select class="form-select" id="region" name="region" required>
+                            <option value="">Tanlang</option>
+                            <option value="bektemir">Bektemir</option>
+                            <option value="chilonzor">Chilonzor</option>
+                            <option value="mirzo-ulugbek">Mirzo Ulug‘bek</option>
+                            <option value="olmazor">Olmazor</option>
+                            <option value="sergeli">Sergeli</option>
+                            <option value="shayxontohur">Shayxontohur</option>
+                            <option value="uchtepа">Uchtepa</option>
+                            <option value="yakkasaroy">Yakkasaroy</option>
+                            <option value="yashnobod">Yashnobod</option>
+                            <option value="yunusobod">Yunusobod</option>
+                            <option value="yangihayot">Yangihayot</option>
+                            <option value="mirobod">Mirobod</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="additional_phone" class="form-label">Qushimcha telefon raqam</label>
+                        <input type="text" class="form-control" id="additional_phone" name="additional_phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Buyurtma uchun izoh</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-jobbank w-100">Buyurtmani tasdiqlash</button>
                 </form>
             </div>
         </div>
     </div>
-</div>
-
-<!-- CSS -->
+</div><!-- CSS -->
 <style>
     .quick-btn {
         transition: all 0.3s ease;
@@ -396,5 +422,42 @@
 </style>
 
 <!-- JavaScript va Bootstrap uchun CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('category_id').addEventListener('change', function () {
+        let categoryId = this.value;
+        let subCategorySelect = document.getElementById('sub_category_id');
+
+        if (categoryId) {
+            fetch(`/get-sub-categories?category_id=${categoryId}&only_featured=1`)
+                .then(response => response.json())
+                .then(data => {
+                    subCategorySelect.innerHTML = '<option value="">Subkategoriyani tanlang</option>';
+                    data.forEach(sub => {
+                        subCategorySelect.innerHTML += `<option value="${sub.id}">${sub.title_uz}</option>`;
+                    });
+                })
+                .catch(error => {
+                    console.error('Xato:', error);
+                    subCategorySelect.innerHTML = '<option value="">Subkategoriyalarni yuklashda xato</option>';
+                });
+        } else {
+            subCategorySelect.innerHTML = '<option value="">Avval kategoriyani tanlang</option>';
+        }
+    });
+    document.getElementById('sub_category_id').addEventListener('change', function () {
+        let subCategoryId = this.value;
+        let priceInput = document.getElementById('price_range');
+
+        priceInput.value = 'Yuklanmoqda...';
+
+        if (subCategoryId) {
+            fetch(`/get-subcategory-price/${subCategoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    priceInput.value = data.price + ' so‘m';
+                });
+        } else {
+            priceInput.value = '';
+        }
+    });
+</script>

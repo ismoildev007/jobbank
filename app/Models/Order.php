@@ -45,7 +45,9 @@ class Order extends Model
     protected static function booted()
     {
         static::created(function ($order) {
-            $order->provider->increment('orders_count');
+            if ($order->provider) { // Check if provider exists
+                $order->provider->increment('orders_count');
+            }
         });
     }
 

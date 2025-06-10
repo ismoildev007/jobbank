@@ -19,6 +19,8 @@ class Category extends Model
         'description_ru',
         'description_en',
         'image',
+        'price',         // yangi qo‘shildi
+        'is_featured',   // yangi qo‘shildi
     ];
     public function parent()
     {

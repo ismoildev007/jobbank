@@ -14,7 +14,7 @@
                     <form  action="{{route('categories.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-4">
-                            <div class="col-md-12 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <div class="form-floating form-floating-outline">
                                     <select class="form-select" name="parent_id" id="parent_id">
                                         <option value="">-- No Parent --</option>
@@ -28,6 +28,21 @@
                                     </select>
                                     <label for="parent_id">Parent Category</label>
                                 </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="number" id="price" name="price" class="form-control"
+                                           placeholder="Price" value="{{ old('price', $category->price) }}">
+                                    <label for="price">Narxi (UZS)</label>
+                                    @error('price') <small class="text-danger">{{ $message }}</small> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" value="1" name="is_featured" id="is_featured" {{ old('is_featured', $category->is_featured) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_featured">Tezkor bo‘limga chiqsinmi?</label>
+                                </div>
+
                             </div>
                             <ul class="nav nav-tabs mb-4" role="tablist">
                                 <li class="nav-item" role="presentation">

@@ -67,7 +67,10 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
 
 Route::get('/pricing', [SubController::class, 'index'])->name('pricing');
 
+Route::post('/tezkor/order', [OrderController::class, 'storeTezkorOrder'])->name('tezkor.order.store');
 Route::get('/get-sub-categories', [CategoryController::class, 'getSubCategories'])->name('get.sub.categories');
+Route::get('/get-subcategory-price/{id}', [CategoryController::class, 'getSubcategoryPrice']);
+
 Route::post('locale', [LanguageController::class, 'setLocale'])->name('locale.change');
 
 
