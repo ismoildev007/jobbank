@@ -368,9 +368,9 @@
 <style>
     .quick-btn {
         transition: all 0.3s ease;
-        width: 40px!important;
-        height: 40px!important;
-        margin-top: 4px!important;
+        width: 38px!important;
+        height: 38px!important;
+        margin-top: -12px!important;
         border: 2px solid #0056b3;
         background-color: transparent;
         animation: pulse 2s infinite;
