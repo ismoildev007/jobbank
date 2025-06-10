@@ -298,8 +298,8 @@
 
     <!-- Tezkor xizmatlar (Markazda joylashgan, Bootstrap Icons bilan) -->
     <a href="#tezkor-form" class="nav-icon text-center position-relative" data-bs-toggle="modal">
-        <div class="quick-btn rounded-circle d-flex justify-content-center align-items-center shadow" style="width: 50px; height: 50px; margin-top: -25px; border: 2px solid #000;">
-            <i class="bi bi-lightning-fill fs-20" style="color: #000;"></i>
+        <div class="quick-btn rounded-circle d-flex justify-content-center align-items-center shadow" style="width: 50px; height: 50px; margin-top: -25px; border: 2px solid #0056b3;">
+            <i class="bi bi-lightning-fill fs-20" style="color: #0056b3;"></i>
         </div>
         <div class="small text-dark mt-1" style="font-weight: 500;">Tezkor</div>
     </a>
@@ -371,13 +371,13 @@
         width: 50px;
         height: 50px;
         margin-top: -25px;
-        border: 2px solid #000;
+        border: 2px solid #0056b3;
         background-color: transparent;
         animation: pulse 2s infinite;
     }
     .quick-btn:hover {
         transform: scale(1.2);
-        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 10px 20px #0056b3;
     }
     @keyframes pulse {
         0% { transform: scale(1); }
