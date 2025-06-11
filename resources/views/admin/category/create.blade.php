@@ -32,14 +32,14 @@
                             <div class="col-md-4">
                                 <div class="form-floating form-floating-outline">
                                     <input type="number" id="price" name="price" class="form-control"
-                                           placeholder="Price" value="{{ old('price', $category->price) }}">
+                                           placeholder="Price">
                                     <label for="price">Narxi (UZS)</label>
                                     @error('price') <small class="text-danger">{{ $message }}</small> @enderror
                                 </div>
                             </div>
                             <div class="col-md-4 d-flex align-items-center">
                                 <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" value="1" name="is_featured" id="is_featured" {{ old('is_featured', $category->is_featured) ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" value="1" name="is_featured" id="is_featured" >
                                     <label class="form-check-label" for="is_featured">Tezkor bo‘limga chiqsinmi?</label>
                                 </div>
 
