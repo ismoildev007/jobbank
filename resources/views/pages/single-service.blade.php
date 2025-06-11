@@ -66,26 +66,26 @@
                                         </div>
                                         <div class="owl-dots disabled"></div>
                                     </div>
-                                    <div class="owl-carousel slider-nav-thumbnails nav-center owl-loaded owl-drag" id="small-img">
-                                        <div class="owl-stage-outer">
-                                            <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s; width: 144px;">
-                                                @if ($service->image)
-                                                    <div class="owl-item active current" style="width: 133.2px; margin-right: 10px;">
-                                                        <div><img src="{{ asset('storage/' . $service->image) }}" class="img-fluid img_two" alt="{{ $service->title_uz }}"></div>
-                                                    </div>
-                                                @else
-                                                    <div class="owl-item active current" style="width: 133.2px; margin-right: 10px;">
-                                                        <div><img src="https://jobbank.uz/assets/img/placeholder.jpg" class="img-fluid img_two" alt="Default Img"></div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="owl-nav disabled">
-                                            <button type="button" role="presentation" class="owl-prev disabled"><i class="fa-solid fa-chevron-left"></i></button>
-                                            <button type="button" role="presentation" class="owl-next disabled"><i class="fa-solid fa-chevron-right"></i></button>
-                                        </div>
-                                        <div class="owl-dots disabled"></div>
-                                    </div>
+{{--                                    <div class="owl-carousel slider-nav-thumbnails nav-center owl-loaded owl-drag" id="small-img">--}}
+{{--                                        <div class="owl-stage-outer">--}}
+{{--                                            <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s; width: 144px;">--}}
+{{--                                                @if ($service->image)--}}
+{{--                                                    <div class="owl-item active current" style="width: 133.2px; margin-right: 10px;">--}}
+{{--                                                        <div><img src="{{ asset('storage/' . $service->image) }}" class="img-fluid img_two" alt="{{ $service->title_uz }}"></div>--}}
+{{--                                                    </div>--}}
+{{--                                                @else--}}
+{{--                                                    <div class="owl-item active current" style="width: 133.2px; margin-right: 10px;">--}}
+{{--                                                        <div><img src="https://jobbank.uz/assets/img/placeholder.jpg" class="img-fluid img_two" alt="Default Img"></div>--}}
+{{--                                                    </div>--}}
+{{--                                                @endif--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="owl-nav disabled">--}}
+{{--                                            <button type="button" role="presentation" class="owl-prev disabled"><i class="fa-solid fa-chevron-left"></i></button>--}}
+{{--                                            <button type="button" role="presentation" class="owl-next disabled"><i class="fa-solid fa-chevron-right"></i></button>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="owl-dots disabled"></div>--}}
+{{--                                    </div>--}}
                                 </div>
 
                                 <div class="accordion service-accordion">
@@ -225,10 +225,6 @@
                                         <div class="d-flex align-items-center justify-content-between mb-3">
                                             <h6 class="text-muted mb-0"><i class="ti ti-map-pin me-1"></i>Manzil</h6>
                                             <p>{{ $service->provider->location ?? 'Toshkent' }}</p>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <h6 class="text-muted mb-0"><i class="ti ti-mail me-1"></i>Elektron pochta</h6>
-                                            <p>{{ $service->provider->email ?? 'Noma’lum' }}</p>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mb-3">
                                             <h6 class="text-muted mb-0"><i class="ti ti-file-text me-1"></i>Buyurtmalar Soni</h6>
