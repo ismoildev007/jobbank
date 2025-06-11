@@ -48,7 +48,7 @@
                                 <div class="service-wrap mb-4">
                                     <div class="owl-carousel service-carousel nav-center mb-3 owl-loaded owl-drag" id="large-img">
                                         <div class="owl-stage-outer">
-                                            <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s; width: 706px;">
+                                            <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s;">
                                                 @if ($service->image)
                                                     <div class="owl-item active" style="width: 706px;">
                                                         <img src="{{ asset('storage/' . $service->image) }}" class="img-fluid img_one" alt="{{ $service->title_uz }}">
@@ -127,72 +127,72 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card border-0 mb-xl-0 mb-4">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center justify-content-between flex-wrap">
-                                    <h4 class="mb-3" id="total_review_count">Sharhlar (0)</h4>
-                                    <a class="nav-link btn btn-light" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Sharh Yozish</a>
-                                </div>
-                                <div class="row align-items-center">
-                                    <div class="col-md-5">
-                                        <div class="rating-item bg-light text-center mb-3">
-                                            <h5 class="mb-3">Mijozlarning Sharhlari va Baholari</h5>
-                                            <div class="d-inline-flex align-items-center justify-content-center" id="stars_container">
-                                                <i class="ti ti-star text-warning me-1"></i>
-                                                <i class="ti ti-star text-warning me-1"></i>
-                                                <i class="ti ti-star text-warning me-1"></i>
-                                                <i class="ti ti-star text-warning me-1"></i>
-                                                <i class="ti ti-star text-warning me-1"></i>
-                                            </div>
-                                            <p class="mb-3" id="avg_rating">(0.0 dan 5.0)</p>
-                                            <p class="text-gray-9" id="totalReviewCount">0 Sharhlar asosida</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="rating-progress mb-3" id="review_progress_container">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <p class="me-2 text-nowrap mb-0">5 Yulduz Baholari</p>
-                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>
-                                                </div>
-                                                <p class="progress-count ms-2">0</p>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-2">
-                                                <p class="me-2 text-nowrap mb-0">4 Yulduz Baholari</p>
-                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>
-                                                </div>
-                                                <p class="progress-count ms-2">0</p>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-2">
-                                                <p class="me-2 text-nowrap mb-0">3 Yulduz Baholari</p>
-                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>
-                                                </div>
-                                                <p class="progress-count ms-2">0</p>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-2">
-                                                <p class="me-2 text-nowrap mb-0">2 Yulduz Baholari</p>
-                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>
-                                                </div>
-                                                <p class="progress-count ms-2">0</p>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-2">
-                                                <p class="me-2 text-nowrap mb-0">1 Yulduz Baholari</p>
-                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>
-                                                </div>
-                                                <p class="progress-count ms-2">0</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-reviews">
-                                    <!-- Sharhlar qo'shilishi mumkin -->
-                                </div>
-                            </div>
-                        </div>
+{{--                        <div class="card border-0 mb-xl-0 mb-4">--}}
+{{--                            <div class="card-body">--}}
+{{--                                <div class="d-flex align-items-center justify-content-between flex-wrap">--}}
+{{--                                    <h4 class="mb-3" id="total_review_count">Sharhlar (0)</h4>--}}
+{{--                                    <a class="nav-link btn btn-light" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Sharh Yozish</a>--}}
+{{--                                </div>--}}
+{{--                                <div class="row align-items-center">--}}
+{{--                                    <div class="col-md-5">--}}
+{{--                                        <div class="rating-item bg-light text-center mb-3">--}}
+{{--                                            <h5 class="mb-3">Mijozlarning Sharhlari va Baholari</h5>--}}
+{{--                                            <div class="d-inline-flex align-items-center justify-content-center" id="stars_container">--}}
+{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
+{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
+{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
+{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
+{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
+{{--                                            </div>--}}
+{{--                                            <p class="mb-3" id="avg_rating">(0.0 dan 5.0)</p>--}}
+{{--                                            <p class="text-gray-9" id="totalReviewCount">0 Sharhlar asosida</p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-md-7">--}}
+{{--                                        <div class="rating-progress mb-3" id="review_progress_container">--}}
+{{--                                            <div class="d-flex align-items-center mb-2">--}}
+{{--                                                <p class="me-2 text-nowrap mb-0">5 Yulduz Baholari</p>--}}
+{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
+{{--                                                </div>--}}
+{{--                                                <p class="progress-count ms-2">0</p>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="d-flex align-items-center mb-2">--}}
+{{--                                                <p class="me-2 text-nowrap mb-0">4 Yulduz Baholari</p>--}}
+{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
+{{--                                                </div>--}}
+{{--                                                <p class="progress-count ms-2">0</p>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="d-flex align-items-center mb-2">--}}
+{{--                                                <p class="me-2 text-nowrap mb-0">3 Yulduz Baholari</p>--}}
+{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
+{{--                                                </div>--}}
+{{--                                                <p class="progress-count ms-2">0</p>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="d-flex align-items-center mb-2">--}}
+{{--                                                <p class="me-2 text-nowrap mb-0">2 Yulduz Baholari</p>--}}
+{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
+{{--                                                </div>--}}
+{{--                                                <p class="progress-count ms-2">0</p>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="d-flex align-items-center mb-2">--}}
+{{--                                                <p class="me-2 text-nowrap mb-0">1 Yulduz Baholari</p>--}}
+{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
+{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
+{{--                                                </div>--}}
+{{--                                                <p class="progress-count ms-2">0</p>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="list-reviews">--}}
+{{--                                    <!-- Sharhlar qo'shilishi mumkin -->--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     </div>
                     <div class="col-xl-4">
                         <div class="card border-0">
@@ -215,7 +215,7 @@
                                                 <img src="{{ $service->provider->profile_image ?? 'https://jobbank.uz/assets/img/profile-default.png' }}" alt="img" class="img-fluid rounded-circle">
                                                 <span class="service-active-dot"><i class="ti ti-check"></i></span>
                                             </div>
-                                            <h5>{{ $service->provider->name ?? 'Noma’lum' }}</h5>
+                                            <h5>{{ $service->provider->full_name ?? 'Noma’lum' }}</h5>
                                             <p class="text-muted"><i class="ti ti-star-filled text-warning me-2"></i><span>{{ $service->provider->average_rating ?? 0 }}</span> ({{ $service->provider->reviews_count ?? 0 }} sharhlar)</p>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mb-3">
@@ -229,10 +229,6 @@
                                         <div class="d-flex align-items-center justify-content-between mb-3">
                                             <h6 class="text-muted mb-0"><i class="ti ti-mail me-1"></i>Elektron pochta</h6>
                                             <p>{{ $service->provider->email ?? 'Noma’lum' }}</p>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <h6 class="text-muted mb-0"><i class="ti ti-phone me-1"></i>Telefon</h6>
-                                            <p>{{ $service->provider->phone ?? '+X XXX XXX XXXX' }}</p>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mb-3">
                                             <h6 class="text-muted mb-0"><i class="ti ti-file-text me-1"></i>Buyurtmalar Soni</h6>
