@@ -290,7 +290,7 @@
     </a>
 
     <!-- Xizmatlar -->
-    <a href="#" class="nav-icon text-center {{ Route::is('page.service') ? 'active' : '' }}">
+    <a href="{{route('page.service')}}" class="nav-icon text-center {{ Route::is('page.service') ? 'active' : '' }}">
         <i class="ti ti-layout-grid fs-24"></i>
         <div class="small">Xizmatlar</div>
     </a>
