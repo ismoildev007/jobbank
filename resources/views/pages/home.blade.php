@@ -309,7 +309,7 @@
         </div>
     </section>
 
-    <section class="section blog-section bg-white pt-0">
+    <section class="section blog-section bg-white pt-0  d-md-block d-none">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 text-center wow fadeInUp" data-wow-delay="0.2s"
