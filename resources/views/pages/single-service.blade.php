@@ -50,11 +50,11 @@
                                         <div class="owl-stage-outer">
                                             <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s;">
                                                 @if ($service->image)
-                                                    <div class="owl-item active" style="width: 706px;">
+                                                    <div class="owl-item active">
                                                         <img src="{{ asset('storage/' . $service->image) }}" class="img-fluid img_one" alt="{{ $service->title_uz }}">
                                                     </div>
                                                 @else
-                                                    <div class="owl-item active" style="width: 706px;">
+                                                    <div class="owl-item active" >
                                                         <img src="https://jobbank.uz/assets/img/placeholder.jpg" class="img-fluid img_one" alt="Default Img">
                                                     </div>
                                                 @endif
