@@ -216,8 +216,9 @@
             </div>
         </div>
         <div class="mobile-filter-bar d-md-none px-3 mt-3">
-            <form action="/services" method="GET" class="d-flex">
-                <input type="text" name="keywords" class="form-control me-2" placeholder="Texnika ta'mirini qidiring">
+            <form action="{{ route('page.service') }}" method="GET" class="d-flex">
+                <input type="text" name="keywords" class="form-control me-2" placeholder="Xizmat qidiring"
+                       value="{{ request('keywords') }}">
                 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
                         data-bs-target="#mobileFilter">
                     <i class="ti ti-filter"></i>

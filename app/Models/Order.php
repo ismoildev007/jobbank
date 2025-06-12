@@ -15,11 +15,14 @@ class Order extends Model
         'provider_id',
         'service_id',
         'category_id',
+        'sub_category_id', // Yangi qo'shilgan
         'order_date',
         'status',
         'address',
         'additional_phone',
         'notes',
+        'region', // Yangi qo'shilgan
+        'price_range', // Yangi qo'shilgan (ixtiyoriy)
     ];
 
     public function user()
@@ -42,15 +45,19 @@ class Order extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function subCategory()
+    {
+        return $this->belongsTo(Category::class, 'sub_category_id');
+    }
+
     protected static function booted()
     {
         static::created(function ($order) {
-            if ($order->provider) { // Check if provider exists
+            if ($order->provider) {
                 $order->provider->increment('orders_count');
             }
         });
     }
-
 
     public function scopeRecentForService($query, $userId, $serviceId)
     {

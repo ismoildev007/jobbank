@@ -54,17 +54,21 @@ class OrderController extends Controller
     public function storeTezkorOrder(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
             'additional_phone' => 'required|string|max:20',
             'category_id' => 'required|exists:categories,id',
-            'sub_category_id' => 'required|exists:categories,id',
+            'region' => 'required|string|in:bektemir,chilonzor,mirzo-ulugbek,olmazor,sergeli,shayxontohur,uchtepa,yakkasaroy,yashnobod,yunusobod,yangihayot,mirobod',
+            'notes' => 'required|string|max:1000',
+            'price_range' => 'nullable|string|max:255', // Ixtiyoriy
         ]);
+
 
         Order::create([
             'user_id' => Auth::id() ?? null,
-            'name' => $validated['name'],
             'additional_phone' => $validated['additional_phone'],
             'category_id' => $validated['category_id'],
+            'region' => $validated['region'],
+            'notes' => $validated['notes'],
+            'price_range' => $validated['price_range'] ?? null,
             'service_id' => null,
             'provider_id' => null,
             'order_date' => now(),

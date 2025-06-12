@@ -321,8 +321,14 @@
             $user = Auth::user();
             $nameWords = explode(' ', $user->full_name);
             $displayName = $nameWords[0];
+            $profileRoute = match ($user->role) {
+                'admin' => route('admin.dashboard'),
+                'provider' => route('services.index'),
+                default => route('user.profile'),
+            };
         @endphp
-        <a href="#" class="nav-icon text-center {{ request()->is('user/profile') ? 'active' : '' }}">
+        <a href="{{ $profileRoute }}"
+           class="nav-icon text-center {{ request()->is('user/profile') || request()->is('admin/dashboard') || request()->is('provider/services') ? 'active' : '' }}">
             <i class="ti ti-user fs-24"></i>
             <div class="small">{{ $displayName }}</div>
         </a>
