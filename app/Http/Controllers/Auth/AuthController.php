@@ -5,8 +5,36 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\EskizService;
 
-class AuthController extends Controller{
+
+class AuthController extends Controller
+{
+
+    protected $eskizService;
+
+    public function __construct(EskizService $eskizService)
+    {
+        $this->eskizService = $eskizService;
+    }
+
+    public function sendSms(Request $request)
+    {
+        $request->validate([
+            'phone_number' => 'required|string',
+        ]);
+
+        try {
+            $phoneNumber = str_replace([' ', ')', '('], '', $request->phone_number);
+            $message = 'Tasdiqlash kodi: ' . rand(100000, 999999);
+
+            $this->eskizService->sendSms($phoneNumber, $message);
+
+            return response()->json(['message' => 'SMS muvaffaqiyatli yuborildi']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     public function login()
     {
         return view('auth.login');
