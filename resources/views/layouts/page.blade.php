@@ -165,8 +165,31 @@
             border-radius: 0;
         }
 
-
-
+    </style>
+    <style>
+        .user-type-btn {
+            transition: all 0.3s ease;
+        }
+        .user-type-btn.active {
+            background-color: #e6f0fa !important;
+            color: #0056b3 !important;
+            border-color: #0056b3 !important;
+        }
+        .user-type-btn:hover {
+            background-color: #d1e3fa;
+            border-color: #003d82;
+        }
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #003d82;
+            border-color: #003d82;
+        }
+        .form-control:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 0 0.2rem rgba(0, 86, 179, 0.25);
+        }
     </style>
 </head>
 <body data-frontend="home" data-lang="uz">
@@ -363,21 +386,26 @@
                     @csrf
                     <input type="hidden" name="role" id="role" value="0">
 
-                    <div class="text-center mb-3">
-                        <div class="btn-group mb-3" role="group">
-                            <button type="button" class="btn btn-outline-primary user-type-btn active" data-type="user">Foydalanuvchi</button>
-                            <button type="button" class="btn btn-outline-primary user-type-btn mx-2" data-type="provider">Xizmat ko‘rsatuvchi</button>
+                    <!-- Foydalanuvchi va Provider tanlash -->
+                    <div class="text-center mb-4">
+                        <div class="d-flex justify-content-center gap-2 mb-3">
+                            <button type="button" class="btn btn-outline-primary user-type-btn active shadow-sm rounded-pill px-4 py-2" data-type="user" style="background-color: #e6f0fa; border-color: #0056b3;">Foydalanuvchi</button>
+                            <button type="button" class="btn btn-outline-primary user-type-btn shadow-sm rounded-pill px-4 py-2" data-type="provider" style="border-color: #0056b3;">Xizmat ko‘rsatuvchi</button>
                         </div>
-                        <h3 class="mb-2" id="register-title">Foydalanuvchi sifatida ro‘yxatdan o‘tish</h3>
-                        <p>Hisobingizga kirish uchun ma’lumotlaringizni kiriting</p>
+                        <h3 class="mb-2" id="register-title" style="color: #0056b3;">Foydalanuvchi sifatida ro‘yxatdan o‘tish</h3>
+                        <p class="text-muted">Hisobingizga kirish uchun ma’lumotlaringizni kiriting</p>
                     </div>
+
+                    <!-- To‘liq ism -->
                     <div class="mb-3">
-                        <label class="form-label">To‘liq ism</label>
+                        <label class="form-label" style="color: #0056b3;">To‘liq ism</label>
                         <input type="text" name="full_name" id="full_name" class="form-control" maxlength="255" placeholder="To‘liq ismingizni kiriting">
                         <div class="invalid-feedback" id="full_name_error"></div>
                     </div>
+
+                    <!-- Telefon raqami -->
                     <div class="mb-3">
-                        <label class="form-label">Telefon raqami</label>
+                        <label class="form-label" style="color: #0056b3;">Telefon raqami</label>
                         <div class="iti iti--allow-dropdown iti--separate-dial-code">
                             <div class="iti__flag-container">
                                 <div class="iti__selected-flag" role="combobox" aria-controls="iti-0__country-listbox" aria-owns="iti-0__country-listbox" aria-expanded="false" tabindex="0" title="Uzbekistan (Oʻzbekiston): +998" aria-activedescendant="iti-0__item-uz">
@@ -399,66 +427,72 @@
                         </div>
                         <div class="invalid-feedback" id="phone_error"></div>
                     </div>
+
+                    <!-- Parol -->
                     <div class="mb-3">
-                        <div class="d-flex align-items-center justify-content-between flex-wrap">
-                            <label class="form-label">Parol</label>
-                        </div>
+                        <label class="form-label" style="color: #0056b3;">Parol</label>
                         <div class="input-group">
                             <input type="password" name="password" id="password" class="form-control" maxlength="100" placeholder="Parolingizni kiriting" autocomplete="current-password">
-                            <button class="btn btn-outline-dark" type="button" id="togglePassword" tabindex="-1">
+                            <button class="btn btn-outline-primary" type="button" id="togglePassword" tabindex="-1" style="border-color: #0056b3;">
                                 <i class="fas fa-eye" id="toggleIcon"></i>
                             </button>
                         </div>
                         <div class="invalid-feedback" id="password_error"></div>
                     </div>
+
+                    <!-- Parolni tasdiqlash -->
                     <div class="mb-3">
-                        <div class="d-flex align-items-center justify-content-between flex-wrap">
-                            <label class="form-label">Parolni tasdiqlash</label>
-                        </div>
+                        <label class="form-label" style="color: #0056b3;">Parolni tasdiqlash</label>
                         <div class="input-group">
                             <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" maxlength="100" placeholder="Parolingizni tasdiqlang" autocomplete="current-password">
-                            <button class="btn btn-outline-dark" type="button" id="togglePasswordConfirmation" tabindex="-1">
+                            <button class="btn btn-outline-primary" type="button" id="togglePasswordConfirmation" tabindex="-1" style="border-color: #0056b3;">
                                 <i class="fas fa-eye" id="toggleIconConfirmation"></i>
                             </button>
                         </div>
                         <div class="invalid-feedback" id="password_confirmation_error"></div>
                     </div>
+
+                    <!-- Shartlar va qoidalar -->
                     <div class="mb-3">
-                        <div class="d-flex align-items-center justify-content-between flex-wrap row-gap-2">
-                            <div class="form-check">
-                                <input class="form-check-input" name="terms_policy" type="checkbox" value="1" id="terms_policy">
-                                <label class="form-check-label" for="terms_policy">
-                                    Men roziman <a href="https://jobbank.uz/terms-conditions" class="text-primary text-decoration-underline">Shartlar va Qoidalar</a> & <a href="https://jobbank.uz/privacy-policy" class="text-primary text-decoration-underline">Maxfiylik Siyosati</a>
-                                </label>
-                                <div class="invalid-feedback" id="terms_policy_error"></div>
-                            </div>
+                        <div class="form-check">
+                            <input class="form-check-input" name="terms_policy" type="checkbox" value="1" id="terms_policy">
+                            <label class="form-check-label" for="terms_policy">
+                                Men roziman <a href="https://jobbank.uz/terms-conditions" class="text-primary text-decoration-underline">Shartlar va Qoidalar</a> & <a href="https://jobbank.uz/privacy-policy" class="text-primary text-decoration-underline">Maxfiylik Siyosati</a>
+                            </label>
+                            <div class="invalid-feedback" id="terms_policy_error"></div>
                         </div>
                     </div>
+
+                    <!-- Yuborish tugmasi -->
                     <div class="mb-3">
-                        <button type="submit" id="register_btn" class="register_btn btn btn-lg btn-linear-primary w-100">Kod yuborish</button>
+                        <button type="submit" id="register_btn" class="btn btn-lg btn-primary w-100" style="background-color: #0056b3; border-color: #0056b3;">Kod yuborish</button>
                     </div>
                 </form>
+
+                <!-- Tasdiqlash kodi formasi -->
                 <div id="verify-register-form-container" class="d-none">
                     <form id="verify-register-form" action="{{ route('verify.register.code') }}" method="POST" autocomplete="off" novalidate="novalidate">
                         @csrf
                         <input type="hidden" name="full_name" id="verify-full_name">
                         <input type="hidden" name="phone" id="verify-phone">
                         <input type="hidden" name="password" id="verify-password">
-                        <input type="hidden" name="password_confirmation" id="password_confirmation_hidden" >
+                        <input type="hidden" name="password_confirmation" id="password_confirmation_hidden">
                         <input type="hidden" name="role" id="verify-role">
                         <input type="hidden" name="terms_policy" id="verify-terms_policy">
                         <div class="mb-4">
-                            <label for="code" class="block text-sm font-medium text-gray-700">Tasdiqlash kodi</label>
-                            <input type="text" name="code" id="register-code" class="form-control mt-1 block w-full p-2 border rounded" placeholder="6 raqamli kod" required>
+                            <label for="code" class="form-label" style="color: #0056b3;">Tasdiqlash kodi</label>
+                            <input type="text" name="code" id="register-code" class="form-control" placeholder="6 raqamli kod" required>
                             <div class="invalid-feedback" id="code_error"></div>
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Tasdiqlash</button>
+                            <button type="submit" class="btn btn-lg btn-primary w-100" style="background-color: #0056b3; border-color: #0056b3;">Tasdiqlash</button>
                         </div>
                     </form>
                 </div>
+
+                <!-- Kirish havolasi -->
                 <div class="d-flex justify-content-center">
-                    <p>Hisobingiz bormi? <a href="javascript:void(0);" type="submit" class="text-primary" data-bs-target="#login-modal" data-bs-toggle="modal">Kirish</a></p>
+                    <p class="text-muted">Hisobingiz bormi? <a href="javascript:void(0);" class="text-primary" data-bs-target="#login-modal" data-bs-toggle="modal">Kirish</a></p>
                 </div>
             </div>
         </div>
