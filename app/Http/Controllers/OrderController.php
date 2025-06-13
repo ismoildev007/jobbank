@@ -72,7 +72,9 @@ class OrderController extends Controller
             'region' => 'required|string|in:bektemir,chilonzor,mirzo-ulugbek,olmazor,sergeli,shayxontohur,uchtepa,yakkasaroy,yashnobod,yunusobod,yangihayot,mirobod',
             'notes' => 'required|string|max:1000',
             'price_range' => 'nullable|string|max:255', // Ixtiyoriy
+            'sub_category_id' => 'required|exists:categories,id', // Added
         ]);
+
 
 
         Order::create([
@@ -83,6 +85,7 @@ class OrderController extends Controller
             'notes' => $validated['notes'],
             'price_range' => $validated['price_range'] ?? null,
             'service_id' => null,
+            'sub_category_id' => $validated['sub_category_id'],
             'provider_id' => null,
             'order_date' => now(),
             'status' => 'pending',

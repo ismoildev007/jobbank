@@ -322,8 +322,8 @@
             $nameWords = explode(' ', $user->full_name);
             $displayName = $nameWords[0];
             $profileRoute = match ($user->role) {
-                'admin' => route('admin.dashboard'),
-                'provider' => route('services.index'),
+                '2' => route('admin.dashboard'),
+                '1' => route('services.index'),
                 default => route('user.profile'),
             };
         @endphp
