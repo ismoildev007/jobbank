@@ -171,20 +171,23 @@ class AuthController extends Controller
             if (Auth::attempt($credentials)) {
                 $user = Auth::user();
 
-                switch ($user->role) {
-                    case User::ROLE_PROVIDER:
-                        return redirect()->route('services.index');
-                    case User::ROLE_ADMIN:
-                        return redirect()->route('admin.dashboard');
-                    case User::ROLE_USER:
-                        return redirect()->route('user.profile');
-                    default:
-                        Auth::logout();
-                        return redirect('/')->withErrors(['role' => 'Invalid role assigned to the user.']);
+                $redirect = match ($user->role) {
+                    User::ROLE_PROVIDER => route('services.index'),
+                    User::ROLE_ADMIN => route('admin.dashboard'),
+                    User::ROLE_USER => route('user.profile'),
+                    default => null,
+                };
+
+                if ($redirect) {
+                    Cache::forget('login_code_' . $phone);
+                    return response()->json(['message' => 'Login muvaffaqiyatli.', 'redirect' => $redirect]);
+                } else {
+                    Auth::logout();
+                    return response()->json(['error' => 'Invalid role assigned to the user.'], 400);
                 }
             }
 
-            return redirect()->route('login')->withErrors(['password' => 'Noto‘g‘ri parol.']);
+            return response()->json(['error' => 'Noto‘g‘ri parol.'], 400);
         }
 
         return response()->json(['error' => 'Noto‘g‘ri kod kiritildi.'], 400);
@@ -209,8 +212,8 @@ class AuthController extends Controller
             return redirect()->route('login')->withErrors(['phone' => 'SMS yuborishda xatolik: ' . $e->getMessage()]);
         }
 
-        // Foydalanuvchini kodni kiritish sahifasiga yo‘naltirish
-        return view('auth.verify-login', ['phone' => $phone]);
+        // Modalni yangilash uchun ma’lumot qaytarish
+        return response()->json(['message' => 'Kod yuborildi.', 'phone' => $phone, 'password' => $request->password]);
     }
 
     public function register()
@@ -265,16 +268,19 @@ class AuthController extends Controller
 
             auth()->login($user);
 
-            switch ($user->role) {
-                case User::ROLE_PROVIDER:
-                    return redirect()->back()->with('success', 'Ro‘yxatdan o‘tdingiz.');
-                case User::ROLE_ADMIN:
-                    return redirect()->route('admin.dashboard');
-                case User::ROLE_USER:
-                    return redirect()->back()->with('success', 'Ro‘yxatdan o‘tdingiz.');
-                default:
-                    Auth::logout();
-                    return redirect('/')->withErrors(['role' => 'Invalid role assigned to the user.']);
+            $redirect = match ($user->role) {
+                User::ROLE_PROVIDER => route('services.index'),
+                User::ROLE_ADMIN => route('admin.dashboard'), // Agar ADMIN role mavjud bo‘lsa
+                User::ROLE_USER => route('user.profile'),
+                default => null,
+            };
+
+            if ($redirect) {
+                Cache::forget('register_code_' . $phone);
+                return response()->json(['message' => 'Ro‘yxatdan o‘tish muvaffaqiyatli.', 'redirect' => $redirect]);
+            } else {
+                Auth::logout();
+                return response()->json(['error' => 'Invalid role assigned to the user.'], 400);
             }
         }
 
@@ -303,6 +309,7 @@ class AuthController extends Controller
 
         $phone = str_replace([' ', ')', '('], '', $request->phone);
 
+        // SMS kodini yuborish
         try {
             $code = rand(100000, 999999);
             $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
@@ -312,7 +319,9 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(['phone' => 'SMS yuborishda xatolik: ' . $e->getMessage()]);
         }
 
-        return view('auth.verify-register', [
+        // Modalni yangilash uchun ma’lumot qaytarish
+        return response()->json([
+            'message' => 'Kod yuborildi.',
             'full_name' => $request->full_name,
             'phone' => $phone,
             'password' => $request->password,

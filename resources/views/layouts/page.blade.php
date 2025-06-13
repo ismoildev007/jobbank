@@ -263,7 +263,7 @@
                             <a href="javascript:void(0);" class="text-primary fw-medium text-decoration-underline mb-1 fs-14" data-bs-toggle="modal" data-bs-target="#forgot-modal">Parolni unutdingizmi?</a>
                         </div>
                         <div class="input-group">
-                            <input type="password" name="password" id="login_password" class="form-control" maxlength="100" placeholder="Parolingizni kiriting" autocomplete="current-password">
+                            <input type="password" name="password" id="login-password" class="form-control" maxlength="100" placeholder="Parolingizni kiriting" autocomplete="current-password">
                             <button class="btn btn-outline-dark" type="button" id="loginTogglePassword" tabindex="-1">
                                 <i class="fas fa-eye" id="toggleIcon"></i>
                             </button>
@@ -279,17 +279,22 @@
                     <form id="verify-login-form" action="{{ route('verify.login.code') }}" method="POST" autocomplete="off" novalidate="novalidate">
                         @csrf
                         <input type="hidden" name="phone" id="verify-phone">
-                        <div class="mb-4">
-                            <label for="code" class="block text-sm font-medium text-gray-700">Tasdiqlash kodi</label>
-                            <input type="text" name="code" id="login-code" class="form-control mt-1 block w-full p-2 border rounded" placeholder="6 raqamli kod" required>
+                        <input type="hidden" name="password" id="verify-password">
+                        <div class="text-center mb-3">
+                            <h3 class="mb-2">Kodni tasdiqlash</h3>
+                            <p>Telefon raqamingizga yuborilgan kodni kiriting</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tasdiqlash kodi</label>
+                            <input type="text" name="code" id="code" class="form-control" placeholder="6 raqamli kod">
                             <div class="invalid-feedback" id="code_error"></div>
                         </div>
-                        <div class="mb-4">
-                            <label for="password" class="block text-sm font-medium text-gray-700">Parol</label>
-                            <input type="password" name="password" id="verify-password" class="form-control mt-1 block w-full p-2 border rounded" placeholder="Parolingizni kiriting" required>
-                            <div class="invalid-feedback" id="password_error"></div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Kodni tasdiqlash</button>
                         </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Tasdiqlash</button>
+                        <div class="d-flex justify-content-center">
+                            <p><a href="javascript:void(0);" class="text-primary" id="resend-code">Kodni qayta yuborish</a></p>
+                        </div>
                     </form>
                 </div>
                 <div class="login-or mb-3">
@@ -304,10 +309,26 @@
 </div>
 
 <script>
+    // Parol ko‘rsatish/gizlash
+    document.getElementById('loginTogglePassword').addEventListener('click', function () {
+        const password = document.getElementById('login-password');
+        const icon = document.getElementById('toggleIcon');
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            password.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+
+    // Login formasi
     document.getElementById('login-form').addEventListener('submit', async function (e) {
         e.preventDefault();
         const phone = document.getElementById('login-phone').value.trim();
-        const password = document.getElementById('login_password').value;
+        const password = document.getElementById('login-password').value;
         const passwordError = document.getElementById('password_error');
         passwordError.textContent = '';
 
@@ -331,8 +352,8 @@
             if (response.ok) {
                 document.getElementById('login-form').classList.add('d-none');
                 document.getElementById('verify-login-form-container').classList.remove('d-none');
-                document.getElementById('verify-phone').value = phone;
-                document.getElementById('verify-password').value = password;
+                document.getElementById('verify-phone').value = data.phone;
+                document.getElementById('verify-password').value = data.password;
             } else {
                 passwordError.textContent = data.error || 'Xatolik yuz berdi.';
                 passwordError.style.display = 'block';
@@ -343,13 +364,12 @@
         }
     });
 
+    // Verify login formasi
     document.getElementById('verify-login-form').addEventListener('submit', async function (e) {
         e.preventDefault();
         const formData = new FormData(this);
         const codeError = document.getElementById('code_error');
-        const passwordError = document.getElementById('password_error');
         codeError.textContent = '';
-        passwordError.textContent = '';
 
         try {
             const response = await fetch('{{ route('verify.login.code') }}', {
@@ -364,10 +384,8 @@
             if (response.ok) {
                 window.location.href = data.redirect || '{{ route('user.profile') }}';
             } else {
-                if (data.errors?.code) codeError.textContent = data.errors.code[0];
-                if (data.errors?.password) passwordError.textContent = data.errors.password[0];
+                codeError.textContent = data.error || 'Xatolik yuz berdi.';
                 codeError.style.display = 'block';
-                passwordError.style.display = 'block';
             }
         } catch (error) {
             codeError.textContent = 'Server bilan bog‘lanishda xatolik.';
@@ -375,6 +393,7 @@
         }
     });
 </script>
+
 <div class="modal fade" id="register-modal" tabindex="-1" style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -397,7 +416,7 @@
                     <div class="mb-3">
                         <label class="form-label">To‘liq ism</label>
                         <input type="text" name="full_name" id="full_name" class="form-control" maxlength="255" placeholder="To‘liq ismingizni kiriting">
-                        <div class="invalid-feedback" id="full_name_error">@error('full_name') {{ $message }} @enderror</div>
+                        <div class="invalid-feedback" id="full_name_error"></div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Telefon raqami</label>
@@ -420,7 +439,7 @@
                             </div>
                             <input class="form-control" id="register-phone" name="phone" maxlength="12" type="tel" placeholder="Telefon raqamini kiriting" autocomplete="tel" data-intl-tel-input-id="0" style="padding-left: 96px;">
                         </div>
-                        <div class="invalid-feedback" id="phone_error">@error('phone') {{ $message }} @enderror</div>
+                        <div class="invalid-feedback" id="phone_error"></div>
                     </div>
                     <div class="mb-3">
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
@@ -432,7 +451,7 @@
                                 <i class="fas fa-eye" id="toggleIcon"></i>
                             </button>
                         </div>
-                        <div class="invalid-feedback" id="password_error">@error('password') {{ $message }} @enderror</div>
+                        <div class="invalid-feedback" id="password_error"></div>
                     </div>
                     <div class="mb-3">
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
@@ -444,7 +463,7 @@
                                 <i class="fas fa-eye" id="toggleIconConfirmation"></i>
                             </button>
                         </div>
-                        <div class="invalid-feedback" id="password_confirmation_error">@error('password_confirmation') {{ $message }} @enderror</div>
+                        <div class="invalid-feedback" id="password_confirmation_error"></div>
                     </div>
                     <div class="mb-3">
                         <div class="d-flex align-items-center justify-content-between flex-wrap row-gap-2">
@@ -453,7 +472,7 @@
                                 <label class="form-check-label" for="terms_policy">
                                     Men roziman <a href="https://jobbank.uz/terms-conditions" class="text-primary text-decoration-underline">Shartlar va Qoidalar</a> & <a href="https://jobbank.uz/privacy-policy" class="text-primary text-decoration-underline">Maxfiylik Siyosati</a>
                                 </label>
-                                <div class="invalid-feedback" id="terms_policy_error">@error('terms_policy') {{ $message }} @enderror</div>
+                                <div class="invalid-feedback" id="terms_policy_error"></div>
                             </div>
                         </div>
                     </div>
@@ -474,7 +493,9 @@
                             <input type="text" name="code" id="register-code" class="form-control mt-1 block w-full p-2 border rounded" placeholder="6 raqamli kod" required>
                             <div class="invalid-feedback" id="code_error"></div>
                         </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Tasdiqlash</button>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Tasdiqlash</button>
+                        </div>
                     </form>
                 </div>
                 <div class="d-flex justify-content-center">
@@ -507,6 +528,36 @@
         });
     });
 
+    // Parol ko‘rsatish/gizlash
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const password = document.getElementById('password');
+        const icon = document.getElementById('toggleIcon');
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            password.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+
+    document.getElementById('togglePasswordConfirmation').addEventListener('click', function () {
+        const passwordConfirmation = document.getElementById('password_confirmation');
+        const icon = document.getElementById('toggleIconConfirmation');
+        if (passwordConfirmation.type === 'password') {
+            passwordConfirmation.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordConfirmation.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+
+    // Register formasi
     document.getElementById('register-form').addEventListener('submit', async function (e) {
         e.preventDefault();
         const full_name = document.getElementById('full_name').value;
@@ -554,11 +605,11 @@
             if (response.ok) {
                 document.getElementById('register-form').classList.add('d-none');
                 document.getElementById('verify-register-form-container').classList.remove('d-none');
-                document.getElementById('verify-full_name').value = full_name;
-                document.getElementById('verify-phone').value = phone;
-                document.getElementById('verify-password').value = password;
-                document.getElementById('verify-role').value = role;
-                document.getElementById('verify-terms_policy').value = terms_policy;
+                document.getElementById('verify-full_name').value = data.full_name;
+                document.getElementById('verify-phone').value = data.phone;
+                document.getElementById('verify-password').value = data.password;
+                document.getElementById('verify-role').value = data.role;
+                document.getElementById('verify-terms_policy').value = data.terms_policy;
             } else {
                 if (data.errors?.full_name) full_nameError.textContent = data.errors.full_name[0];
                 if (data.errors?.phone) phoneError.textContent = data.errors.phone[0];
@@ -577,6 +628,7 @@
         }
     });
 
+    // Verify register formasi
     document.getElementById('verify-register-form').addEventListener('submit', async function (e) {
         e.preventDefault();
         const formData = new FormData(this);
@@ -625,6 +677,7 @@
                             <input type="text" name="phone" id="phone" class="form-control phone" placeholder="+998901234567">
                             <div class="invalid-feedback" id="phone_error"></div>
                         </div>
+
                         <div class="mb-3">
                             <button type="submit" class="btn btn-lg btn-jobbank w-100">Kod yuborish</button>
                         </div>
@@ -699,6 +752,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     // Parol ko‘rsatish/gizlash funksiyasi
@@ -881,8 +935,6 @@
         document.getElementById('password_confirmation_error').textContent = '';
     });
 </script>
-
-
 
 
 
