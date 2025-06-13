@@ -27,7 +27,7 @@
                             </a>
                         </li>
                         <li class="mb-4">
-                            <a href="#" class="d-flex align-items-center">
+                            <a href="{{ route('user.orders') }}" class="d-flex align-items-center">
                                 <i class="ti ti-device-mobile me-2"></i> Buyurtmalarim
                             </a>
                         </li>

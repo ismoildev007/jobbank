@@ -59,6 +59,7 @@ Route::middleware(['auth'])->prefix('provider')->group(function () {
 
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/profile', [UserController::class, 'userProfile'])->name('user.profile');
+    Route::get('/orders', [UserController::class, 'orders'])->name('user.orders');
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
     Route::post('/profile/update', [UserController::class, 'userUpdateProfile'])->name('user.profile.update');
 

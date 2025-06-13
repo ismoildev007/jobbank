@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,6 +37,13 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
+
+    public function orders()
+    {
+        $orders = Order::where('user_id', auth()->user()->id)->get(); // Buyurtmalarni olish
+        return view('pages.user.orders', compact('orders'));
+    }
+
 
     public function services()
     {

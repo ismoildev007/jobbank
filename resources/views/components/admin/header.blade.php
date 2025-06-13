@@ -477,28 +477,9 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="pages-account-settings-billing.html">
-                <span class="d-flex align-items-center align-middle">
-                    <i class="flex-shrink-0 icon-base ri ri-file-text-line icon-22px me-3"></i>
-                    <span class="flex-grow-1 align-middle">Billing Plan</span>
-                    <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger">4</span>
-                </span>
-                        </a>
                     </li>
                     <li>
                         <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="pages-pricing.html">
-                            <i class="icon-base ri ri-money-dollar-circle-line icon-22px me-3"></i>
-                            <span class="align-middle">Pricing</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="pages-faq.html">
-                            <i class="icon-base ri ri-question-line icon-22px me-3"></i>
-                            <span class="align-middle">FAQ</span>
-                        </a>
                     </li>
                     <li>
                         <div class="d-grid px-4 pt-2 pb-1">

@@ -33,6 +33,13 @@
         </a>
     </li>
 
+    <li class="menu-item {{ Request::is('provider/orders') ? 'active' : '' }}">
+        <a href="{{ route('provider.orders') }}" class="menu-link">
+            <i class="menu-icon ri ri-list-check"></i>
+            <div data-i18n="Buyurtmalar">Buyurtmalar</div>
+        </a>
+    </li>
+
     @if(auth()->check() && auth()->user()->role === \App\Models\User::ROLE_ADMIN)
         <li class="menu-item {{ Request::is('admin/subscriptions*') ? 'active' : '' }}">
             <a href="{{ route('admin.subscriptions') }}" class="menu-link">

@@ -21,7 +21,7 @@ class OrderController extends Controller
     public function providerOrders()
     {
         $orders = Order::where('provider_id', Auth::id())->with(['service', 'user'])->latest()->get();
-        return view('provider.orders', compact('orders'));
+        return view('provider.orders.index', compact('orders'));
     }
 
     public function store(Request $request, $serviceId)
