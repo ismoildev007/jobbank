@@ -20,7 +20,6 @@ class EskizService
 
     protected function getToken()
     {
-        // 24 soatlik keshdan tokenni olish yoki yangi token yaratish
         return Cache::remember('eskiz_token', now()->addHours(24), function () {
             $response = Http::post("{$this->baseUrl}/api/auth/login", [
                 'email' => $this->email,
@@ -28,9 +27,11 @@ class EskizService
             ]);
 
             if ($response->successful()) {
+                \Log::info('Eskiz token received: ' . $response->json('data.token')); // Debugging
                 return $response->json('data.token');
             }
 
+            \Log::error('Eskiz authentication failed: ' . $response->body()); // Xatolikni logga yozish
             throw new \Exception('Eskiz API-ga autentifikatsiyada xatolik.');
         });
     }
