@@ -185,6 +185,7 @@ class AuthController extends Controller
     {
         \Log::info('Verify Register Request: ', $request->all());
         \Log::info('Request headers: ', $request->header());
+
         $request->validate([
             'phone' => 'required|string',
             'code' => 'required|string',
@@ -199,34 +200,36 @@ class AuthController extends Controller
         $cachedCode = Cache::get('register_code_' . $phone);
 
         if ($cachedCode && $cachedCode == $request->code) {
+            // Foydalanuvchi yaratish
             $user = new User();
             $user->full_name = $request->full_name;
             $user->phone = $phone;
             $user->password = bcrypt($request->password);
             $user->role = $request->role == '1' ? User::ROLE_PROVIDER : User::ROLE_USER;
-            $user->status = 'Bloklangan';
+            $user->status = 'Bloklangan'; // Agar status boshqa bo‘lishi kerak bo‘lsa, o‘zgartiring
             $user->save();
             \Log::info('User saved: ' . $user->id);
 
-            auth()->login($user, true); // Sessionni majburiy saqlash
+            // Foydalanuvchini autentifikatsiya qilish
+            auth()->login($user, true);
             \Log::info('User logged in: ' . auth()->user()->id);
-            \Log::info('Session ID: ' . session()->getId()); // Sessionni tekshirish
+            \Log::info('Session ID: ' . session()->getId());
 
+            // Redirect URL ni aniqlash
             $redirect = match ($user->role) {
                 User::ROLE_PROVIDER => route('services.index'),
                 User::ROLE_ADMIN => route('admin.dashboard'),
                 User::ROLE_USER => route('user.profile'),
-                default => null,
+                default => route('user.profile'), // Default yo‘nalish
             };
 
-            if ($redirect) {
-                Cache::forget('register_code_' . $phone);
-                \Log::info('Returning JSON with redirect: ' . $redirect);
-                return response()->json(['message' => 'Ro‘yxatdan o‘tish muvaffaqiyatli.', 'redirect' => $redirect]);
-            } else {
-                Auth::logout();
-                return response()->json(['error' => 'Invalid role assigned to the user.'], 400);
-            }
+            // Cache ni tozalash
+            Cache::forget('register_code_' . $phone);
+
+            return response()->json([
+                'message' => 'Ro‘yxatdan o‘tish muvaffaqiyatli.',
+                'redirect' => $redirect
+            ], 200);
         }
 
         return response()->json(['error' => 'Noto‘g‘ri kod kiritildi.'], 400);

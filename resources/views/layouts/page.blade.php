@@ -444,6 +444,7 @@
                         <input type="hidden" name="full_name" id="verify-full_name">
                         <input type="hidden" name="phone" id="verify-phone">
                         <input type="hidden" name="password" id="verify-password">
+                        <input type="hidden" name="password_confirmation" id="password_confirmation_hidden" >
                         <input type="hidden" name="role" id="verify-role">
                         <input type="hidden" name="terms_policy" id="verify-terms_policy">
                         <div class="mb-4">
@@ -569,6 +570,7 @@
                 document.getElementById('verify-full_name').value = full_name;
                 document.getElementById('verify-phone').value = phone;
                 document.getElementById('verify-password').value = password;
+                document.getElementById('password_confirmation_hidden').value = password_confirmation;
                 document.getElementById('verify-role').value = role;
                 document.getElementById('verify-terms_policy').value = terms_policy;
             } else {
@@ -597,7 +599,7 @@
         const codeError = document.getElementById('code_error');
         codeError.textContent = '';
 
-        // FormData ichidagi ma'lumotlarni tekshirish
+        // FormData ma'lumotlarini log qilish
         for (let pair of formData.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }
@@ -606,23 +608,20 @@
             const response = await fetch('{{ route('verify.register.code') }}', {
                 method: 'POST',
                 headers: {
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: formData,
-                redirect: 'manual'
+                body: formData
             });
-            console.log('Response status:', response.status);
-            if (response.status === 302) {
-                const text = await response.text();
-                console.log('Redirect response:', text);
-                return; // Redirectni bloklash
-            }
-            const data = await response.json();
 
-            console.log('Response:', data);
+            console.log('Response status:', response.status);
+            const data = await response.json();
+            console.log('Response data:', data);
 
             if (response.ok) {
-                window.location.href = data.redirect || '{{ route('user.profile') }}';
+                // Redirectni amalga oshirish
+                const redirectUrl = data.redirect || '{{ route('user.profile') }}';
+                window.location.href = redirectUrl;
             } else {
                 codeError.textContent = data.error || 'Xatolik yuz berdi.';
                 codeError.style.display = 'block';
