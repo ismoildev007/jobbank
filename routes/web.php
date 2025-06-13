@@ -48,6 +48,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/subscription/restart', [SubController::class, 'restartSubscription'])->name('subscription.restart');
     Route::get('/subscriptions', [SubController::class, 'allSubscriptions'])->name('admin.subscriptions');
     Route::post('/subscription/cancel/{id}', [SubController::class, 'cancelSubscription'])->name('subscription.cancel');
+    Route::post('/register-provider', [AuthController::class, 'adminRegisterProvider'])->name('admin.register.provider');
+    Route::get('/provider/register', [AuthController::class, 'providerRegister'])->name('provider.register');
+
 
 });
 Route::middleware(['auth'])->prefix('provider')->group(function () {

@@ -48,4 +48,13 @@
             </a>
         </li>
     @endif
+
+    @if(auth()->check() && auth()->user()->role === \App\Models\User::ROLE_ADMIN)
+        <li class="menu-item {{ Request::is('provider/register*') ? 'active' : '' }}">
+            <a href="{{ route('provider.register') }}" class="menu-link">
+                <i class="menu-icon ri ri-list-check"></i>
+                <div data-i18n="Provider register">Provider register</div>
+            </a>
+        </li>
+    @endif
 </ul>

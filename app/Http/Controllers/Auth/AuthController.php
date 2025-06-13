@@ -154,9 +154,9 @@ class AuthController extends Controller
         return response()->json(['error' => 'Noto‘g‘ri telefon raqam yoki parol.'], 400);
     }
 
-    public function register()
+    public function providerRegister()
     {
-        return view('auth.register');
+        return view('admin.provider.register');
     }
 
     public function sendRegisterCode(Request $request)
@@ -276,6 +276,48 @@ class AuthController extends Controller
             'role' => $request->role,
             'terms_policy' => $request->terms_policy,
         ]);
+    }
+
+
+    public function adminRegisterProvider(Request $request)
+    {
+        // Validatsiya qoidalari
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20|unique:users,phone',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:0,1',
+            'status' => 'nullable|in:Aktiv,Bloklangan', // Provider uchun status qo'shildi
+        ], [
+            'full_name.required' => 'Ismni kiritish majburiy.',
+            'phone.required' => 'Telefon raqamni kiritish majburiy.',
+            'phone.unique' => 'Bu telefon raqam avval ro‘yxatdan o‘tgan.',
+            'password.required' => 'Parolni kiritish majburiy.',
+            'password.min' => 'Parol kamida 8 ta belgidan iborat bo‘lishi kerak.',
+            'password.confirmed' => 'Tasdiqlovchi parol mos emas.',
+            'role.required' => 'Rolni tanlash majburiy.',
+        ]);
+
+        try {
+            // Telefon raqamni tozalash
+            $phone = str_replace([' ', ')', '('], '', $request->phone);
+
+            // Foydalanuvchi yaratish
+            $user = new User();
+            $user->full_name = $request->full_name;
+            $user->phone = $phone;
+            $user->password = Hash::make($request->password); // Parolni shifrlash
+            $user->role = $request->role;
+            $user->status = $request->status ?? 'Aktiv'; // Agar status kiritilmagan bo'lsa, default 'Aktiv'
+            $user->save();
+
+            // Muvaffaqiyatli xabar
+            return redirect()->back()->with('success', 'Provider muvaffaqiyatli ro‘yxatdan o‘tdi.');
+
+        } catch (\Exception $e) {
+            // Xatolik bo'lsa
+            return redirect()->back()->withErrors(['error' => 'Ro‘yxatdan o‘tkazishda xatolik: ' . $e->getMessage()]);
+        }
     }
 
     public function logout(Request $request)
