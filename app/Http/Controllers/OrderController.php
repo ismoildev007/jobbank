@@ -20,9 +20,22 @@ class OrderController extends Controller
 
     public function providerOrders()
     {
-        $orders = Order::where('provider_id', Auth::id())->with(['service', 'user'])->latest()->get();
+        $orders = Order::where('provider_id', Auth::id())->with(['service', 'user'])->latest()->paginate(10);
         return view('provider.orders.index', compact('orders'));
     }
+
+    public function updateStatus(Request $request, Order $order)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,done,rejected',
+        ]);
+
+        $order->status = $request->status;
+        $order->save();
+
+        return back()->with('success', 'Order status updated!');
+    }
+
 
     public function store(Request $request, $serviceId)
     {

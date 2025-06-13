@@ -54,6 +54,7 @@ Route::middleware(['auth'])->prefix('provider')->group(function () {
     Route::get('/subscriptions', [SubController::class, 'allSubscriptions'])->name('admin.subscriptions');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('/orders', [OrderController::class, 'providerOrders'])->name('provider.orders');
+    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 });
 
 
