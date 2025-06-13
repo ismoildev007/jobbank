@@ -26,8 +26,6 @@ Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('aut
 Route::post('/send-login-code', [AuthController::class, 'sendLoginCode'])->name('send.login.code');
 Route::post('/verify-login-code', [AuthController::class, 'verifyLoginCode'])->name('verify.login.code');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'userRegister'])->name('user.register');
-Route::post('/send-register-code', [AuthController::class, 'sendRegisterCode'])->name('send.register.code');
 Route::post('/verify-register-code', [AuthController::class, 'verifyRegisterCode'])->name('verify.register.code');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/send-sms', [AuthController::class, 'sendSms'])->name('send.sms');
