@@ -209,7 +209,7 @@
                                         <i class="ti ti-calendar me-2"></i> Xizmat Buyurtma Qilish
                                     </a>
                                 @else
-                                    <a href="#" class="btn order-btn text-white w-100" data-bs-toggle="modal" data-bs-target="#login-modal">
+                                    <a href="#" class="btn btn-primary border-0 w-100 mb-3" data-bs-toggle="modal" data-bs-target="#login-modal">
                                         Xizmat Buyurtma Qilish
                                     </a>
                                 @endauth
