@@ -204,9 +204,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="btn btn-primary border-0 w-100 mb-3" href="{{ route('order.page', $service->id) }}">
-                                    <i class="ti ti-calendar me-2"></i> Xizmat Buyurtma Qilish
-                                </a>
+                                @auth
+                                    <a class="btn btn-primary border-0 w-100 mb-3" href="{{ route('order.page', $service->id) }}">
+                                        <i class="ti ti-calendar me-2"></i> Xizmat Buyurtma Qilish
+                                    </a>
+                                @else
+                                    <a href="#" class="btn order-btn text-white w-100" data-bs-toggle="modal" data-bs-target="#login-modal">
+                                        Xizmat Buyurtma Qilish
+                                    </a>
+                                @endauth
+
                                 <div class="card border-0">
                                     <div class="card-body">
                                         <h4 class="mb-3">Xizmat Ko‘rsatuvchi</h4>
