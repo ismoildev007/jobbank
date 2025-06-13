@@ -7,6 +7,7 @@
     <meta name="description" content="Truely Sell">
     <meta name="keywords" content="Truely Sell">
     <title>Jobbank</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="/admin/assets/img/logo.png">
@@ -256,6 +257,7 @@
                     <div class="mb-3">
                         <label class="form-label">Mobile Number</label>
                         <input type="text" name="phone" id="login-phone" class="form-control" placeholder="Enter Mobile Number" autocomplete="tel">
+                        <div class="invalid-feedback" id="phone_error"></div>
                     </div>
                     <div class="mb-3">
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
@@ -272,31 +274,9 @@
                     </div>
                     <div id="error_login_message" class="text-danger text-center m-1"></div>
                     <div class="mb-3">
-                        <button type="submit" class="login_btn btn btn-lg btn-jobbank w-100">Kod yuborish</button>
+                        <button type="submit" class="login_btn btn btn-lg btn-jobbank w-100">Kirish</button>
                     </div>
                 </form>
-                <div id="verify-login-form-container" class="d-none">
-                    <form id="verify-login-form" action="{{ route('verify.login.code') }}" method="POST" autocomplete="off" novalidate="novalidate">
-                        @csrf
-                        <input type="hidden" name="phone" id="verify-phone">
-                        <input type="hidden" name="password" id="verify-password">
-                        <div class="text-center mb-3">
-                            <h3 class="mb-2">Kodni tasdiqlash</h3>
-                            <p>Telefon raqamingizga yuborilgan kodni kiriting</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tasdiqlash kodi</label>
-                            <input type="text" name="code" id="code" class="form-control" placeholder="6 raqamli kod">
-                            <div class="invalid-feedback" id="code_error"></div>
-                        </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Kodni tasdiqlash</button>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <p><a href="javascript:void(0);" class="text-primary" id="resend-code">Kodni qayta yuborish</a></p>
-                        </div>
-                    </form>
-                </div>
                 <div class="login-or mb-3">
                     <span class="span-or">Yoki quyidagi bilan kirish</span>
                 </div>
@@ -309,7 +289,7 @@
 </div>
 
 <script>
-    // Parol ko‘rsatish/gizlash
+    // Password show/hide toggle
     document.getElementById('loginTogglePassword').addEventListener('click', function () {
         const password = document.getElementById('login-password');
         const icon = document.getElementById('toggleIcon');
@@ -324,16 +304,26 @@
         }
     });
 
-    // Login formasi
+    // Login form submission
     document.getElementById('login-form').addEventListener('submit', async function (e) {
         e.preventDefault();
         const phone = document.getElementById('login-phone').value.trim();
         const password = document.getElementById('login-password').value;
+        const phoneError = document.getElementById('phone_error');
         const passwordError = document.getElementById('password_error');
+        const errorMessage = document.getElementById('error_login_message');
+
+        phoneError.textContent = '';
         passwordError.textContent = '';
+        errorMessage.textContent = '';
 
         if (!phone) {
-            passwordError.textContent = 'Iltimos, telefon raqamini kiriting.';
+            phoneError.textContent = 'Iltimos, telefon raqamini kiriting.';
+            phoneError.style.display = 'block';
+            return;
+        }
+        if (!password) {
+            passwordError.textContent = 'Iltimos, parolni kiriting.';
             passwordError.style.display = 'block';
             return;
         }
@@ -350,46 +340,14 @@
             const data = await response.json();
 
             if (response.ok) {
-                document.getElementById('login-form').classList.add('d-none');
-                document.getElementById('verify-login-form-container').classList.remove('d-none');
-                document.getElementById('verify-phone').value = data.phone;
-                document.getElementById('verify-password').value = data.password;
-            } else {
-                passwordError.textContent = data.error || 'Xatolik yuz berdi.';
-                passwordError.style.display = 'block';
-            }
-        } catch (error) {
-            passwordError.textContent = 'Server bilan bog‘lanishda xatolik.';
-            passwordError.style.display = 'block';
-        }
-    });
-
-    // Verify login formasi
-    document.getElementById('verify-login-form').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        const codeError = document.getElementById('code_error');
-        codeError.textContent = '';
-
-        try {
-            const response = await fetch('{{ route('verify.login.code') }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData
-            });
-            const data = await response.json();
-
-            if (response.ok) {
                 window.location.href = data.redirect || '{{ route('user.profile') }}';
             } else {
-                codeError.textContent = data.error || 'Xatolik yuz berdi.';
-                codeError.style.display = 'block';
+                errorMessage.textContent = data.error || 'Noto‘g‘ri telefon raqam yoki parol.';
+                errorMessage.style.display = 'block';
             }
         } catch (error) {
-            codeError.textContent = 'Server bilan bog‘lanishda xatolik.';
-            codeError.style.display = 'block';
+            errorMessage.textContent = 'Server bilan bog‘lanishda xatolik.';
+            errorMessage.style.display = 'block';
         }
     });
 </script>
@@ -600,16 +558,19 @@
                 },
                 body: JSON.stringify({ full_name, phone, password, password_confirmation, role, terms_policy })
             });
+            console.log('Response status:', response.status);
             const data = await response.json();
+
+            console.log('Register response:', data);
 
             if (response.ok) {
                 document.getElementById('register-form').classList.add('d-none');
                 document.getElementById('verify-register-form-container').classList.remove('d-none');
-                document.getElementById('verify-full_name').value = data.full_name;
-                document.getElementById('verify-phone').value = data.phone;
-                document.getElementById('verify-password').value = data.password;
-                document.getElementById('verify-role').value = data.role;
-                document.getElementById('verify-terms_policy').value = data.terms_policy;
+                document.getElementById('verify-full_name').value = full_name;
+                document.getElementById('verify-phone').value = phone;
+                document.getElementById('verify-password').value = password;
+                document.getElementById('verify-role').value = role;
+                document.getElementById('verify-terms_policy').value = terms_policy;
             } else {
                 if (data.errors?.full_name) full_nameError.textContent = data.errors.full_name[0];
                 if (data.errors?.phone) phoneError.textContent = data.errors.phone[0];
@@ -625,6 +586,7 @@
         } catch (error) {
             phoneError.textContent = 'Server bilan bog‘lanishda xatolik.';
             phoneError.style.display = 'block';
+            console.error('Error:', error);
         }
     });
 
@@ -635,15 +597,29 @@
         const codeError = document.getElementById('code_error');
         codeError.textContent = '';
 
+        // FormData ichidagi ma'lumotlarni tekshirish
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
         try {
             const response = await fetch('{{ route('verify.register.code') }}', {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: formData
+                body: formData,
+                redirect: 'manual'
             });
+            console.log('Response status:', response.status);
+            if (response.status === 302) {
+                const text = await response.text();
+                console.log('Redirect response:', text);
+                return; // Redirectni bloklash
+            }
             const data = await response.json();
+
+            console.log('Response:', data);
 
             if (response.ok) {
                 window.location.href = data.redirect || '{{ route('user.profile') }}';
@@ -654,9 +630,90 @@
         } catch (error) {
             codeError.textContent = 'Server bilan bog‘lanishda xatolik.';
             codeError.style.display = 'block';
+            console.error('Error:', error);
         }
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const userTypeButtons = document.querySelectorAll('.user-type-btn');
+        const registerTitle = document.getElementById('register-title');
+        const roleInput = document.getElementById('role');
+
+        userTypeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                userTypeButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                const type = this.getAttribute('data-type');
+                if (type === 'user') {
+                    registerTitle.textContent = 'Foydalanuvchi sifatida ro‘yxatdan o‘tish';
+                    roleInput.value = '0';
+                } else if (type === 'provider') {
+                    registerTitle.textContent = 'Xizmat ko‘rsatuvchi sifatida ro‘yxatdan o‘tish';
+                    roleInput.value = '1';
+                }
+            });
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const registerLink = document.getElementById('header-register');
+        const loginLink = document.getElementById('header-login');
+        const registerModal = document.getElementById('register-modal');
+        const loginModal = document.getElementById('login-modal');
+        const closeModalBtn = registerModal.querySelector('[data-bs-dismiss="modal"]');
+
+        // Modalni ochish
+        registerLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            registerModal.style.display = 'block';
+            registerModal.classList.add('show');
+            document.body.classList.add('modal-open');
+        });
+        loginLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            loginModal.style.display = 'block';
+            loginModal.classList.add('show');
+            document.body.classList.add('modal-open');
+        });
+
+        // Modalni yopish (Close tugmasi bosilganda)
+        closeModalBtn.addEventListener('click', function () {
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'none';
+            registerModal.classList.remove('show');
+            loginModal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+        });
+
+        // Modal tashqarisiga bosilganda yopish
+        registerModal.addEventListener('click', function (e) {
+            if (e.target === registerModal) {
+                registerModal.style.display = 'none';
+                registerModal.classList.remove('show');
+                document.body.classList.remove('modal-open');
+            }
+        });
+        loginModal.addEventListener('click', function (e) {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+                loginModal.classList.remove('show');
+                document.body.classList.remove('modal-open');
+            }
+        });
+
+        // Klaviaturada Esc tugmasi bosilganda modalni yopish
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && registerModal.classList.contains('show')) {
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'none';
+                registerModal.classList.remove('show');
+                loginModal.classList.remove('show');
+                document.body.classList.remove('modal-open');
+            }
+        });
+    });
+</script>
+
 <div class="modal fade" id="forgot-modal" tabindex="-1" style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -752,8 +809,6 @@
         </div>
     </div>
 </div>
-
-
 <script>
     // Parol ko‘rsatish/gizlash funksiyasi
     function togglePasswordVisibility(inputId, iconId) {
@@ -936,95 +991,7 @@
     });
 </script>
 
-
-
 <!-- Header -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const userTypeButtons = document.querySelectorAll('.user-type-btn');
-        const registerTitle = document.getElementById('register-title');
-        const roleInput = document.getElementById('role');
-
-        userTypeButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                // Barcha tugmalardan "active" klassini olib tashlash
-                userTypeButtons.forEach(btn => btn.classList.remove('active'));
-                // Tanlangan tugmaga "active" klassini qo‘shish
-                this.classList.add('active');
-
-                // Tugma turiga qarab sarlavha va role qiymatini o‘zgartirish
-                const type = this.getAttribute('data-type');
-                if (type === 'user') {
-                    registerTitle.textContent = 'Foydalanuvchi sifatida ro‘yxatdan o‘tish';
-                    roleInput.value = '0'; // Foydalanuvchi uchun role = 0
-                } else if (type === 'provider') {
-                    registerTitle.textContent = 'Xizmat ko‘rsatuvchi sifatida ro‘yxatdan o‘tish';
-                    roleInput.value = '1'; // Xizmat ko‘rsatuvchi uchun role = 1
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const registerLink = document.getElementById('header-register');
-        const loginLink = document.getElementById('header-login');
-        const registerModal = document.getElementById('register-modal');
-        const loginModal = document.getElementById('login-modal');
-        const closeModalBtn = registerModal.querySelector('[data-bs-dismiss="modal"]');
-
-        // Modalni ochish
-        registerLink.addEventListener('click', function (e) {
-            e.preventDefault();
-            registerModal.style.display = 'block';
-            registerModal.classList.add('show');
-            document.body.classList.add('modal-open');
-        });
-        loginLink.addEventListener('click', function (e) {
-            e.preventDefault();
-            loginModal.style.display = 'block';
-            loginModal.classList.add('show');
-            document.body.classList.add('modal-open');
-        });
-
-        // Modalni yopish (Close tugmasi bosilganda)
-        closeModalBtn.addEventListener('click', function () {
-            registerModal.style.display = 'none';
-            loginModal.style.display = 'none';
-            registerModal.classList.remove('show');
-            loginModal.classList.remove('show');
-            document.body.classList.remove('modal-open');
-        });
-
-        // Modal tashqarisiga bosilganda yopish
-        registerModal.addEventListener('click', function (e) {
-            if (e.target === registerModal) {
-                registerModal.style.display = 'none';
-                registerModal.classList.remove('show');
-                document.body.classList.remove('modal-open');
-            }
-        });
-        loginModal.addEventListener('click', function (e) {
-            if (e.target === loginModal) {
-                loginModal.style.display = 'none';
-                loginModal.classList.remove('show');
-                document.body.classList.remove('modal-open');
-            }
-        });
-
-        // Klaviaturada Esc tugmasi bosilganda modalni yopish
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && registerModal.classList.contains('show')) {
-                registerModal.style.display = 'none';
-                loginModal.style.display = 'none';
-                registerModal.classList.remove('show');
-                loginModal.classList.remove('show');
-                document.body.classList.remove('modal-open');
-            }
-        });
-    });
-</script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap JS (bundan oldin Popper.js ham kerak) -->
