@@ -20,7 +20,16 @@ class OrderController extends Controller
 
     public function providerOrders()
     {
-        $orders = Order::where('provider_id', Auth::id())->with(['service', 'user'])->latest()->paginate(10);
+        $user = Auth::user();
+
+        if ($user->role === \App\Models\User::ROLE_ADMIN) {
+            // Admin uchun barcha buyurtmalarni teskari tartibda olish
+            $orders = Order::with(['service', 'user'])->latest()->paginate(10);
+        } else {
+            // Provider uchun faqat o‘z buyurtmalarini olish
+            $orders = Order::where('provider_id', $user->id)->with(['service', 'user'])->latest()->paginate(10);
+        }
+
         return view('provider.orders.index', compact('orders'));
     }
 
