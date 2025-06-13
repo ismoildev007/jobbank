@@ -323,19 +323,29 @@
             $displayName = $nameWords[0];
             $profileRoute = match ($user->role) {
                 '2' => route('admin.dashboard'),
-                '1' => route('services.index'),
+                '1' => $user->status === 'Aktiv' ? route('services.index') : '#',
                 default => route('user.profile'),
+            };
+            $isActive = match ($user->role) {
+                '2' => request()->is('admin/dashboard'),
+                '1' => $user->status === 'Aktiv' && request()->is('provider/services'),
+                default => request()->is('user/profile'),
             };
         @endphp
         <a href="{{ $profileRoute }}"
-           class="nav-icon text-center {{ request()->is('user/profile') || request()->is('admin/dashboard') || request()->is('provider/services') ? 'active' : '' }}">
+           class="nav-icon text-center {{ $isActive ? 'active' : '' }}">
             <i class="ti ti-user fs-24"></i>
-            <div class="small">{{ $displayName }}</div>
+            <div class="small">
+                @if ($user->role === '1' && $user->status !== 'Aktiv')
+                    Faol emas
+                @else
+                    {{ $displayName }}
+                @endif
+            </div>
         </a>
     @endguest
 
 </div>
-
 <!-- Tezkor Xizmat Formasi (Modal) -->
 <div class="modal fade" id="tezkor-form" tabindex="-1" aria-labelledby="tezkorFormLabel" aria-hidden="true">
     <div class="modal-dialog">
