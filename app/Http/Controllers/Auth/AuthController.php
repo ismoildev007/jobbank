@@ -124,96 +124,34 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function sendLoginCode(Request $request)
+    public function authenticate(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'phone' => 'required|string',
-        ]);
-
-        $phone = str_replace([' ', ')', '('], '', $request->phone);
-        $user = User::where('phone', $phone)->first();
-
-        if (!$user) {
-            return response()->json(['error' => 'Bunday telefon raqam ro‘yxatdan o‘tmagan.'], 404);
-        }
-
-        try {
-            $code = rand(100000, 999999);
-            $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
-
-            Cache::put('login_code_' . $phone, $code, now()->addMinutes(10));
-
-            $this->eskizService->sendSms($phone, $message);
-
-            return response()->json(['message' => 'Login uchun tasdiqlash kodi yuborildi.']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    public function verifyLoginCode(Request $request)
-    {
-        $request->validate([
-            'phone' => 'required|string',
-            'code' => 'required|string',
             'password' => 'required|string',
         ]);
 
         $phone = str_replace([' ', ')', '('], '', $request->phone);
-        $cachedCode = Cache::get('login_code_' . $phone);
+        $credentials['phone'] = $phone;
 
-        if ($cachedCode && $cachedCode == $request->code) {
-            $credentials = [
-                'phone' => $phone,
-                'password' => $request->password,
-            ];
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            $redirect = match ($user->role) {
+                User::ROLE_PROVIDER => route('services.index'),
+                User::ROLE_ADMIN => route('admin.dashboard'),
+                User::ROLE_USER => route('user.profile'),
+                default => null,
+            };
 
-            if (Auth::attempt($credentials)) {
-                $user = Auth::user();
-
-                $redirect = match ($user->role) {
-                    User::ROLE_PROVIDER => route('services.index'),
-                    User::ROLE_ADMIN => route('admin.dashboard'),
-                    User::ROLE_USER => route('user.profile'),
-                    default => null,
-                };
-
-                if ($redirect) {
-                    Cache::forget('login_code_' . $phone);
-                    return response()->json(['message' => 'Login muvaffaqiyatli.', 'redirect' => $redirect]);
-                } else {
-                    Auth::logout();
-                    return response()->json(['error' => 'Invalid role assigned to the user.'], 400);
-                }
+            if ($redirect) {
+                return response()->json(['message' => 'Login muvaffaqiyatli.', 'redirect' => $redirect]);
+            } else {
+                Auth::logout();
+                return response()->json(['error' => 'Invalid role assigned to the user.'], 400);
             }
-
-            return response()->json(['error' => 'Noto‘g‘ri parol.'], 400);
         }
 
-        return response()->json(['error' => 'Noto‘g‘ri kod kiritildi.'], 400);
-    }
-
-    public function authenticate(Request $request)
-    {
-        $credentials = $request->validate([
-            'phone' => 'required',
-            'password' => 'required',
-        ]);
-
-        $phone = str_replace([' ', ')', '('], '', $request->phone);
-
-        // SMS kodini yuborish
-        try {
-            $code = rand(100000, 999999);
-            $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
-            Cache::put('login_code_' . $phone, $code, now()->addMinutes(10));
-            $this->eskizService->sendSms($phone, $message);
-        } catch (\Exception $e) {
-            return redirect()->route('login')->withErrors(['phone' => 'SMS yuborishda xatolik: ' . $e->getMessage()]);
-        }
-
-        // Modalni yangilash uchun ma’lumot qaytarish
-        return response()->json(['message' => 'Kod yuborildi.', 'phone' => $phone, 'password' => $request->password]);
+        return response()->json(['error' => 'Noto‘g‘ri telefon raqam yoki parol.'], 400);
     }
 
     public function register()
@@ -245,6 +183,8 @@ class AuthController extends Controller
 
     public function verifyRegisterCode(Request $request)
     {
+        \Log::info('Verify Register Request: ', $request->all());
+        \Log::info('Request headers: ', $request->header());
         $request->validate([
             'phone' => 'required|string',
             'code' => 'required|string',
@@ -255,6 +195,7 @@ class AuthController extends Controller
         ]);
 
         $phone = str_replace([' ', ')', '('], '', $request->phone);
+        \Log::info('Processed phone: ' . $phone);
         $cachedCode = Cache::get('register_code_' . $phone);
 
         if ($cachedCode && $cachedCode == $request->code) {
@@ -265,18 +206,22 @@ class AuthController extends Controller
             $user->role = $request->role == '1' ? User::ROLE_PROVIDER : User::ROLE_USER;
             $user->status = 'Bloklangan';
             $user->save();
+            \Log::info('User saved: ' . $user->id);
 
-            auth()->login($user);
+            auth()->login($user, true); // Sessionni majburiy saqlash
+            \Log::info('User logged in: ' . auth()->user()->id);
+            \Log::info('Session ID: ' . session()->getId()); // Sessionni tekshirish
 
             $redirect = match ($user->role) {
                 User::ROLE_PROVIDER => route('services.index'),
-                User::ROLE_ADMIN => route('admin.dashboard'), // Agar ADMIN role mavjud bo‘lsa
+                User::ROLE_ADMIN => route('admin.dashboard'),
                 User::ROLE_USER => route('user.profile'),
                 default => null,
             };
 
             if ($redirect) {
                 Cache::forget('register_code_' . $phone);
+                \Log::info('Returning JSON with redirect: ' . $redirect);
                 return response()->json(['message' => 'Ro‘yxatdan o‘tish muvaffaqiyatli.', 'redirect' => $redirect]);
             } else {
                 Auth::logout();
