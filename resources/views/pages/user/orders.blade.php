@@ -1,6 +1,5 @@
 @extends('layouts.page')
 @section('content')
-<!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
     @if(session('success'))
     <div class="alert alert-success">
@@ -42,31 +41,30 @@
                         @include('components.page.user.sidebar')
                         <div class="col-xl-9 col-lg-8">
                             <h4 class="mb-3">Buyurtmalarim</h4>
-
-                            <!-- Jadvalni scroll qilinadigan qilish uchun o‘ram -->
-                            <div class="card-datatable table-responsive">
-                                <table class="datatables-users table table-bordered table-striped">
+                            <div class="card-datatable">
+                                <table class="datatables-users table">
                                     <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Foydalanuvchi</th>
-                                        <th>Telefon</th>
-                                        <th>Provider</th>
-                                        <th>Status</th>
-                                    </tr>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Foydalanuvchi</th>
+                                            <th>Telefon</th>
+                                            <th>Provider</th>
+                                            <th>Status</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($orders as $order)
+                                        @foreach($orders as $order)
                                         <tr>
                                             <td>{{ $order->id }}</td>
-                                            <td>{{ $order->user->full_name }}</td>
+                                            <td>{{ $order->user->full_name}}</td>
                                             <td>{{ $order->user->phone }}</td>
                                             <td>{{ $order->provider->full_name }}</td>
                                             <td>{{ $order->status }}</td>
                                         </tr>
-                                    @endforeach
+                                        @endforeach
                                     </tbody>
                                 </table>
+                                {{ $orders->links('vendor.pagination.bootstrap-5') }}
                             </div>
                         </div>
 
@@ -74,9 +72,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
-<!-- / Content -->
 @endsection

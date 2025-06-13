@@ -40,7 +40,7 @@ class UserController extends Controller
 
     public function orders()
     {
-        $orders = Order::where('user_id', auth()->user()->id)->get(); // Buyurtmalarni olish
+        $orders = Order::where('user_id', Auth::user()->id)->paginate(10);
         return view('pages.user.orders', compact('orders'));
     }
 
