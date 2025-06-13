@@ -270,15 +270,6 @@
                         </div>
                         <div class="invalid-feedback" id="password_error"></div>
                     </div>
-                    <div class="mb-3">
-                        <div class="d-flex align-items-center justify-content-end flex-wrap row-gap-2">
-                            <div class="form-check">
-                                <a class="form-check-label text-decoration-underline" id="otp_signin2" for="otp_signin" style="cursor: pointer;">
-                                    OTP orqali tizimga kirish
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                     <div id="error_login_message" class="text-danger text-center m-1"></div>
                     <div class="mb-3">
                         <button type="submit" class="login_btn btn btn-lg     btn-jobbank  w-100">Kirish </button>
@@ -389,6 +380,275 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="forgot-modal" tabindex="-1" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
+                <a href="javascript:void(0);" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-circle-x-filled fs-20"></i></a>
+            </div>
+            <div class="modal-body p-4">
+                <!-- Telefon raqam kiritish formasi -->
+                <div id="phone-form">
+                    <form id="send-code-form" autocomplete="off" novalidate="novalidate">
+                        @csrf
+                        <div class="text-center mb-3">
+                            <h3 class="mb-2">Parolni tiklash</h3>
+                            <p>Telefon raqamingizga tasdiqlash kodi yuboramiz</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Telefon raqami</label>
+                            <input type="text" name="phone" id="phone" class="form-control" placeholder="+998901234567" autocomplete="tel">
+                            <div class="invalid-feedback" id="phone_error"></div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Kod yuborish</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <p>Hisobingiz bormi? <a href="javascript:void(0);" class="text-primary" data-bs-toggle="modal" data-bs-target="#login-modal">Kirish</a></p>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Kod tasdiqlash formasi -->
+                <div id="code-form" class="d-none">
+                    <form id="verify-code-form" autocomplete="off" novalidate="novalidate">
+                        @csrf
+                        <input type="hidden" name="phone" id="phone-hidden">
+                        <div class="text-center mb-3">
+                            <h3 class="mb-2">Kodni tasdiqlash</h3>
+                            <p>Telefon raqamingizga yuborilgan kodni kiriting</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tasdiqlash kodi</label>
+                            <input type="text" name="code" id="code" class="form-control" placeholder="6 raqamli kod">
+                            <div class="invalid-feedback" id="code_error"></div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Kodni tasdiqlash</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <p><a href="javascript:void(0);" class="text-primary" id="resend-code">Kodni qayta yuborish</a></p>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Yangi parol kiritish formasi -->
+                <div id="password-form" class="d-none">
+                    <form id="reset-password-form" autocomplete="off" novalidate="novalidate">
+                        @csrf
+                        <input type="hidden" name="phone" id="phone-hidden-password">
+                        <input type="hidden" name="token" id="reset-token">
+                        <div class="text-center mb-3">
+                            <h3 class="mb-2">Yangi parol</h3>
+                            <p>Yangi parolingizni kiriting</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Yangi parol</label>
+                            <div class="input-group">
+                                <input type="password" name="password" id="password" class="form-control" maxlength="100" placeholder="Yangi parolni kiriting" autocomplete="new-password">
+                                <button class="btn btn-outline-dark" type="button" id="togglePassword" tabindex="-1">
+                                    <i class="fas fa-eye" id="toggleIcon"></i>
+                                </button>
+                            </div>
+                            <div class="invalid-feedback" id="password_error"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Parolni tasdiqlash</label>
+                            <div class="input-group">
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" maxlength="100" placeholder="Parolni tasdiqlang" autocomplete="new-password">
+                                <button class="btn btn-outline-dark" type="button" id="togglePasswordConfirmation" tabindex="-1">
+                                    <i class="fas fa-eye" id="toggleIconConfirmation"></i>
+                                </button>
+                            </div>
+                            <div class="invalid-feedback" id="password_confirmation_error"></div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Parolni yangilash</button>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <p>Hisobingiz bormi? <a href="javascript:void(0);" class="text-primary" data-bs-toggle="modal" data-bs-target="#login-modal">Kirish</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Parol ko‘rsatish/gizlash funksiyasi
+    function togglePasswordVisibility(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    document.getElementById('togglePassword')?.addEventListener('click', () => togglePasswordVisibility('password', 'toggleIcon'));
+    document.getElementById('togglePasswordConfirmation')?.addEventListener('click', () => togglePasswordVisibility('password_confirmation', 'toggleIconConfirmation'));
+
+    // Telefon raqam kiritish formasi
+    document.getElementById('send-code-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const phone = document.getElementById('phone').value;
+        const phoneError = document.getElementById('phone_error');
+        phoneError.textContent = '';
+
+        try {
+            const response = await fetch('{{ route('forgot.password') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ phone })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                document.getElementById('phone-form').classList.add('d-none');
+                document.getElementById('code-form').classList.remove('d-none');
+                document.getElementById('phone-hidden').value = phone;
+                document.getElementById('phone-hidden-password').value = phone;
+            } else {
+                phoneError.textContent = data.error || 'Xatolik yuz berdi.';
+                phoneError.style.display = 'block';
+            }
+        } catch (error) {
+            phoneError.textContent = 'Server bilan bog‘lanishda xatolik.';
+            phoneError.style.display = 'block';
+        }
+    });
+
+    // Kodni qayta yuborish
+    document.getElementById('resend-code').addEventListener('click', async function () {
+        const phone = document.getElementById('phone-hidden').value;
+        const phoneError = document.getElementById('phone_error');
+        phoneError.textContent = '';
+
+        try {
+            const response = await fetch('{{ route('forgot.password') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ phone })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Yangi kod yuborildi!');
+            } else {
+                phoneError.textContent = data.error || 'Xatolik yuz berdi.';
+                phoneError.style.display = 'block';
+            }
+        } catch (error) {
+            phoneError.textContent = 'Server bilan bog‘lanishda xatolik.';
+            phoneError.style.display = 'block';
+        }
+    });
+
+    // Kod tasdiqlash formasi
+    document.getElementById('verify-code-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const phone = document.getElementById('phone-hidden').value;
+        const code = document.getElementById('code').value;
+        const codeError = document.getElementById('code_error');
+        codeError.textContent = '';
+
+        try {
+            const response = await fetch('{{ route('verify.reset.code') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ phone, code })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                document.getElementById('code-form').classList.add('d-none');
+                document.getElementById('password-form').classList.remove('d-none');
+                document.getElementById('reset-token').value = data.token;
+            } else {
+                codeError.textContent = data.error || 'Xatolik yuz berdi.';
+                codeError.style.display = 'block';
+            }
+        } catch (error) {
+            codeError.textContent = 'Server bilan bog‘lanishda xatolik.';
+            codeError.style.display = 'block';
+        }
+    });
+
+    // Yangi parol kiritish formasi
+    document.getElementById('reset-password-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const phone = document.getElementById('phone-hidden-password').value;
+        const token = document.getElementById('reset-token').value;
+        const password = document.getElementById('password').value;
+        const passwordConfirmation = document.getElementById('password_confirmation').value;
+        const passwordError = document.getElementById('password_error');
+        const passwordConfirmationError = document.getElementById('password_confirmation_error');
+        passwordError.textContent = '';
+        passwordConfirmationError.textContent = '';
+
+        if (password !== passwordConfirmation) {
+            passwordConfirmationError.textContent = 'Parollar mos emas.';
+            passwordConfirmationError.style.display = 'block';
+            return;
+        }
+
+        try {
+            const response = await fetch('{{ route('reset.password') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ phone, token, password, password_confirmation: passwordConfirmation })
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Parol muvaffaqiyatli yangilandi!');
+                // Modalni yopish
+                const modal = bootstrap.Modal.getInstance(document.getElementById('forgot-modal'));
+                modal.hide();
+                // Profil sahifasiga yo‘naltirish
+                window.location.href = '{{ route('user.profile') }}';
+            } else {
+                passwordError.textContent = data.error || 'Xatolik yuz berdi.';
+                passwordError.style.display = 'block';
+            }
+        } catch (error) {
+            passwordError.textContent = 'Server bilan bog‘lanishda xatolik.';
+            passwordError.style.display = 'block';
+        }
+    });
+
+    // Modal ochilganda formani tozalash
+    document.getElementById('forgot-modal').addEventListener('show.bs.modal', function () {
+        document.getElementById('phone-form').classList.remove('d-none');
+        document.getElementById('code-form').classList.add('d-none');
+        document.getElementById('password-form').classList.add('d-none');
+        document.getElementById('send-code-form').reset();
+        document.getElementById('verify-code-form').reset();
+        document.getElementById('reset-password-form').reset();
+        document.getElementById('phone_error').textContent = '';
+        document.getElementById('code_error').textContent = '';
+        document.getElementById('password_error').textContent = '';
+        document.getElementById('password_confirmation_error').textContent = '';
+    });
+</script>
 
 
 

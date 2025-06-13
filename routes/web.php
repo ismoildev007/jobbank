@@ -27,6 +27,10 @@ Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'userRegister'])->name('user.register');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
+// Parolni tiklash marshrutlari
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot.password');
+Route::post('/verify-reset-code', [AuthController::class, 'verifyResetCode'])->name('verify.reset.code');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset.password');
 
 
 
