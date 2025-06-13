@@ -139,7 +139,7 @@ class AuthController extends Controller
 
         try {
             $code = rand(100000, 999999);
-            $message = 'Login tasdiqlash kodi: ' . $code;
+            $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
 
             Cache::put('login_code_' . $phone, $code, now()->addMinutes(10));
 
@@ -202,7 +202,7 @@ class AuthController extends Controller
         // SMS kodini yuborish
         try {
             $code = rand(100000, 999999);
-            $message = 'Login tasdiqlash kodi: ' . $code;
+            $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
             Cache::put('login_code_' . $phone, $code, now()->addMinutes(10));
             $this->eskizService->sendSms($phone, $message);
         } catch (\Exception $e) {
@@ -228,7 +228,7 @@ class AuthController extends Controller
 
         try {
             $code = rand(100000, 999999);
-            $message = 'Ro‘yxatdan o‘tish tasdiqlash kodi: ' . $code;
+            $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
 
             Cache::put('register_code_' . $phone, $code, now()->addMinutes(10));
 
@@ -305,7 +305,7 @@ class AuthController extends Controller
 
         try {
             $code = rand(100000, 999999);
-            $message = 'Ro‘yxatdan o‘tish tasdiqlash kodi: ' . $code;
+            $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
             Cache::put('register_code_' . $phone, $code, now()->addMinutes(10));
             $this->eskizService->sendSms($phone, $message);
         } catch (\Exception $e) {
