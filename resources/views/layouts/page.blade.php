@@ -264,6 +264,30 @@
         border-color: #007bff;
     }
 </style>
+<!-- Toast Container -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+    <div id="error-toast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="error-toast-message">
+                Xatolik yuz berdi!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Yopish"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Script -->
+<script>
+    function showErrorAlert(message) {
+        const toastElement = document.getElementById('error-toast');
+        const toastBody = document.getElementById('error-toast-message');
+        toastBody.textContent = message;
+
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    }
+</script>
+
 <div class="modal fade" id="login-modal" style="display: none;" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -471,7 +495,13 @@
 
                 <!-- Tasdiqlash kodi formasi -->
                 <div id="verify-register-form-container" class="d-none">
-                    <form id="verify-register-form" action="{{ route('verify.register.code') }}" method="POST" autocomplete="off" novalidate="novalidate">
+                    <div id="loading-spinner" class="text-center mb-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Yuklanmoqda...</span>
+                        </div>
+                        <p class="text-muted mt-2">Kod yuborilmoqda...</p>
+                    </div>
+                    <form id="verify-register-form" action="{{ route('verify.register.code') }}" method="POST" autocomplete="off" novalidate="novalidate" class="d-none">
                         @csrf
                         <input type="hidden" name="full_name" id="verify-full_name">
                         <input type="hidden" name="phone" id="verify-phone">
@@ -485,7 +515,7 @@
                             <div class="invalid-feedback" id="code_error"></div>
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-lg btn-primary w-100" style="background-color: #0056b3; border-color: #0056b3;">Tasdiqlash</button>
+                            <button type="submit" id="verify_btn" class="btn btn-lg btn-primary w-100" style="background-color: #0056b3; border-color: #0056b3;">Tasdiqlash</button>
                         </div>
                     </form>
                 </div>
@@ -499,6 +529,7 @@
     </div>
 </div>
 
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const userTypeButtons = document.querySelectorAll('.user-type-btn');
@@ -519,175 +550,162 @@
                 }
             });
         });
-    });
 
-    // Parol ko‘rsatish/gizlash
-    document.getElementById('togglePassword').addEventListener('click', function () {
-        const password = document.getElementById('password');
-        const icon = document.getElementById('toggleIcon');
-        if (password.type === 'password') {
-            password.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            password.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    });
-
-    document.getElementById('togglePasswordConfirmation').addEventListener('click', function () {
-        const passwordConfirmation = document.getElementById('password_confirmation');
-        const icon = document.getElementById('toggleIconConfirmation');
-        if (passwordConfirmation.type === 'password') {
-            passwordConfirmation.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            passwordConfirmation.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    });
-
-    // Register formasi
-    document.getElementById('register-form').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const full_name = document.getElementById('full_name').value;
-        const phone = document.getElementById('register-phone').value.trim();
-        const password = document.getElementById('password').value;
-        const password_confirmation = document.getElementById('password_confirmation').value;
-        const role = document.getElementById('role').value;
-        const terms_policy = document.getElementById('terms_policy').checked ? '1' : '0';
-        const full_nameError = document.getElementById('full_name_error');
-        const phoneError = document.getElementById('phone_error');
-        const passwordError = document.getElementById('password_error');
-        const passwordConfirmationError = document.getElementById('password_confirmation_error');
-        const termsPolicyError = document.getElementById('terms_policy_error');
-        full_nameError.textContent = '';
-        phoneError.textContent = '';
-        passwordError.textContent = '';
-        passwordConfirmationError.textContent = '';
-        termsPolicyError.textContent = '';
-
-        if (!full_name) full_nameError.textContent = 'Ismni kiritish majburiy.';
-        if (!phone) phoneError.textContent = 'Telefon raqamni kiritish majburiy.';
-        if (!password) passwordError.textContent = 'Parolni kiritish majburiy.';
-        if (password !== password_confirmation) passwordConfirmationError.textContent = 'Parollar mos emas.';
-        if (!terms_policy) termsPolicyError.textContent = 'Shartlar va qoidalarni qabul qilish majburiy.';
-        if (full_nameError.textContent || phoneError.textContent || passwordError.textContent || passwordConfirmationError.textContent || termsPolicyError.textContent) {
-            full_nameError.style.display = 'block';
-            phoneError.style.display = 'block';
-            passwordError.style.display = 'block';
-            passwordConfirmationError.style.display = 'block';
-            termsPolicyError.style.display = 'block';
-            return;
-        }
-
-        try {
-            const response = await fetch('{{ route('user.register') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ full_name, phone, password, password_confirmation, role, terms_policy })
-            });
-            console.log('Response status:', response.status);
-            const data = await response.json();
-
-            console.log('Register response:', data);
-
-            if (response.ok) {
-                document.getElementById('register-form').classList.add('d-none');
-                document.getElementById('verify-register-form-container').classList.remove('d-none');
-                document.getElementById('verify-full_name').value = full_name;
-                document.getElementById('verify-phone').value = phone;
-                document.getElementById('verify-password').value = password;
-                document.getElementById('password_confirmation_hidden').value = password_confirmation;
-                document.getElementById('verify-role').value = role;
-                document.getElementById('verify-terms_policy').value = terms_policy;
+        // Parol ko‘rsatish/gizlash
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const password = document.getElementById('password');
+            const icon = document.getElementById('toggleIcon');
+            if (password.type === 'password') {
+                password.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
             } else {
-                if (data.errors?.full_name) full_nameError.textContent = data.errors.full_name[0];
-                if (data.errors?.phone) phoneError.textContent = data.errors.phone[0];
-                if (data.errors?.password) passwordError.textContent = data.errors.password[0];
-                if (data.errors?.password_confirmation) passwordConfirmationError.textContent = data.errors.password_confirmation[0];
-                if (data.errors?.terms_policy) termsPolicyError.textContent = data.errors.terms_policy[0];
+                password.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        document.getElementById('togglePasswordConfirmation').addEventListener('click', function () {
+            const passwordConfirmation = document.getElementById('password_confirmation');
+            const icon = document.getElementById('toggleIconConfirmation');
+            if (passwordConfirmation.type === 'password') {
+                passwordConfirmation.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordConfirmation.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        // Register formasi
+        document.getElementById('register-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const full_name = document.getElementById('full_name').value;
+            const phone = document.getElementById('register-phone').value.trim();
+            const password = document.getElementById('password').value;
+            const password_confirmation = document.getElementById('password_confirmation').value;
+            const role = document.getElementById('role').value;
+            const terms_policy = document.getElementById('terms_policy').checked ? '1' : '0';
+            const full_nameError = document.getElementById('full_name_error');
+            const phoneError = document.getElementById('phone_error');
+            const passwordError = document.getElementById('password_error');
+            const passwordConfirmationError = document.getElementById('password_confirmation_error');
+            const termsPolicyError = document.getElementById('terms_policy_error');
+            full_nameError.textContent = '';
+            phoneError.textContent = '';
+            passwordError.textContent = '';
+            passwordConfirmationError.textContent = '';
+            termsPolicyError.textContent = '';
+
+            if (!full_name) full_nameError.textContent = 'Ismni kiritish majburiy.';
+            if (!phone) phoneError.textContent = 'Telefon raqamni kiritish majburiy.';
+            if (!password) passwordError.textContent = 'Parolni kiritish majburiy.';
+            if (password !== password_confirmation) passwordConfirmationError.textContent = 'Parollar mos emas.';
+            if (!terms_policy) termsPolicyError.textContent = 'Shartlar va qoidalarni qabul qilish majburiy.';
+            if (full_nameError.textContent || phoneError.textContent || passwordError.textContent || passwordConfirmationError.textContent || termsPolicyError.textContent) {
                 full_nameError.style.display = 'block';
                 phoneError.style.display = 'block';
                 passwordError.style.display = 'block';
                 passwordConfirmationError.style.display = 'block';
                 termsPolicyError.style.display = 'block';
+                return;
             }
-        } catch (error) {
-            phoneError.textContent = 'Server bilan bog‘lanishda xatolik.';
-            phoneError.style.display = 'block';
-            console.error('Error:', error);
-        }
-    });
 
-    // Verify register formasi
-    document.getElementById('verify-register-form').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        const codeError = document.getElementById('code_error');
-        codeError.textContent = '';
+            const registerBtn = document.getElementById('register_btn');
+            registerBtn.disabled = true;
+            registerBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yuborilmoqda...';
 
-        // FormData ma'lumotlarini log qilish
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
+            // Ro'yxatdan o'tish formasini yashirish va loading ko'rsatish
+            document.getElementById('register-form').classList.add('d-none');
+            document.getElementById('verify-register-form-container').classList.remove('d-none');
+            document.getElementById('loading-spinner').classList.remove('d-none');
+            document.getElementById('verify-register-form').classList.add('d-none');
 
-        try {
-            const response = await fetch('{{ route('verify.register.code') }}', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData
-            });
+            try {
+                const response = await fetch('{{ route('user.register') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ full_name, phone, password, password_confirmation, role, terms_policy })
+                });
+                const data = await response.json();
 
-            console.log('Response status:', response.status);
-            const data = await response.json();
-            console.log('Response data:', data);
-
-            if (response.ok) {
-                // Redirectni amalga oshirish
-                const redirectUrl = data.redirect || '{{ route('user.profile') }}';
-                window.location.href = redirectUrl;
-            } else {
-                codeError.textContent = data.error || 'Xatolik yuz berdi.';
-                codeError.style.display = 'block';
-            }
-        } catch (error) {
-            codeError.textContent = 'Server bilan bog‘lanishda xatolik.';
-            codeError.style.display = 'block';
-            console.error('Error:', error);
-        }
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const userTypeButtons = document.querySelectorAll('.user-type-btn');
-        const registerTitle = document.getElementById('register-title');
-        const roleInput = document.getElementById('role');
-
-        userTypeButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                userTypeButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                const type = this.getAttribute('data-type');
-                if (type === 'user') {
-                    registerTitle.textContent = 'Foydalanuvchi sifatida ro‘yxatdan o‘tish';
-                    roleInput.value = '0';
-                } else if (type === 'provider') {
-                    registerTitle.textContent = 'Xizmat ko‘rsatuvchi sifatida ro‘yxatdan o‘tish';
-                    roleInput.value = '1';
+                if (response.ok) {
+                    // Loadingni yashirish va tasdiqlash formasini ko'rsatish
+                    document.getElementById('loading-spinner').classList.add('d-none');
+                    document.getElementById('verify-register-form').classList.remove('d-none');
+                    document.getElementById('verify-full_name').value = full_name;
+                    document.getElementById('verify-phone').value = phone;
+                    document.getElementById('verify-password').value = password;
+                    document.getElementById('password_confirmation_hidden').value = password_confirmation;
+                    document.getElementById('verify-role').value = role;
+                    document.getElementById('verify-terms_policy').value = terms_policy;
+                } else {
+                    // Xato bo'lsa, ro'yxatdan o'tish formasini qayta ko'rsatish
+                    document.getElementById('register-form').classList.remove('d-none');
+                    document.getElementById('verify-register-form-container').classList.add('d-none');
+                    registerBtn.disabled = false;
+                    registerBtn.innerHTML = 'Kod yuborish';
+                    showErrorAlert(data.error || Object.values(data.errors || {}).flat().join(', ') || 'Xatolik yuz berdi.');
                 }
-            });
+            } catch (error) {
+                // Xato bo'lsa, ro'yxatdan o'tish formasini qayta ko'rsatish
+                document.getElementById('register-form').classList.remove('d-none');
+                document.getElementById('verify-register-form-container').classList.add('d-none');
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = 'Kod yuborish';
+                showErrorAlert('Server bilan bog‘lanishda xatolik.');
+            }
+        });
+
+        // Verify register formasi
+        document.getElementById('verify-register-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const codeError = document.getElementById('code_error');
+            codeError.textContent = '';
+
+            const verifyBtn = document.getElementById('verify_btn');
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Tasdiqlanmoqda...';
+
+            try {
+                const response = await fetch('{{ route('verify.register.code') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    verifyBtn.disabled = false;
+                    verifyBtn.innerHTML = 'Tasdiqlash';
+                    const redirectUrl = data.redirect || '{{ route('user.profile') }}';
+                    window.location.href = redirectUrl;
+                } else {
+                    verifyBtn.disabled = false;
+                    verifyBtn.innerHTML = 'Tasdiqlash';
+                    showErrorAlert(data.error || 'Xatolik yuz berdi.');
+                }
+            } catch (error) {
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = 'Tasdiqlash';
+                cshowErrorAlert('Server bilan bog‘lanishda xatolik.');
+            }
         });
     });
+</script>
+
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         const registerLink = document.getElementById('header-register');
         const loginLink = document.getElementById('header-login');
@@ -767,9 +785,8 @@
                             <input type="text" name="phone" id="phone" class="form-control phone" placeholder="+998901234567">
                             <div class="invalid-feedback" id="phone_error"></div>
                         </div>
-
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Kod yuborish</button>
+                            <button type="submit" id="send-code-btn" class="btn btn-lg btn-primary w-100" style="background-color: #0056b3; border-color: #0056b3;">Kod yuborish</button>
                         </div>
                         <div class="d-flex justify-content-center">
                             <p>Hisobingiz bormi? <a href="javascript:void(0);" class="text-primary" data-bs-toggle="modal" data-bs-target="#login-modal">Kirish</a></p>
@@ -792,10 +809,10 @@
                             <div class="invalid-feedback" id="code_error"></div>
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Kodni tasdiqlash</button>
+                            <button type="submit" id="verify-code-btn" class="btn btn-lg btn-primary w-100" style="background-color: #0056b3; border-color: #0056b3;">Kodni tasdiqlash</button>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <p><a href="javascript:void(0);" class="text-primary" id="resend-code">Kodni qayta yuborish</a></p>
+                            <p><a href="javascript:void(0);" id="resend-code" class="text-primary">Kodni qayta yuborish</a></p>
                         </div>
                     </form>
                 </div>
@@ -804,7 +821,7 @@
                 <div id="password-form" class="d-none">
                     <form id="reset-password-form" autocomplete="off" novalidate="novalidate">
                         @csrf
-                        <input type="hidden" name="phone" id="phone-hidden-password">
+                        <input type="text" name="phone" id="phone-hidden-password" style="display: none">
                         <input type="hidden" name="token" id="reset-token">
                         <div class="text-center mb-3">
                             <h3 class="mb-2">Yangi parol</h3>
@@ -814,7 +831,7 @@
                             <label class="form-label">Yangi parol</label>
                             <div class="input-group">
                                 <input type="password" name="password" id="password" class="form-control" maxlength="100" placeholder="Yangi parolni kiriting" autocomplete="new-password">
-                                <button class="btn btn-outline-dark" type="button" id="togglePassword" tabindex="-1">
+                                <button class="btn btn-outline-primary" type="button" id="togglePassword" tabindex="-1" style="border-color: #0056b3;">
                                     <i class="fas fa-eye" id="toggleIcon"></i>
                                 </button>
                             </div>
@@ -824,14 +841,14 @@
                             <label class="form-label">Parolni tasdiqlash</label>
                             <div class="input-group">
                                 <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" maxlength="100" placeholder="Parolni tasdiqlang" autocomplete="new-password">
-                                <button class="btn btn-outline-dark" type="button" id="togglePasswordConfirmation" tabindex="-1">
+                                <button class="btn btn-outline-primary" type="button" id="togglePasswordConfirmation" tabindex="-1" style="border-color: #0056b3;">
                                     <i class="fas fa-eye" id="toggleIconConfirmation"></i>
                                 </button>
                             </div>
                             <div class="invalid-feedback" id="password_confirmation_error"></div>
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-lg btn-jobbank w-100">Parolni yangilash</button>
+                            <button type="submit" id="reset-password-btn" class="btn btn-lg btn-primary w-100" style="background-color: #0056b3; border-color: #0056b3;">Parolni yangilash</button>
                         </div>
                         <div class="d-flex justify-content-center">
                             <p>Hisobingiz bormi? <a href="javascript:void(0);" class="text-primary" data-bs-toggle="modal" data-bs-target="#login-modal">Kirish</a></p>
@@ -842,6 +859,7 @@
         </div>
     </div>
 </div>
+
 <script>
     // Parol ko‘rsatish/gizlash funksiyasi
     function togglePasswordVisibility(inputId, iconId) {
@@ -864,8 +882,9 @@
     // Telefon raqam kiritish formasi
     document.getElementById('send-code-form').addEventListener('submit', async function (e) {
         e.preventDefault();
-        const phone = document.getElementById('phone').value.trim(); // Trim bilan bo'sh joylarni olib tashlash
+        const phone = document.getElementById('phone').value.trim();
         const phoneError = document.getElementById('phone_error');
+        const sendCodeBtn = document.getElementById('send-code-btn');
         phoneError.textContent = '';
 
         if (!phone) {
@@ -873,7 +892,9 @@
             phoneError.style.display = 'block';
             return;
         }
-        alert(phone);
+
+        sendCodeBtn.disabled = true;
+        sendCodeBtn.textContent = '2:00';
 
         try {
             const response = await fetch('{{ route('forgot.password') }}', {
@@ -892,20 +913,49 @@
                 document.getElementById('phone-hidden').value = phone;
                 document.getElementById('phone-hidden-password').value = phone;
             } else {
+                sendCodeBtn.disabled = false;
+                sendCodeBtn.textContent = 'Kod yuborish';
                 phoneError.textContent = data.error || 'Xatolik yuz berdi.';
                 phoneError.style.display = 'block';
+                showErrorAlert(data.error || 'Xatolik yuz berdi.');
             }
         } catch (error) {
+            sendCodeBtn.disabled = false;
+            sendCodeBtn.textContent = 'Kod yuborish';
             phoneError.textContent = 'Server bilan bog‘lanishda xatolik.';
             phoneError.style.display = 'block';
+            showErrorAlert('Server bilan bog‘lanishda xatolik.');
         }
+
+        let timeLeft = 120; // 2 daqiqa = 120 soniya
+        const timer = setInterval(() => {
+            if (timeLeft > 0) {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                sendCodeBtn.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+                timeLeft--;
+            } else {
+                clearInterval(timer);
+                sendCodeBtn.disabled = false;
+                sendCodeBtn.textContent = 'Kod yuborish';
+            }
+        }, 1000);
     });
 
     // Kodni qayta yuborish
-    document.getElementById('resend-code').addEventListener('click', async function () {
+    document.getElementById('resend-code').addEventListener('click', async function (e) {
+        e.preventDefault();
         const phone = document.getElementById('phone-hidden').value;
         const phoneError = document.getElementById('phone_error');
+        const sendCodeBtn = document.getElementById('send-code-btn');
         phoneError.textContent = '';
+
+        if (!phone) {
+            showErrorAlert('Telefon raqami topilmadi.');
+            return;
+        }
+
+        sendCodeBtn.setAttribute('disabled', 'disabled');
 
         try {
             const response = await fetch('{{ route('forgot.password') }}', {
@@ -921,20 +971,27 @@
             if (response.ok) {
                 alert('Yangi kod yuborildi!');
             } else {
-                phoneError.textContent = data.error || 'Xatolik yuz berdi.';
-                phoneError.style.display = 'block';
+                sendCodeBtn.disabled = false;
+                sendCodeBtn.textContent = 'Kod yuborish';
+                showErrorAlert(data.error || 'Xatolik yuz berdi.');
             }
         } catch (error) {
-            phoneError.textContent = 'Server bilan bog‘lanishda xatolik.';
-            phoneError.style.display = 'block';
+            sendCodeBtn.disabled = false;
+            sendCodeBtn.textContent = 'Kod yuborish';
+            showErrorAlert('Server bilan bog‘lanishda xatolik.');
         }
+
+        const timer = setInterval(() => {
+            clearInterval(timer);
+            sendCodeBtn.removeAttribute('disabled', 'disabled');
+            sendCodeBtn.textContent = 'Kod yuborish';
+        }, 1000);
     });
 
     // Kod tasdiqlash formasi
     document.getElementById('verify-code-form').addEventListener('submit', async function (e) {
         e.preventDefault();
-        const phone = document.getElementById('phone-hidden').value;
-        const code = document.getElementById('code').value;
+        const formData = new FormData(this);
         const codeError = document.getElementById('code_error');
         codeError.textContent = '';
 
@@ -942,10 +999,10 @@
             const response = await fetch('{{ route('verify.reset.code') }}', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ phone, code })
+                body: formData
             });
             const data = await response.json();
 
@@ -954,58 +1011,76 @@
                 document.getElementById('password-form').classList.remove('d-none');
                 document.getElementById('reset-token').value = data.token;
             } else {
-                codeError.textContent = data.error || 'Xatolik yuz berdi.';
-                codeError.style.display = 'block';
+                showErrorAlert(data.error || 'Xatolik yuz berdi.');
             }
         } catch (error) {
-            codeError.textContent = 'Server bilan bog‘lanishda xatolik.';
-            codeError.style.display = 'block';
+            showErrorAlert('Server bilan bog‘lanishda xatolik.');
         }
     });
 
     // Yangi parol kiritish formasi
     document.getElementById('reset-password-form').addEventListener('submit', async function (e) {
         e.preventDefault();
-        const phone = document.getElementById('phone-hidden-password').value;
-        const token = document.getElementById('reset-token').value;
-        const password = document.getElementById('password').value;
-        const passwordConfirmation = document.getElementById('password_confirmation').value;
+        const formData = new FormData(this);
         const passwordError = document.getElementById('password_error');
         const passwordConfirmationError = document.getElementById('password_confirmation_error');
+        const resetBtn = document.getElementById('reset-password-btn');
         passwordError.textContent = '';
         passwordConfirmationError.textContent = '';
 
-        if (password !== passwordConfirmation) {
-            passwordConfirmationError.textContent = 'Parollar mos emas.';
-            passwordConfirmationError.style.display = 'block';
+        const password = formData.get('password');
+        const passwordConfirmation = formData.get('password_confirmation');
+        const phone = formData.get('phone');
+
+        // FormData ma'lumotlarini konsolga chiqarish (debug uchun)
+        console.log('FormData contents:');
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+        if (!phone) {
+            showErrorAlert('Telefon raqami topilmadi.');
             return;
         }
+
+        if (!password) {
+            showErrorAlert('Parolni kiritish majburiy.');
+            return;
+        }
+
+        if (password !== passwordConfirmation) {
+            showErrorAlert('Parollar mos emas.');
+            return;
+        }
+
+        resetBtn.disabled = true;
+        resetBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yangilanmoqda...';
 
         try {
             const response = await fetch('{{ route('reset.password') }}', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ phone, token, password, password_confirmation: passwordConfirmation })
+                body: formData
             });
             const data = await response.json();
 
             if (response.ok) {
                 alert('Parol muvaffaqiyatli yangilandi!');
-                // Modalni yopish
                 const modal = bootstrap.Modal.getInstance(document.getElementById('forgot-modal'));
                 modal.hide();
-                // Profil sahifasiga yo‘naltirish
-                window.location.href = '{{ route('user.profile') }}';
+                window.location.href = '{{ url('/') }}';
             } else {
-                passwordError.textContent = data.error || 'Xatolik yuz berdi.';
-                passwordError.style.display = 'block';
+                resetBtn.disabled = false;
+                resetBtn.innerHTML = 'Parolni yangilash';
+                showErrorAlert(data.error || 'Xatolik yuz berdi.');
             }
         } catch (error) {
-            passwordError.textContent = 'Server bilan bog‘lanishda xatolik.';
-            passwordError.style.display = 'block';
+            resetBtn.disabled = false;
+            resetBtn.innerHTML = 'Parolni yangilash';
+            showErrorAlert('Server bilan bog‘lanishda xatolik.');
         }
     });
 

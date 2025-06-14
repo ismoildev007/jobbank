@@ -19,27 +19,53 @@ class AuthController extends Controller
         $this->eskizService = $eskizService;
     }
 
+    private function checkAndSendSms($phone, $messageType)
+    {
+        $phone = str_replace([' ', ')', '('], '', $phone);
+        $cacheKey = "sms_limit_{$phone}_{$messageType}";
+        $lastSentKey = "last_sent_{$phone}_{$messageType}";
+        $limit = 3; // 24 soatda maksimal 3 ta SMS
+        $interval = 2 * 60; // 2 daqiqa (120 soniya)
+
+        // 24 soat ichidagi yuborilgan SMS sonini olish
+        $sentCount = Cache::get($cacheKey, 0);
+        $lastSent = Cache::get($lastSentKey, 0);
+
+        // Cheklovlarni tekshirish
+        if ($sentCount >= $limit) {
+            return response()->json(['error' => '24 soat ichida maksimal 3 ta SMS yuborish imkoni bor.'], 429);
+        }
+
+        if ($lastSent > 0 && (time() - $lastSent) < $interval) {
+            $remaining = ($interval - (time() - $lastSent)) / 60;
+            return response()->json(['error' => "Iltimos, {$remaining} daqiqa kuting, keyin qayta urining."], 429);
+        }
+
+        // Yangi kodni yaratish va yuborish
+        $code = rand(100000, 999999);
+        $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
+
+        try {
+            $this->eskizService->sendSms($phone, $message);
+            Cache::put($cacheKey, $sentCount + 1, now()->addHours(24)); // 24 soatda saqlash
+            Cache::put($lastSentKey, time(), now()->addHours(24)); // Oxirgi yuborilgan vaqtni saqlash
+            Cache::put("{$messageType}_code_{$phone}", $code, now()->addMinutes(10)); // Kodni 10 daqiqa saqlash
+
+            return response()->json(['message' => "Ro‘yxatdan o‘tish uchun tasdiqlash kodi yuborildi.", 'phone' => $phone]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function sendSms(Request $request)
     {
         $request->validate([
             'phone' => 'required|string',
         ]);
 
-        try {
-            $phoneNumber = str_replace([' ', ')', '('], '', $request->phone_number);
-            $code = rand(100000, 999999);
-            $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
-
-            Cache::put('sms_code_' . $phoneNumber, $code, now()->addMinutes(10));
-
-            $this->eskizService->sendSms($phoneNumber, $message);
-
-            return response()->json(['message' => 'SMS muvaffaqiyatli yuborildi']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        $phoneNumber = str_replace([' ', ')', '('], '', $request->phone_number);
+        return $this->checkAndSendSms($phoneNumber, 'sms');
     }
-
     public function forgotPassword(Request $request)
     {
         $request->validate([
@@ -55,18 +81,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Bunday telefon raqam ro‘yxatdan o‘tmagan.'], 404);
         }
 
-        try {
-            $code = rand(100000, 999999);
-            $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
-
-            Cache::put('reset_code_' . $phone, $code, now()->addMinutes(10));
-
-            $this->eskizService->sendSms($phone, $message);
-
-            return response()->json(['message' => 'Parolni tiklash kodi SMS orqali yuborildi.']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return $this->checkAndSendSms($phone, 'forgot');
     }
 
     public function verifyResetCode(Request $request)
@@ -77,7 +92,7 @@ class AuthController extends Controller
         ]);
 
         $phone = str_replace([' ', ')', '('], '', $request->phone);
-        $cachedCode = Cache::get('reset_code_' . $phone);
+        $cachedCode = Cache::get('forgot_code_' . $phone);
 
         if ($cachedCode && $cachedCode == $request->code) {
             $token = bin2hex(random_bytes(32));
@@ -97,14 +112,14 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $phone = str_replace([' ', ')', '('], '', $request->phone);
+        $phone = str_replace([' ', ')', '('], '', $request->input('phone'));
         $cachedToken = Cache::get('reset_token_' . $phone);
 
-        if ($cachedToken && $cachedToken === $request->token) {
+        if ($cachedToken && $cachedToken === $request->input('token')) {
             $user = User::where('phone', $phone)->first();
 
             if ($user) {
-                $user->password = Hash::make($request->password);
+                $user->password = Hash::make($request->input('password'));
                 $user->save();
 
                 Cache::forget('reset_code_' . $phone);
@@ -118,6 +133,7 @@ class AuthController extends Controller
 
         return response()->json(['error' => 'Noto‘g‘ri token.'], 400);
     }
+
 
     public function login()
     {
@@ -167,18 +183,7 @@ class AuthController extends Controller
 
         $phone = str_replace([' ', ')', '('], '', $request->phone);
 
-        try {
-            $code = rand(100000, 999999);
-            $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
-
-            Cache::put('register_code_' . $phone, $code, now()->addMinutes(10));
-
-            $this->eskizService->sendSms($phone, $message);
-
-            return response()->json(['message' => 'Ro‘yxatdan o‘tish uchun tasdiqlash kodi yuborildi.', 'phone' => $phone]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return $this->checkAndSendSms($phone, 'register');
     }
 
     public function verifyRegisterCode(Request $request)
@@ -200,30 +205,26 @@ class AuthController extends Controller
         $cachedCode = Cache::get('register_code_' . $phone);
 
         if ($cachedCode && $cachedCode == $request->code) {
-            // Foydalanuvchi yaratish
             $user = new User();
             $user->full_name = $request->full_name;
             $user->phone = $phone;
             $user->password = bcrypt($request->password);
             $user->role = $request->role == '1' ? User::ROLE_PROVIDER : User::ROLE_USER;
-            $user->status = 'Bloklangan'; // Agar status boshqa bo‘lishi kerak bo‘lsa, o‘zgartiring
+            $user->status = 'Bloklangan';
             $user->save();
             \Log::info('User saved: ' . $user->id);
 
-            // Foydalanuvchini autentifikatsiya qilish
             auth()->login($user, true);
             \Log::info('User logged in: ' . auth()->user()->id);
             \Log::info('Session ID: ' . session()->getId());
 
-            // Redirect URL ni aniqlash
             $redirect = match ($user->role) {
                 User::ROLE_PROVIDER => route('services.index'),
                 User::ROLE_ADMIN => route('admin.dashboard'),
                 User::ROLE_USER => route('user.profile'),
-                default => route('user.profile'), // Default yo‘nalish
+                default => route('user.profile'),
             };
 
-            // Cache ni tozalash
             Cache::forget('register_code_' . $phone);
 
             return response()->json([
@@ -278,7 +279,6 @@ class AuthController extends Controller
         ]);
     }
 
-
     public function adminRegisterProvider(Request $request)
     {
         // Validatsiya qoidalari
@@ -319,6 +319,7 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(['error' => 'Ro‘yxatdan o‘tkazishda xatolik: ' . $e->getMessage()]);
         }
     }
+
 
     public function logout(Request $request)
     {
