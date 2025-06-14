@@ -286,6 +286,17 @@
         const toast = new bootstrap.Toast(toastElement);
         toast.show();
     }
+    function showLoader(message = 'Iltimos, kuting...') {
+        const loader = document.getElementById('pageLoader');
+        const text = loader.querySelector('p');
+        text.textContent = message;
+        loader.style.display = 'flex';
+    }
+
+    function hideLoader() {
+        const loader = document.getElementById('pageLoader');
+        loader.style.display = 'none';
+    }
 </script>
 
 <div class="modal fade" id="login-modal" style="display: none;" tabindex="-1">
@@ -374,6 +385,7 @@
             passwordError.style.display = 'block';
             return;
         }
+        showLoader()
 
         try {
             const response = await fetch('{{ route('authenticate') }}', {
@@ -385,6 +397,7 @@
                 body: JSON.stringify({ phone, password })
             });
             const data = await response.json();
+            hideLoader();
 
             if (response.ok) {
                 window.location.href = data.redirect || '{{ route('user.profile') }}';
@@ -393,6 +406,7 @@
                 errorMessage.style.display = 'block';
             }
         } catch (error) {
+            hideLoader();
             errorMessage.textContent = 'Server bilan bog‘lanishda xatolik.';
             errorMessage.style.display = 'block';
         }
@@ -623,6 +637,7 @@
             document.getElementById('verify-register-form-container').classList.remove('d-none');
             document.getElementById('loading-spinner').classList.remove('d-none');
             document.getElementById('verify-register-form').classList.add('d-none');
+            showLoader();
 
             try {
                 const response = await fetch('{{ route('user.register') }}', {
@@ -633,7 +648,9 @@
                     },
                     body: JSON.stringify({ full_name, phone, password, password_confirmation, role, terms_policy })
                 });
+
                 const data = await response.json();
+                hideLoader();
 
                 if (response.ok) {
                     // Loadingni yashirish va tasdiqlash formasini ko'rsatish
@@ -651,7 +668,32 @@
                     document.getElementById('verify-register-form-container').classList.add('d-none');
                     registerBtn.disabled = false;
                     registerBtn.innerHTML = 'Kod yuborish';
-                    showErrorAlert(data.error || Object.values(data.errors || {}).flat().join(', ') || 'Xatolik yuz berdi.');
+
+                    // Xatolarni ko‘rsatish
+                    if (data.errors) {
+                        if (data.errors.phone) {
+                            phoneError.textContent = data.errors.phone[0];
+                            phoneError.style.display = 'block';
+                        }
+                        if (data.errors.full_name) {
+                            full_nameError.textContent = data.errors.full_name[0];
+                            full_nameError.style.display = 'block';
+                        }
+                        if (data.errors.password) {
+                            passwordError.textContent = data.errors.password[0];
+                            passwordError.style.display = 'block';
+                        }
+                        if (data.errors.password_confirmation) {
+                            passwordConfirmationError.textContent = data.errors.password_confirmation[0];
+                            passwordConfirmationError.style.display = 'block';
+                        }
+                        if (data.errors.terms_policy) {
+                            termsPolicyError.textContent = data.errors.terms_policy[0];
+                            termsPolicyError.style.display = 'block';
+                        }
+                    } else {
+                        showErrorAlert(data.error || 'Xatolik yuz berdi.');
+                    }
                 }
             } catch (error) {
                 // Xato bo'lsa, ro'yxatdan o'tish formasini qayta ko'rsatish
@@ -660,12 +702,14 @@
                 registerBtn.disabled = false;
                 registerBtn.innerHTML = 'Kod yuborish';
                 showErrorAlert('Server bilan bog‘lanishda xatolik.');
+                hideLoader();
             }
         });
 
         // Verify register formasi
         document.getElementById('verify-register-form').addEventListener('submit', async function (e) {
             e.preventDefault();
+
             const formData = new FormData(this);
             const codeError = document.getElementById('code_error');
             codeError.textContent = '';
@@ -673,6 +717,8 @@
             const verifyBtn = document.getElementById('verify_btn');
             verifyBtn.disabled = true;
             verifyBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Tasdiqlanmoqda...';
+
+            showLoader('Kod yuborilmoqda, iltimos kuting...');
 
             try {
                 const response = await fetch('{{ route('verify.register.code') }}', {
@@ -686,6 +732,8 @@
 
                 const data = await response.json();
 
+                hideLoader();
+
                 if (response.ok) {
                     verifyBtn.disabled = false;
                     verifyBtn.innerHTML = 'Tasdiqlash';
@@ -697,9 +745,10 @@
                     showErrorAlert(data.error || 'Xatolik yuz berdi.');
                 }
             } catch (error) {
+                hideLoader();
                 verifyBtn.disabled = false;
                 verifyBtn.innerHTML = 'Tasdiqlash';
-                cshowErrorAlert('Server bilan bog‘lanishda xatolik.');
+                showErrorAlert('Server bilan bog‘lanishda xatolik.');
             }
         });
     });
@@ -734,6 +783,7 @@
             registerModal.classList.remove('show');
             loginModal.classList.remove('show');
             document.body.classList.remove('modal-open');
+            window.location.reload();
         });
 
         // Modal tashqarisiga bosilganda yopish
@@ -742,6 +792,7 @@
                 registerModal.style.display = 'none';
                 registerModal.classList.remove('show');
                 document.body.classList.remove('modal-open');
+                window.location.reload();
             }
         });
         loginModal.addEventListener('click', function (e) {
@@ -749,6 +800,7 @@
                 loginModal.style.display = 'none';
                 loginModal.classList.remove('show');
                 document.body.classList.remove('modal-open');
+                window.location.reload();
             }
         });
 
@@ -760,6 +812,7 @@
                 registerModal.classList.remove('show');
                 loginModal.classList.remove('show');
                 document.body.classList.remove('modal-open');
+                window.location.reload();
             }
         });
     });
@@ -956,6 +1009,7 @@
         }
 
         sendCodeBtn.setAttribute('disabled', 'disabled');
+        showLoader()
 
         try {
             const response = await fetch('{{ route('forgot.password') }}', {
@@ -967,6 +1021,7 @@
                 body: JSON.stringify({ phone })
             });
             const data = await response.json();
+            hideLoader();
 
             if (response.ok) {
                 alert('Yangi kod yuborildi!');
@@ -976,6 +1031,7 @@
                 showErrorAlert(data.error || 'Xatolik yuz berdi.');
             }
         } catch (error) {
+            hideLoader();
             sendCodeBtn.disabled = false;
             sendCodeBtn.textContent = 'Kod yuborish';
             showErrorAlert('Server bilan bog‘lanishda xatolik.');
@@ -994,6 +1050,7 @@
         const formData = new FormData(this);
         const codeError = document.getElementById('code_error');
         codeError.textContent = '';
+        showLoader()
 
         try {
             const response = await fetch('{{ route('verify.reset.code') }}', {
@@ -1005,6 +1062,7 @@
                 body: formData
             });
             const data = await response.json();
+            hideLoader();
 
             if (response.ok) {
                 document.getElementById('code-form').classList.add('d-none');
@@ -1014,6 +1072,7 @@
                 showErrorAlert(data.error || 'Xatolik yuz berdi.');
             }
         } catch (error) {
+            hideLoader();
             showErrorAlert('Server bilan bog‘lanishda xatolik.');
         }
     });
@@ -1056,6 +1115,7 @@
         resetBtn.disabled = true;
         resetBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Yangilanmoqda...';
 
+        showLoader()
         try {
             const response = await fetch('{{ route('reset.password') }}', {
                 method: 'POST',
@@ -1066,6 +1126,8 @@
                 body: formData
             });
             const data = await response.json();
+
+            hideLoader();
 
             if (response.ok) {
                 alert('Parol muvaffaqiyatli yangilandi!');
@@ -1078,6 +1140,7 @@
                 showErrorAlert(data.error || 'Xatolik yuz berdi.');
             }
         } catch (error) {
+            hideLoader();
             resetBtn.disabled = false;
             resetBtn.innerHTML = 'Parolni yangilash';
             showErrorAlert('Server bilan bog‘lanishda xatolik.');

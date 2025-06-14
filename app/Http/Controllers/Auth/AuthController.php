@@ -24,7 +24,7 @@ class AuthController extends Controller
         $phone = str_replace([' ', ')', '('], '', $phone);
         $cacheKey = "sms_limit_{$phone}_{$messageType}";
         $lastSentKey = "last_sent_{$phone}_{$messageType}";
-        $limit = 3; // 24 soatda maksimal 3 ta SMS
+        $limit = 5; // 24 soatda maksimal 3 ta SMS
         $interval = 2 * 60; // 2 daqiqa (120 soniya)
 
         // 24 soat ichidagi yuborilgan SMS sonini olish
@@ -240,14 +240,13 @@ class AuthController extends Controller
     {
         $request->validate([
             'full_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20|unique:users,phone',
+            'phone' => 'required|string|max:20',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:0,1',
             'terms_policy' => 'required|accepted',
         ], [
             'full_name.required' => 'Ismni kiritish majburiy.',
             'phone.required' => 'Telefon raqamni kiritish majburiy.',
-            'phone.unique' => 'Bu telefon raqam avval ro‘yxatdan o‘tgan.',
             'password.required' => 'Parolni kiritish majburiy.',
             'password.min' => 'Parol kamida 8 ta belgidan iborat bo‘lishi kerak.',
             'password.confirmed' => 'Tasdiqlovchi parol mos emas.',
@@ -258,26 +257,35 @@ class AuthController extends Controller
 
         $phone = str_replace([' ', ')', '('], '', $request->phone);
 
+        // Telefon raqam ro‘yxatdan o‘tganligini qo‘lda tekshirish
+        if (User::where('phone', $phone)->exists()) {
+            return response()->json([
+                'error' => 'Bu telefon raqam avval ro‘yxatdan o‘tgan.'
+            ], 422); // 422 - validation errorga mos status
+        }
+
         // SMS kodini yuborish
         try {
             $code = rand(100000, 999999);
             $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
             Cache::put('register_code_' . $phone, $code, now()->addMinutes(10));
             $this->eskizService->sendSms($phone, $message);
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['phone' => 'SMS yuborishda xatolik: ' . $e->getMessage()]);
-        }
 
-        // Modalni yangilash uchun ma’lumot qaytarish
-        return response()->json([
-            'message' => 'Kod yuborildi.',
-            'full_name' => $request->full_name,
-            'phone' => $phone,
-            'password' => $request->password,
-            'role' => $request->role,
-            'terms_policy' => $request->terms_policy,
-        ]);
+            return response()->json([
+                'message' => 'Kod yuborildi.',
+                'full_name' => $request->full_name,
+                'phone' => $phone,
+                'password' => $request->password,
+                'role' => $request->role,
+                'terms_policy' => $request->terms_policy,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'SMS yuborishda xatolik: ' . $e->getMessage()
+            ], 500);
+        }
     }
+
 
     public function adminRegisterProvider(Request $request)
     {
