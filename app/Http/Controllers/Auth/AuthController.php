@@ -219,7 +219,7 @@ class AuthController extends Controller
             \Log::info('Session ID: ' . session()->getId());
 
             $redirect = match ($user->role) {
-                User::ROLE_PROVIDER => route('services.index'),
+                User::ROLE_PROVIDER => redirect()->back(),
                 User::ROLE_ADMIN => route('admin.dashboard'),
                 User::ROLE_USER => route('user.profile'),
                 default => route('user.profile'),
