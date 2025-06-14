@@ -148,7 +148,7 @@
             }
 
             .breadcrumb-title {
-                font-size: 26px;
+                font-size: 26px!important;
             }
 
             .submit-btn {
