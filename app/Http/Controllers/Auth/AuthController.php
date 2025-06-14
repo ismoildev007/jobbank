@@ -23,39 +23,28 @@ class AuthController extends Controller
     {
         $phone = str_replace([' ', ')', '('], '', $phone);
         $cacheKey = "sms_limit_{$phone}_{$messageType}";
-        $lastSentKey = "last_sent_{$phone}_{$messageType}";
-        $limit = 5; // 24 soatda maksimal 3 ta SMS
-        $interval = 2 * 60; // 2 daqiqa (120 soniya)
+        $limit = 10;
 
-        // 24 soat ichidagi yuborilgan SMS sonini olish
         $sentCount = Cache::get($cacheKey, 0);
-        $lastSent = Cache::get($lastSentKey, 0);
 
-        // Cheklovlarni tekshirish
         if ($sentCount >= $limit) {
-            return response()->json(['error' => '24 soat ichida maksimal 3 ta SMS yuborish imkoni bor.'], 429);
+            return response()->json(['error' => '24 soat ichida maksimal 10 ta SMS yuborish mumkin.'], 429);
         }
 
-        if ($lastSent > 0 && (time() - $lastSent) < $interval) {
-            $remaining = ($interval - (time() - $lastSent)) / 60;
-            return response()->json(['error' => "Iltimos, {$remaining} daqiqa kuting, keyin qayta urining."], 429);
-        }
-
-        // Yangi kodni yaratish va yuborish
         $code = rand(100000, 999999);
         $message = 'Jobbank.uz platformasiga kirish uchun kod / Kod dlya avtorizatsiya v platforme Jobbank.uz: ' . $code;
 
         try {
             $this->eskizService->sendSms($phone, $message);
-            Cache::put($cacheKey, $sentCount + 1, now()->addHours(24)); // 24 soatda saqlash
-            Cache::put($lastSentKey, time(), now()->addHours(24)); // Oxirgi yuborilgan vaqtni saqlash
-            Cache::put("{$messageType}_code_{$phone}", $code, now()->addMinutes(10)); // Kodni 10 daqiqa saqlash
+            Cache::put($cacheKey, $sentCount + 1, now()->addHours(24));
+            Cache::put("{$messageType}_code_{$phone}", $code, now()->addMinutes(10));
 
             return response()->json(['message' => "Ro‘yxatdan o‘tish uchun tasdiqlash kodi yuborildi.", 'phone' => $phone]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 
     public function sendSms(Request $request)
     {
