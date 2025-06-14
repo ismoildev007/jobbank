@@ -85,7 +85,6 @@ class OrderController extends Controller
         ]);
 
 
-
         Order::create([
             'user_id' => Auth::id() ?? null,
             'additional_phone' => $validated['additional_phone'],
