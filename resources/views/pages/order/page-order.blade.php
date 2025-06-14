@@ -139,7 +139,7 @@
         /* Mobil qurilmalar uchun */
         @media (max-width: 768px) {
             .order-page-wrapper {
-                padding: 30px 0;
+                padding: 10px 0;
             }
 
             .order-form-card {
@@ -148,7 +148,7 @@
             }
 
             .breadcrumb-title {
-                font-size: 1.5rem;
+                font-size: 26px;
             }
 
             .submit-btn {
