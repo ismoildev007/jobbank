@@ -204,6 +204,25 @@
                                 <a href="#" class="nav-link disabled">Provider status: Faol emas</a>
                             </li>
                         @endif
+                    @elseif ($user->role === '2')
+                        <!-- Oddiy userlar uchun: Profil ikon va dropdown bosh qismda -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="ti ti-user fs-16 me-2"></i>
+                                <span>{{ $user->full_name }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin Profil</a></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button class="dropdown-item" type="submit">Chiqish</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
                     @else
                         <!-- Oddiy userlar uchun: Profil ikon va dropdown bosh qismda -->
                         <li class="nav-item dropdown">
