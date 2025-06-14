@@ -265,7 +265,7 @@
     }
 </style>
 <!-- Toast Container -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1080">
     <div id="error-toast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body" id="error-toast-message">
@@ -339,7 +339,7 @@
                     <span class="span-or">Yoki quyidagi bilan kirish</span>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <p>Hisobingiz yo‘qmi? <a href="javascript:void(0);" class="text-primary" data-bs-toggle="modal" data-bs-target="#register-modal">Bizga qo‘shiling</a></p>
+                    <p>Hisobingiz yo‘qmi? <a href="javascript:void(0);" class="text-primary" data-bs-toggle="modal" data-bs-target="#register-modal">Ro'yxatdan o'tish</a></p>
                 </div>
             </div>
         </div>
@@ -979,20 +979,6 @@
             phoneError.style.display = 'block';
             showErrorAlert('Server bilan bog‘lanishda xatolik.');
         }
-
-        let timeLeft = 120; // 2 daqiqa = 120 soniya
-        const timer = setInterval(() => {
-            if (timeLeft > 0) {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                sendCodeBtn.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-                timeLeft--;
-            } else {
-                clearInterval(timer);
-                sendCodeBtn.disabled = false;
-                sendCodeBtn.textContent = 'Kod yuborish';
-            }
-        }, 1000);
     });
 
     // Kodni qayta yuborish
@@ -1037,11 +1023,8 @@
             showErrorAlert('Server bilan bog‘lanishda xatolik.');
         }
 
-        const timer = setInterval(() => {
-            clearInterval(timer);
-            sendCodeBtn.removeAttribute('disabled', 'disabled');
-            sendCodeBtn.textContent = 'Kod yuborish';
-        }, 1000);
+        sendCodeBtn.removeAttribute('disabled', 'disabled');
+        sendCodeBtn.textContent = 'Kod yuborish';
     });
 
     // Kod tasdiqlash formasi
