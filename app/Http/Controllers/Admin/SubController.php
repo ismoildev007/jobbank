@@ -192,7 +192,7 @@ class SubController extends Controller
     public function payment(Request $request)
     {
         $order = Booking::findOrFail($request->id);
-        $amount = $order->amount;
+        $amount = $order->price;
         $transaction = PaymeTransaction::create([
             'booking_id' => $order->id,
             'transaction_id' => null,
