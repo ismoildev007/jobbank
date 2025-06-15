@@ -95,31 +95,10 @@
                                                 Xizmat haqida umumiy ma'lumot
                                             </button>
                                         </h2>
-                                        <div id="overview" class="accordion-collapse collapse show">
+                                        <div  class="accordion-collapse collapse show">
                                             <div class="accordion-body border-0 p-0 pt-3">
-                                                <div class="more-text">
+                                                <div class="more-text" style="height: 100%!important;">
                                                     <p>{{ $service->description_uz ?? 'Tafsilotlar mavjud emas' }}</p>
-                                                </div>
-                                                <a href="javascript:void(0);" class="link-primary text-decoration-underline more-btn mb-4">Batafsil o‘qish</a>
-                                                <div class="bg-light p-3 offer-wrap" style="display:none">
-                                                    <!-- Qo'shimcha takliflar qo'shilishi mumkin -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="accordion-item mb-4" style="display:none">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button p-0" type="button" data-bs-toggle="collapse" data-bs-target="#include" aria-expanded="false">
-                                                O‘z ichiga oladi
-                                            </button>
-                                        </h2>
-                                        <div id="include" class="accordion-collapse collapse show">
-                                            <div class="accordion-body border-0 p-0 pt-3">
-                                                <div class="bg-light p-3 pb-2">
-                                                    <p class="d-inline-flex align-items-center mb-2 me-4">
-                                                        <i class="feather-check-circle text-success me-2"></i>{{ $service->description_uz ?? 'Ma`lumot yo‘q' }}
-                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -293,4 +272,5 @@
             }
         }
     </style>
+
 @endsection
