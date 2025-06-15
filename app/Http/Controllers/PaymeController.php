@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 class PaymeController extends Controller
 {
 
-    public $TEST_KEY = 'Paycom:W1#1Bufr9uHqQeB%Y&zIS5B67?ghpyY8JS7%';
+    public $TEST_KEY = 'Paycom:&hHvMM%3mJHcXZSiPqk@oRvHWY7YA%Pp5K9a';
 
     public function checkAuth($request)
     {
