@@ -16,15 +16,15 @@ class PageController extends Controller
 
     public function pageService(Request $request)
     {
-        $categoryId = $request->query('cate');
+        $categoryIds = $request->query('cate', []);
         $keywords = $request->query('keywords');
         $rangePrice = $request->query('range_price');
         $subcategory = $request->query('subcategory');
 
         $query = Service::query();
 
-        if (!empty($categoryId)) {
-            $query->where('category_id', (int)$categoryId);
+        if (!empty($categoryIds)) {
+            $query->whereIn('category_id', $categoryIds);
         }
 
         if ($keywords) {
@@ -34,7 +34,7 @@ class PageController extends Controller
             });
         }
 
-        if ($rangePrice) {
+        if ($rangePrice && str_contains($rangePrice, '-')) {
             [$minPrice, $maxPrice] = explode('-', $rangePrice);
             $query->whereBetween('price', [(int)trim($minPrice), (int)trim($maxPrice)]);
         }
@@ -44,6 +44,7 @@ class PageController extends Controller
         }
 
         $services = $query->with(['category', 'subCategory'])->paginate(12);
+
         $categories = Category::whereNull('parent_id')->get();
 
         return view('pages.page-service', compact('services', 'categories'));
@@ -56,8 +57,4 @@ class PageController extends Controller
         }])->findOrFail($id);
         return view('pages.single-service', compact('service'));
     }
-
-
-
 }
-
