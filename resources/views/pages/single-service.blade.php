@@ -258,18 +258,15 @@
         </div>
     </div>
     <style>
+        /* Barcha qurilmalarda - menyuni oddiy holatga tushirish */
         .fixed-order-menu {
-            position: fixed;
-            bottom: 0;
-            left: 0;
+            position: static;
             width: 100%;
-            background-color: white;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 10000; /* Ekranda yuqori qatlamda ko'rinishini ta'minlash uchun */
             padding: 10px 15px;
             display: flex;
             justify-content: center;
             gap: 10px;
+            box-shadow: none; /* Soyalarni olib tashlaymiz */
         }
 
         .fixed-order-menu a.btn {
@@ -281,6 +278,19 @@
             border-radius: 5px;
             border: none;
             text-decoration: none;
+        }
+
+        /* Mobil ekranlar uchun maxsus dizayn */
+        @media (max-width: 768px) {
+            .fixed-order-menu {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+                z-index: 10000;
+            }
         }
     </style>
 @endsection
