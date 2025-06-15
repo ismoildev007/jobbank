@@ -62,7 +62,7 @@
                     <div class="icon-circle">
                         <i class="fas fa-tools"></i>
                     </div>
-                    <h3 class="mb-0 fw-bold text-primary">🛠 Jobbank.uz qanday ishlaydi?</h3>
+                    <h3 class="mb-0 fw-bold text-primary"> Jobbank.uz qanday ishlaydi?</h3>
                 </div>
                 <div class="title-line mx-auto"></div>
             </div>
