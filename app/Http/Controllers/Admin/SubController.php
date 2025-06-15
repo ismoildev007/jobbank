@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
+use App\Models\PaymeTransaction;
 use App\Models\Sub;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
@@ -34,7 +36,23 @@ class SubController extends Controller
         $sub = Sub::findOrFail($subId);
 
         if ($sub->price > 0) {
-            return redirect()->back()->with('error', 'Hozircha pullik rejalar mavjud emas, chunki to‘lov tizimi qo‘shilmagan.');
+            // Pullik reja uchun to‘lov jarayoniga o‘tish
+            $booking = Booking::create([
+                'user_id' => $user->id,
+                'price' => $sub->price,
+                'sub_id' => $sub->id,
+            ]);
+
+            $paymeTransaction = PaymeTransaction::create([
+                'booking_id' => $booking->id,
+                'transaction_id' => null,
+                'amount' => $sub->price,
+                'state' => 0,
+                'payment_status' => 'pending',
+                'create_time' => null
+            ]);
+
+            return redirect()->route('payment.bron.show', ['booking' => $booking->id]);
         }
 
         if ($sub->price == 0) { // Bepul reja (Basic)
@@ -65,6 +83,21 @@ class SubController extends Controller
             return redirect()->back()->with('error', 'Siz allaqachon ushbu rejaga obuna bo‘lgansiz!');
         }
 
+        $booking = Booking::create([
+            'user_id' => $user->id,
+            'price' => $sub->price,
+            'sub_id' => $sub->id,
+        ]);
+
+        $paymeTransaction = PaymeTransaction::create([
+            'booking_id' => $booking->id,
+            'transaction_id' => null,
+            'amount' => $sub->price,
+            'state' => 0,
+            'payment_status' => 'pending',
+            'create_time' => null
+        ]);
+
         if ($currentSubscription) {
             $currentSubscription->update([
                 'sub_id' => $sub->id,
@@ -87,7 +120,7 @@ class SubController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Obuna muvaffaqiyatli faollashtirildi!');
+        return redirect()->route('payment.bron.show', ['booking' => $booking->id]);
     }
 
     public function cancelSubscription(Request $request, $id)
@@ -133,5 +166,49 @@ class SubController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Obuna muvaffaqiyatli qayta boshlandi!');
+    }
+
+    public function bron($id)
+    {
+        $order = Booking::find($id);
+        $amount = $order['amount'];
+
+        $paymeTransaction = PaymeTransaction::create([
+            'booking_id' => $order->id,
+            'transaction_id' => null,
+            'amount' => $amount,
+            'state' => 0,
+            'payment_status' => 'pending',
+            'create_time' => null
+        ]);
+
+        return redirect()->route('payment.bron.show', ['order' => $id, 'paymeTransaction' => $paymeTransaction]);
+    }
+    public function bronShow(Booking $booking)
+    {
+        $paymeTransaction = PaymeTransaction::where('booking_id', $booking->id)->first();
+        return view('pages.payment', compact('booking', 'paymeTransaction'));
+    }
+    public function payment(Request $request)
+    {
+        $order = Booking::findOrFail($request->id);
+        $amount = $order->amount;
+        $transaction = PaymeTransaction::create([
+            'booking_id' => $order->id,
+            'transaction_id' => null,
+            'amount' => $amount,
+            'state' => 0,
+            'payment_status' => 'pending',
+            'create_time' => null
+        ]);
+        $transactionId = $transaction->id;
+
+        $merchantId = '675fc27f47f4e3e488efaabe';
+        $tiyinAmount = intval($amount * 100);
+        $payload = "m={$merchantId};ac.transaction_id={$transactionId};a={$tiyinAmount}";
+        $encoded = base64_encode($payload);
+        $redirectUrl = "https://checkout.paycom.uz/{$encoded}";
+
+        return redirect($redirectUrl);
     }
 }

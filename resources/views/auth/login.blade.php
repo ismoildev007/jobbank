@@ -96,30 +96,98 @@
                         <div class="alert alert-danger">{{ session('error') }}</div>
                     @endif
 
-                    <form class="login-form" role="form" action="{{ route('authenticate') }}" method="POST">
+                    <form class="login-form" id="login-form" role="form" action="{{ route('authenticate') }}" method="POST">
                         @csrf
                         <div class="form-floating form-floating-outline mb-5 form-control-validation">
-                            <input type="text" class="form-control" placeholder="Telefon raqami" name="phone">
-                            <label for="phone">Telefon raqami</label>
+                            <input type="text" class="form-control" id="login-phone" placeholder="Telefon raqami" name="phone">
+                            <label for="login-phone">Telefon raqami</label>
+                            <div class="invalid-feedback" id="phone_error"></div>
                         </div>
                         <div class="mb-5">
                             <div class="form-password-toggle form-control-validation">
                                 <div class="input-group input-group-merge">
                                     <div class="form-floating form-floating-outline">
-                                        <input type="password" id="password" class="form-control" name="password"
+                                        <input type="password" id="login-password" class="form-control" name="password"
                                                placeholder="············"
                                                aria-describedby="password">
-                                        <label for="password">Parol</label>
+                                        <label for="login-password">Parol</label>
                                     </div>
-                                    <span class="input-group-text cursor-pointer"><i
-                                            class="icon-base ri ri-eye-off-line icon-20px"></i></span>
+                                    <span class="input-group-text cursor-pointer" id="loginTogglePassword">
+                    <i class="icon-base ri ri-eye-off-line icon-20px" id="toggleIcon"></i>
+                </span>
                                 </div>
+                                <div class="invalid-feedback" id="password_error"></div>
                             </div>
                         </div>
+                        <div class="mb-2 text-center text-danger" id="error_login_message"></div>
                         <div class="mb-5">
                             <button class="btn btn-primary d-grid w-100" type="submit">Kirish</button>
                         </div>
                     </form>
+                    <script>
+                        // Show/hide password toggle
+                        document.getElementById('loginTogglePassword').addEventListener('click', function () {
+                            const password = document.getElementById('login-password');
+                            const icon = document.getElementById('toggleIcon');
+                            if (password.type === 'password') {
+                                password.type = 'text';
+                                icon.classList.remove('ri-eye-off-line');
+                                icon.classList.add('ri-eye-line');
+                            } else {
+                                password.type = 'password';
+                                icon.classList.remove('ri-eye-line');
+                                icon.classList.add('ri-eye-off-line');
+                            }
+                        });
+
+                        // Submit login form
+                        document.getElementById('login-form').addEventListener('submit', async function (e) {
+                            e.preventDefault();
+
+                            const phone = document.getElementById('login-phone').value.trim();
+                            const password = document.getElementById('login-password').value;
+                            const phoneError = document.getElementById('phone_error');
+                            const passwordError = document.getElementById('password_error');
+                            const errorMessage = document.getElementById('error_login_message');
+
+                            // Tozalash
+                            phoneError.textContent = '';
+                            passwordError.textContent = '';
+                            errorMessage.textContent = '';
+
+                            // Validation
+                            if (!phone) {
+                                phoneError.textContent = 'Iltimos, telefon raqamini kiriting.';
+                                return;
+                            }
+                            if (!password) {
+                                passwordError.textContent = 'Iltimos, parolni kiriting.';
+                                return;
+                            }
+
+                            try {
+                                const response = await fetch('{{ route('authenticate') }}', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                    body: JSON.stringify({ phone, password })
+                                });
+
+                                const data = await response.json();
+
+                                if (response.ok) {
+                                    window.location.href = data.redirect || '{{ route('user.profile') }}';
+                                } else {
+                                    errorMessage.textContent = data.error || 'Noto‘g‘ri telefon raqam yoki parol.';
+                                }
+                            } catch (error) {
+                                errorMessage.textContent = 'Server bilan bog‘lanishda xatolik.';
+                            }
+                        });
+                    </script>
+
 
                     <p class="text-center mb-5">
                         <span>Platformamizda yangimisiz?</span>

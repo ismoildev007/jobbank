@@ -54,8 +54,6 @@
                         </div>
                     @endif
 
-
-
                     <div class="pricing-plans row mx-4 gy-3 px-lg-12">
                         @foreach($subs as $index => $sub)
                             <div class="col-lg mb-lg-0 mb-3">
@@ -89,22 +87,13 @@
                                             @endforeach
                                         </ul>
 
-                                        @if($sub->price > 0)
-                                            <div class="text-center">
-                                                <p class="text-danger">Hozircha pullik rejalar mavjud emas, chunki to‘lov tizimi qo‘shilmagan.</p>
-                                                <button type="button" class="btn btn-outline-primary d-grid w-100 pricing-btn" disabled>
-                                                    Yangilash
-                                                </button>
-                                            </div>
-                                        @else
-                                            <form action="{{ route('subscribe', $sub->id) }}" method="POST" class="subscribe-form">
-                                                @csrf
-                                                <button type="submit" class="btn {{ $currentSubscription && $currentSubscription->sub_id == $sub->id ? 'btn-outline-success' : 'btn-outline-primary' }} d-grid w-100 pricing-btn"
-                                                    {{ $currentSubscription && $currentSubscription->sub_id == $sub->id ? 'disabled' : '' }}>
-                                                    {{ $currentSubscription && $currentSubscription->sub_id == $sub->id ? 'Joriy Rejangiz' : 'Faollashtirish' }}
-                                                </button>
-                                            </form>
-                                        @endif
+                                        <form action="{{ route('subscribe', $sub->id) }}" method="POST" class="subscribe-form">
+                                            @csrf
+                                            <button type="submit" class="btn {{ $currentSubscription && $currentSubscription->sub_id == $sub->id ? 'btn-outline-success' : 'btn-outline-primary' }} d-grid w-100 pricing-btn"
+                                                {{ $currentSubscription && $currentSubscription->sub_id == $sub->id ? 'disabled' : '' }}>
+                                                {{ $currentSubscription && $currentSubscription->sub_id == $sub->id ? 'Joriy Rejangiz' : 'Faollashtirish' }}
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -145,23 +134,4 @@
             cursor: not-allowed;
         }
     </style>
-    <script>
-        document.querySelector('.price-duration-toggler').addEventListener('change', function() {
-            const isYearly = this.checked;
-            document.querySelectorAll('.price-yearly').forEach(el => {
-                el.classList.toggle('d-none', !isYearly);
-            });
-            document.querySelectorAll('.price-monthly').forEach(el => {
-                el.classList.toggle('d-none', isYearly);
-            });
-        });
-
-        document.querySelectorAll('.subscribe-form').forEach(form => {
-            form.addEventListener('submit', function() {
-                const button = form.querySelector('button');
-                button.disabled = true;
-                button.textContent = 'Faollashtirilmoqda...';
-            });
-        });
-    </script>
 @endsection

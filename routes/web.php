@@ -82,5 +82,8 @@ Route::post('locale', [LanguageController::class, 'setLocale'])->name('locale.ch
 
 
 
+// Payment Bron
+Route::get('/payment-bron/{id}', [SubController::class, 'bron'])->name('payment.bron');
+Route::get('/booking/{booking}', [SubController::class, 'bronShow'])->name('payment.bron.show');
 
 
