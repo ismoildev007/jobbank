@@ -204,15 +204,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                @auth
-                                    <a class="btn btn-primary border-0 w-100 mb-3" href="{{ route('order.page', $service->id) }}">
-                                        <i class="ti ti-calendar me-2"></i> Xizmat Buyurtma Qilish
-                                    </a>
-                                @else
-                                    <a href="#" class="btn btn-primary border-0 w-100 mb-3" data-bs-toggle="modal" data-bs-target="#login-modal">
-                                        Xizmat Buyurtma Qilish
-                                    </a>
-                                @endauth
+                                <div class="fixed-order-menu ">
+                                    @auth
+                                        <a class="btn btn-primary border-0 w-100 mb-3" href="{{ route('order.page', $service->id) }}">
+                                            <i class="ti ti-calendar me-2"></i> Xizmat Buyurtma Qilish
+                                        </a>
+                                    @else
+                                        <a href="#" class="btn btn-primary border-0 w-100 mb-3" data-bs-toggle="modal" data-bs-target="#login-modal">
+                                            Xizmat Buyurtma Qilish
+                                        </a>
+                                    @endauth
+                                </div>
 
                                 <div class="card border-0">
                                     <div class="card-body">
@@ -255,4 +257,30 @@
             </div>
         </div>
     </div>
+    <style>
+        .fixed-order-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10000; /* Ekranda yuqori qatlamda ko'rinishini ta'minlash uchun */
+            padding: 10px 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .fixed-order-menu a.btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+            border: none;
+            text-decoration: none;
+        }
+    </style>
 @endsection
