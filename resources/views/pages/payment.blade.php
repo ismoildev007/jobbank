@@ -73,9 +73,7 @@
                                     </ul>
 
                                     @if ($paymeTransaction->payment_status == 'pending' && $booking->price > 0)
-                                        <form action="{{ route('payment') }}" method="POST" class="subscribe-form">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{ $booking->id }}">
+                                        <form id="form-payme" method="GET" action="{{ route('payment') }}" target="_blank">                                            <input type="hidden" name="id" value="{{ $booking->id }}">
                                             <button type="submit" class="btn btn-outline-primary d-grid w-100 pricing-btn">
                                                 To‘lovni amalga oshirish
                                             </button>
