@@ -1,4 +1,5 @@
-<footer>
+@if (!Request::is('service'))
+    <footer>
     <div class="footer-top">
         <div class="container">
             <div class="row">
@@ -53,3 +54,4 @@
         </div>
     </div>
 </footer>
+@endif

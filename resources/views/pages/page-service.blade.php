@@ -144,7 +144,7 @@
         <!-- /Breadcrumb -->
 
         <!-- Page Wrapper -->
-        <div class="page-wrapper">
+        <div class="page-wrapper" style="padding-bottom: 50px">
             {{--        toast start--}}
             @include('components.page.toast')
             {{--        toast end--}}

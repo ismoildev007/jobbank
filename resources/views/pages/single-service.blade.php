@@ -106,72 +106,6 @@
                                 </div>
                             </div>
                         </div>
-{{--                        <div class="card border-0 mb-xl-0 mb-4">--}}
-{{--                            <div class="card-body">--}}
-{{--                                <div class="d-flex align-items-center justify-content-between flex-wrap">--}}
-{{--                                    <h4 class="mb-3" id="total_review_count">Sharhlar (0)</h4>--}}
-{{--                                    <a class="nav-link btn btn-light" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Sharh Yozish</a>--}}
-{{--                                </div>--}}
-{{--                                <div class="row align-items-center">--}}
-{{--                                    <div class="col-md-5">--}}
-{{--                                        <div class="rating-item bg-light text-center mb-3">--}}
-{{--                                            <h5 class="mb-3">Mijozlarning Sharhlari va Baholari</h5>--}}
-{{--                                            <div class="d-inline-flex align-items-center justify-content-center" id="stars_container">--}}
-{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
-{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
-{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
-{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
-{{--                                                <i class="ti ti-star text-warning me-1"></i>--}}
-{{--                                            </div>--}}
-{{--                                            <p class="mb-3" id="avg_rating">(0.0 dan 5.0)</p>--}}
-{{--                                            <p class="text-gray-9" id="totalReviewCount">0 Sharhlar asosida</p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-md-7">--}}
-{{--                                        <div class="rating-progress mb-3" id="review_progress_container">--}}
-{{--                                            <div class="d-flex align-items-center mb-2">--}}
-{{--                                                <p class="me-2 text-nowrap mb-0">5 Yulduz Baholari</p>--}}
-{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
-{{--                                                </div>--}}
-{{--                                                <p class="progress-count ms-2">0</p>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="d-flex align-items-center mb-2">--}}
-{{--                                                <p class="me-2 text-nowrap mb-0">4 Yulduz Baholari</p>--}}
-{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
-{{--                                                </div>--}}
-{{--                                                <p class="progress-count ms-2">0</p>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="d-flex align-items-center mb-2">--}}
-{{--                                                <p class="me-2 text-nowrap mb-0">3 Yulduz Baholari</p>--}}
-{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
-{{--                                                </div>--}}
-{{--                                                <p class="progress-count ms-2">0</p>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="d-flex align-items-center mb-2">--}}
-{{--                                                <p class="me-2 text-nowrap mb-0">2 Yulduz Baholari</p>--}}
-{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
-{{--                                                </div>--}}
-{{--                                                <p class="progress-count ms-2">0</p>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="d-flex align-items-center mb-2">--}}
-{{--                                                <p class="me-2 text-nowrap mb-0">1 Yulduz Baholari</p>--}}
-{{--                                                <div class="progress w-100" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">--}}
-{{--                                                    <div class="progress-bar bg-warning" style="width: 0%"></div>--}}
-{{--                                                </div>--}}
-{{--                                                <p class="progress-count ms-2">0</p>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="list-reviews">--}}
-{{--                                    <!-- Sharhlar qo'shilishi mumkin -->--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
                     </div>
                     <div class="col-xl-4">
                         <div class="card border-0">
@@ -179,7 +113,12 @@
                                 <div class="d-flex align-items-center justify-content-between border-bottom mb-3">
                                     <div class="d-flex align-items-center">
                                         <div class="mb-3">
-                                            <h4><span class="display-6 fw-bold">{{ $service->price ?? 0 }} So‘m</span> / <span class="text-muted">{{ $service->type_price ?? 'Soatlik' }}</span></h4>
+                                            <h4>
+                                                <span class="display-6 fw-bold">
+                                                    {{ number_format($service->price ?? 0, 0, ',', ' ') }} So‘m
+                                                </span> /
+                                                <span class="text-muted">{{ $service->type_price ?? 'Soatlik' }}</span>
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
